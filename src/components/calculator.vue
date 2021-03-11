@@ -26,9 +26,9 @@
       <div id="sContainer">
         <select name="Subject" id="subjects" v-model="selectedSubject">
           <option value="">Select Subject</option>
-          <option v-for="(category, index) in selectSubj" :key="index">{{
-            category.name
-          }}</option>
+          <option v-for="(category, index) in selectSubj" :key="index">
+            {{ category.name }}
+          </option>
         </select>
       </div>
 
