@@ -111,10 +111,7 @@
         <p>REMARKS: <input type="text" id="remark" value="" /></p>
       </div>
 
-      <div class="btn">
-        <button>Save</button>
-        <button>Edit</button>
-      </div>
+      <button type="button" class="btn btn-primary">Primary</button>
     </div>
   </div>
 </template>
