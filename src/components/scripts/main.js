@@ -9,6 +9,8 @@ export default {
     return {
       selectedSubject: "",
 
+      selectedStudent: "",
+
       subjects: [
         {
           name: "Seminars and Fieldtrips",

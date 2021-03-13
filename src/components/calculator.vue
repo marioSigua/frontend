@@ -87,7 +87,7 @@
       <div class="container">
         <p>
           Extra Credit Earned:
-          <input text="text" id="extra" value="0" onkeyup="setGrades();" />
+          <input type="text" id="extra" value="0" onkeyup="setGrades();" />
           *
           <input
             title="Input percentage in decimal"
@@ -109,6 +109,11 @@
         </p>
         <p>TOTAL GRADE: <input type="text" id="total" value="0" /></p>
         <p>REMARKS: <input type="text" id="remark" value="" /></p>
+      </div>
+
+      <div class="btn">
+        <button>Save</button>
+        <button>Edit</button>
       </div>
     </div>
   </div>
