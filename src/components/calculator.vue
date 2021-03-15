@@ -47,11 +47,11 @@
           Quiz:
           <input v-model="quiz" />
           *
-          <input v-model="tQuiz" />
+          <input v-model="mQuiz" />
         </p>
         <p>
           Total:
-          <input v-model="mQuiz" />
+          <input v-model="tQuiz" />
         </p>
       </div>
 
@@ -60,11 +60,11 @@
           Exam:
           <input v-model="exam" />
           *
-          <input v-model="tExam" />
+          <input v-model="mExam" />
         </p>
         <p>
           Total:
-          <input v-model="mExam" />
+          <input v-model="tExam" />
         </p>
       </div>
 
@@ -73,11 +73,11 @@
           Extra:
           <input v-model="extra" />
           *
-          <input v-model="tExtra" />
+          <input v-model="mExtra" />
         </p>
         <p>
           Total:
-          <input v-model="mExtra" />
+          <input v-model="tExtra" />
         </p>
       </div>
 
@@ -89,7 +89,10 @@
         <p>REMARKS: <input type="text" id="remark" value="" /></p>
       </div>
 
-      <button type="button" class="btn btn-primary">Primary</button>
+      <div>
+        <button type="button" class="btn">Save</button>
+        <button type="button" class="btn">Edit</button>
+      </div>
     </div>
   </div>
 </template>
