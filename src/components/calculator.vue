@@ -34,72 +34,50 @@
 
       <div class="container">
         <label for="name">Select Term:</label>
-        <select name="Term" id="terms">
-          <option value="Prelims">Prelims</option>
-          <option value="Midterm">Midterm</option>
-          <option value="Finals">Finals</option>
+        <select v-model="selectedTerm">
+          <option value="">Select Term</option>
+          <option v-for="(category, index) in selectTerm" :key="index">
+            {{ category.name }}
+          </option>
         </select>
       </div>
 
       <div class="container">
         <p>
           Quiz:
-          <input
-            type="text"
-            onkeypress="isNumber"
-            id="quiz1"
-            value="0"
-            onkeyup="setGrades()"
-          />
+          <input v-model="quiz" />
           *
-          <input
-            title="Input percentage in decimal"
-            type="text"
-            value=""
-            onkeyup="setGrades()"
-            id="mulQuiz"
-          />
+          <input v-model="tQuiz" />
         </p>
         <p>
           Total:
-          <input type="text" id="quizTot" value="50" onkeyup="setGrades()" />
+          <input v-model="mQuiz" />
         </p>
       </div>
 
       <div class="container">
         <p>
           Exam:
-          <input type="text" id="exam1" value="0" onkeyup="setGrades()" /> *
-          <input
-            title="Input percentage in decimal"
-            type="text"
-            value=""
-            onkeyup="setGrades()"
-            id="mulExam"
-          />
+          <input v-model="exam" />
+          *
+          <input v-model="tExam" />
         </p>
         <p>
           Total:
-          <input type="text" id="examTot" value="100" onkeyup="setGrades()" />
+          <input v-model="mExam" />
         </p>
       </div>
 
       <div class="container">
         <p>
-          Extra Credit Earned:
-          <input type="text" id="extra" value="0" onkeyup="setGrades();" />
+          Extra:
+          <input v-model="extra" />
           *
-          <input
-            title="Input percentage in decimal"
-            type="text"
-            value=""
-            onkeyup="setGrades()"
-            id="mulExtra"
-          />
+          <input v-model="tExtra" />
         </p>
         <p>
           Total:
-          <input type="text" id="extraTot" value="10" onkeyup="setGrades()" />
+          <input v-model="mExtra" />
         </p>
       </div>
 
@@ -107,7 +85,7 @@
         <p style="font-size: 25sp;">
           <b><u style="color: maroon;">Calculated Grade</u></b>
         </p>
-        <p>TOTAL GRADE: <input type="text" id="total" value="0" /></p>
+        <p>TOTAL GRADE: <input :value="calculateGrade" /></p>
         <p>REMARKS: <input type="text" id="remark" value="" /></p>
       </div>
 
