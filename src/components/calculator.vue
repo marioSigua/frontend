@@ -111,7 +111,7 @@
 				<p>REMARKS: <input type="text" id="remark" value="" /></p>
 			</div>
 
-			<button type="button" class="btn btn-primary">Primary</button>
+			<b-button disabled size="lg" variant="primary">Disabled</b-button>
 		</div>
 	</div>
 </template>
