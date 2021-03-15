@@ -1,73 +1,86 @@
 * {
-    margin: 0%;
-    padding: 0%;
+  margin: 0%;
+  padding: 0%;
 }
 
 #box {
-    padding: 10px;
-    width: 60%;
-    height: 40%;
-    border: 1px black solid;
-    border-radius: 5px;
-    margin: 10px;
-    margin-left: 40px;
-    background-color:#ffffff;
-    float: left;
+  padding: 10px;
+  width: 60%;
+  height: 40%;
+  border: 1px black solid;
+  border-radius: 5px;
+  margin: 10px;
+  margin-left: 40px;
+  background-color: #ffffff;
+  float: left;
 }
 
 .container {
-    padding: 10px;
-    border-bottom: 1px black solid;
-   
+  padding: 10px;
+  border-bottom: 1px black solid;
 }
 
 p {
-    padding: 10px;
+  padding: 10px;
 }
-header{
-    background-color: maroon;
-    padding-bottom: 30px;
-    color: white;
-    height: 50px;
-    display: flex;
-    justify-content: left;
-    
-}
-
-body{
-  background-image: linear-gradient(to top, darkgrey,white) !important;
- min-height: 100vh;
-}
-h4{
-    margin-left: 50px;
+header {
+  background-color: rgb(204, 243, 132);
+  padding-bottom: 30px;
+  color: white;
+  height: 50px;
+  display: flex;
+  justify-content: left;
 }
 
-ul li{
-    float: left;
+body {
+  background-image: linear-gradient(to top, darkgrey, white) !important;
+  min-height: 100vh;
 }
-li{
-    list-style-type: none;
+h4 {
+  margin-left: 50px;
 }
 
-img{
-    margin: auto;
+ul li {
+  float: left;
 }
-h1{
-    padding-top: 10px;
+li {
+  list-style-type: none;
+}
+
+img {
+  margin: auto;
+}
+h1 {
+  padding-top: 10px;
 }
 
 #sidePanel {
-    float: left;
-    width: 30%;
-    border: 1px black solid;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-left: 35px;
-    background-color:#ffffff;
+  float: left;
+  width: 30%;
+  border: 1px black solid;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 35px;
+  background-color: #ffffff;
 }
 
-#sContainer{
-    display: block;
-    text-align: right;
-    padding: 5px;
+#sContainer {
+  display: block;
+  text-align: right;
+  padding: 5px;
+}
+
+.btn {
+  text-align: center;
+  border-radius: 3px;
+}
+
+.btn :last-child {
+  margin-left: 10px;
+}
+
+button {
+  width: 60px;
+  font-size: 15px;
+  padding: 5px;
 }
