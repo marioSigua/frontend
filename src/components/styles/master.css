@@ -1,73 +1,75 @@
-* {
-  margin: 0%;
-  padding: 0%;
-}
 
-#box {
-  padding: 10px;
-  width: 60%;
-  height: 40%;
-  border: 1px black solid;
-  border-radius: 5px;
-  margin: 10px;
-  margin-left: 40px;
-  background-color: #ffffff;
-  float: left;
-}
 
-.container {
-  padding: 10px;
-  border-bottom: 1px black solid;
-}
-
-p {
-  padding: 10px;
-}
 header {
-  background-color: rgb(204, 243, 132);
-  padding-bottom: 30px;
+  background-color: maroon;
+  padding-bottom: 50px;
   color: white;
-  height: 50px;
+  height: 92px ;
   display: flex;
   justify-content: left;
+  overflow: hidden;
 }
 
-body {
-  background-image: linear-gradient(to top, darkgrey, white) !important;
-  min-height: 100vh;
+header h4 {
+  margin-left: 60px;
 }
-h4 {
-  margin-left: 50px;
+header h1 {
+  padding-top: 0px;
 }
 
-ul li {
+.float{
   float: left;
 }
+
 li {
   list-style-type: none;
 }
 
 img {
-  margin: auto;
-}
-h1 {
-  padding-top: 10px;
+  margin-left: -15%;
 }
 
 #sidePanel {
-  float: left;
-  width: 30%;
+  padding: 10px;
+  width: 95%;
   border: 1px black solid;
-  border-radius: 5px;
   margin-top: 10px;
-  margin-left: 35px;
+  margin-left: 15px;
   background-color: #ffffff;
+  justify-content: left;
+  display: flex; 
+  border-radius: 15px;
+}
+#sidePanel h2{
+  color: maroon;
+  margin-right: 15px;
+  padding-right: 90px;
+  padding-left: 3px;
+  position: initial;
+}
+
+body {
+  background-image: linear-gradient(to top, darkgrey,white) !important;
+}
+
+/*subjects*/
+#box {
+  padding: 10px;
+  width: 100%;
+  height: 13%;
+  margin: 10px;
+  background-color: #ffffff !important;
+}
+
+.container {
+
+  padding: 10px;
+  border-bottom: 1px black solid;
 }
 
 #sContainer {
-  display: block;
   text-align: right;
-  padding: 5px;
+  padding: 10px;
 }
 
 .btn {
@@ -80,7 +82,34 @@ h1 {
 }
 
 button {
-  width: 60px;
+  width: 150px;
   font-size: 15px;
   padding: 5px;
+}
+
+#termcontainer {
+  float: top;
+  padding: 10px;
+}
+
+button :hover{
+  color: #000;
+}
+
+p {
+  padding: 10px;
+}
+#Ssubjects {
+  background-color: #ffffff;
+  border-radius: 15px;
+  border: solid black 1px;
+  margin-top: 10px;
+}
+
+.row {
+  width: 100%;
+}
+
+.dabid {
+  margin-left: -325%;
 }
