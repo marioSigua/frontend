@@ -56,10 +56,10 @@ button {
   font-size: 20px;
 }
 
-#box[tab="login"] .signup {
+/* #box[tab="login"] .signup {
   display: none !important;
 }
 
 #box[tab="signup"] .login {
   display: none !important;
-}
+} */

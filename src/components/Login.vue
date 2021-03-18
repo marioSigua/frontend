@@ -4,39 +4,98 @@
     <main>
       <div id="box" tab="login">
         <!-- login code -->
-        <div class="login">
+        <div class="login" v-if="!showregister">
           <h1>Login</h1>
           <label for="username">Username</label><br />
-          <input type="text" name="username" value="" />
+          <input
+            type="email"
+            v-model="inputCredentials.email"
+            @focus="loginErrors.email = ''"
+            @input="loginValidate('email')"
+            @blur="loginValidate('email')"
+          />
+          {{ loginErrors.email }}
           <br />
           <label for="password">Password</label><br />
-          <input type="password" name="password" value="" />
+          <input
+            type="password"
+            v-model="inputCredentials.password"
+            @focus="loginErrors.password = ''"
+            @input="loginValidate('password')"
+            @blur="loginValidate('password')"
+          />
+          {{ loginErrors.password }}
           <br />
-          <button type="button" name="button">Login</button>
+          <button type="button" name="button" @click="sendLogin">Login</button>
         </div>
         <!-- login code -->
 
         <!-- signup code -->
-        <div class="signup">
+        <div class="signup" v-if="showregister">
           <h1>Sign Up</h1>
 
           <label for="username">Username</label><br />
-          <input type="text" name="username" value="" />
+          <input
+            type="email"
+            v-model="registerCredentials.email"
+            @focus="registerErrors.email = ''"
+            @input="registerValidate('email')"
+            @blur="registerValidate('email')"
+          />
+          {{ registerErrors.email }}
+
           <br />
           <label for="password">Password</label><br />
-          <input type="password" name="password" value="" />
+          <input
+            type="password"
+            v-model="registerCredentials.password"
+            @focus="registerErrors.password = ''"
+            @input="registerValidate('password')"
+            @blur="registerValidate('password')"
+          />
+          {{ registerErrors.password }}
+
           <br />
           <label for="password">Retype Password</label><br />
-          <input type="password" name="password" value="" />
+          <input
+            type="password"
+            v-model="registerCredentials.confirm"
+            @focus="registerErrors.confirm = ''"
+            @input="registerValidate('confirm')"
+            @blur="registerValidate('confirm')"
+          />
+          {{ registerErrors.confirm }}
+
           <br />
-          <button type="button" name="button">Signup</button>
+          <label for="account">Account Type</label><br />
+          <select
+            v-model="registerCredentials.account_type"
+            @focus="registerErrors.account_type = ''"
+            @change="registerValidate('account_type')"
+            @blur="registerValidate('account_type')"
+          >
+            <option value="">-- Select Account Type --</option>
+            <option value="Professor">Professor</option>
+            <option value="Admin">Admin</option>
+          </select>
+          {{ registerErrors.account_type }}
+          <br />
+          <button type="button" name="button" @click="sendRegistration">
+            Signup
+          </button>
         </div>
         <!-- signup code -->
 
         <!-- footer code -->
         <nav>
           <a href="#" class="signup" id="loginbtn">Login</a>
-          <a href="#" class="login" id="signbtn">Signup</a>
+          <a
+            href="#"
+            @click="showregister = !showregister"
+            class="login"
+            id="signbtn"
+            >Signup</a
+          >
         </nav>
         <!-- footer code -->
       </div>
