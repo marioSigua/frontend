@@ -1,0 +1,29 @@
+header {
+    background-color: maroon;
+    padding-bottom: 50px;
+    color: white !important;
+    height: 92px;
+    display: flex;
+    justify-content: left;
+    overflow: hidden;
+  }
+  header h4 {
+    margin-left: 60px;
+  }
+  header h1 {
+    padding-top: 0px;
+  }
+  img {
+    margin-left: -15%;
+  } 
+
+li{
+    list-style-type: none;
+}
+.float{
+    float: left;
+  }
+.ExamType{
+border: 2px solid black;
+border-radius: 10px;
+}

@@ -1,15 +1,15 @@
 <template>
 
-<calculator />
+<Exam />
 
 </template>
 
 
 <script>
-import Calculator from '../components/calculator.vue'
+import Exam from '../components/Exam.vue'
 export default {
 components: {
-    Calculator
+    Exam
 },
 }
 </script>
