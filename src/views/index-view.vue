@@ -1,15 +1,3 @@
 <template>
-
-<calculator />
-
+  <router-view />
 </template>
-
-
-<script>
-import Calculator from '../components/calculator.vue'
-export default {
-components: {
-    Calculator
-},
-}
-</script>
