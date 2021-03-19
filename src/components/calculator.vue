@@ -85,6 +85,7 @@
         <p style="font-size: 25sp;">
           <b><u style="color: maroon;">Calculated Grade</u></b>
         </p>
+
         <p>TOTAL GRADE: <input :value="calculateGrade" /></p>
         <p>REMARKS: <input type="text" id="remark" value="" /></p>
       </div>
