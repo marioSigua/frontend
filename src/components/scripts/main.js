@@ -1,90 +1,109 @@
 export default {
-	computed: {
-		selectSubj() {
-			return this.subjects
-		},
+      computed: {
+            selectSubj() {
+                  console.log(this.$store.state.calculator.listSubjects)
+                  return this.$store.state.calculator.listSubjects
+            },
 
-		selectTerm() {
-			return this.Terms
-		},
+            selectTerm() {
+                  return this.Terms
+            },
 
-		calculateGrade() {
-			return (this.totalPoints = (
-				((this.quiz / this.tQuiz) * 50 + 50) * this.mQuiz +
-				((this.exam / this.tExam) * 50 + 50) * this.mExam +
-				((this.extra / this.tExtra) * 50 + 50) * this.mExtra
-			).toFixed(2))
-		},
-	},
+            listStudents() {
+                  return this.$store.state.calculator.listStudents
+            },
 
-	data: function() {
-		return {
-			selectedTerm: '',
+            calculateGrade() {
+                  return (this.totalPoints = (
+                        ((this.quiz / this.tQuiz) * 50 + 50) * this.mQuiz +
+                        ((this.exam / this.tExam) * 50 + 50) * this.mExam +
+                        ((this.extra / this.tExtra) * 50 + 50) * this.mExtra
+                  ).toFixed(2))
+            },
+      },
 
-			selectedSubject: '',
+      data: function() {
+            return {
+                  selectedTerm: '',
 
-			selectedStudent: '',
+                  selectedSubject: '',
 
-			subjects: [
-				{
-					name: 'Seminars and Fieldtrips',
-					sCode: 'ENGG521',
-					students: [{ name: 'Mario Louis Sigua', studentID: '2015010237' }],
-				},
-			],
+                  selectedStudent: '',
 
-			Terms: [
-				{
-					name: 'Prelims',
-					//criterias: [{ quiz: "", exam: "", extra: "", totalGrade: "" }],
-				},
-				{
-					name: 'Midterm',
-					// criterias: [{ quiz: "", exam: "", extra: "", totalGrade: "" }],
-				},
-				{
-					name: 'Finals',
-					//criterias: [{ quiz: "", exam: "", extra: "", totalGrade: "" }],
-				},
-			],
+                  subjects: [
+                        {
+                              name: 'Seminars and Fieldtrips',
+                              sCode: 'ENGG521',
+                              students: [
+                                    {
+                                          name: 'Mario Louis Sigua',
+                                          studentID: '2015010237',
+                                    },
+                              ],
+                        },
+                  ],
 
-			inpSubject: '',
-			inpCode: '',
+                  Terms: [
+                        {
+                              name: 'Prelims',
+                              //criterias: [{ quiz: "", exam: "", extra: "", totalGrade: "" }],
+                        },
+                        {
+                              name: 'Midterm',
+                              // criterias: [{ quiz: "", exam: "", extra: "", totalGrade: "" }],
+                        },
+                        {
+                              name: 'Finals',
+                              //criterias: [{ quiz: "", exam: "", extra: "", totalGrade: "" }],
+                        },
+                  ],
 
-			lists: [],
+                  inpSubject: '',
+                  inpCode: '',
 
-			quiz: '',
-			exam: '',
-			extra: '',
-			tQuiz: '',
-			tExam: '',
-			tExtra: '',
-			mQuiz: '',
-			mExam: '',
-			mExtra: '',
-			totalPoints: '',
-		}
-	},
+                  lists: [],
 
-	methods: {
-		select: function(category) {
-			this.lists = category.students
-		},
+                  quiz: '',
+                  exam: '',
+                  extra: '',
+                  tQuiz: '',
+                  tExam: '',
+                  tExtra: '',
+                  mQuiz: '',
+                  mExam: '',
+                  mExtra: '',
+                  totalPoints: '',
+            }
+      },
 
-		newSubject: function(name, code) {
-			this.subjects.push({ name, code })
-			console.log(this.subjects)
-		},
-	},
+      methods: {
+            select: function(category) {
+                  this.lists = category.students
+            },
 
-	watch: {
-		selectedSubject: function(subj) {
-			this.lists = []
-			this.subjects.map((s) => {
-				if (s.name == subj) {
-					this.lists = s.students
-				}
-			})
-		},
-	},
+            newSubject: function(name, code) {
+                  this.subjects.push({ name, code })
+                  console.log(this.subjects)
+            },
+
+            getSubjectCode(code) {
+                  console.log(code)
+                  this.$store.dispatch('getStudents', code)
+            },
+      },
+
+      watch: {
+            selectedSubject: function(subj) {
+                  this.lists = []
+                  this.subjects.map((s) => {
+                        if (s.name == subj) {
+                              this.lists = s.students
+                        }
+                  })
+            },
+      },
+
+      mounted() {
+            this.$store.dispatch('getSubjects')
+      },
 }
