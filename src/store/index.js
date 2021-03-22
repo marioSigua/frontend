@@ -17,6 +17,7 @@ export default new Vuex.Store({
     calculator: {
       listStudents: [],
       listSubjects: [],
+      listGrades: "",
     },
   },
 
@@ -28,8 +29,6 @@ export default new Vuex.Store({
     },
 
     getStudents(state, payload) {
-      console.log(payload);
-
       state.calculator.listStudents = payload.data;
     },
 
@@ -74,9 +73,45 @@ export default new Vuex.Store({
         );
 
         if (students.status === 200) {
-          console.log(students);
           commit("getStudents", students);
         }
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+
+    async getStudentGrade({ state }, payload) {
+      try {
+        console.log(payload);
+        const students = await axios.get(
+          `${state.BASE_URL}/subjectGrade/listGrade`,
+          {
+            params: { ...payload },
+          }
+        );
+
+        if (students.status === 200) {
+          console.log(students.data);
+          if (students.data.prelim_grade) {
+            state.calculator.listGrades = students.data.prelim_grade;
+          } else if (students.data.midterm_grade) {
+            state.calculator.listGrades = students.data.midterm_grade;
+          } else {
+            state.calculator.listGrades = students.data.finals_grade;
+          }
+        }
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+
+    async updateGrade({ state }, payload) {
+      try {
+        const grade = await axios.patch(
+          `${state.BASE_URL}/subjectGrade/students`,
+          payload
+        );
+        console.log(grade);
       } catch (error) {
         console.log(error.response);
       }
