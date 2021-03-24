@@ -22,8 +22,14 @@
             <h2>Student</h2>
             <h2>Student No.</h2>
             <div>
-              <ul class="dabid" v-for="(list, index) in lists" :key="index">
-                <li id="lname"><br /><br />{{ list.name }}</li>
+              <ul
+                class="dabid"
+                v-for="(list, index) in listStudents"
+                :key="index"
+              >
+                <li id="lname" @click="getStudentInfo(list)">
+                  <br /><br />{{ list.firstname + " " + list.lastname }}
+                </li>
               </ul>
             </div>
           </div>
@@ -31,19 +37,30 @@
         <!--subjects-->
         <div class="col-sm-6" id="Ssubjects">
           <div id="box">
-            <h2 style="color: maroon; float: left;">Calculator</h2>
+            <h2 style="color: maroon; float: left;">
+              Calculator
+            </h2>
             <div id="sContainer">
-              <select name="Subject" id="subjects" v-model="selectedSubject">
+              <select
+                name="Subject"
+                id="subjects"
+                v-model="selectedSubject"
+                @change="getSubjectCode(selectedSubject)"
+              >
                 <option value="">Select Subject</option>
-                <option v-for="(category, index) in selectSubj" :key="index">
-                  {{ category.name }}
+                <option
+                  v-for="(category, index) in selectSubj"
+                  :key="index"
+                  :value="category.subject_code"
+                >
+                  {{ category.subject_name }}
                 </option>
               </select>
             </div>
 
             <div class="container" id="termcontainer">
               <label for="name">Select Term:</label>
-              <select v-model="selectedTerm">
+              <select v-model="selectedTerm" @change="getGrades">
                 <option value="">Select Term</option>
                 <option v-for="(category, index) in selectTerm" :key="index">
                   {{ category.name }}
@@ -54,39 +71,39 @@
             <div class="container">
               <p>
                 Quiz:
-                <input v-model="quiz" />
+                <input v-model="criterias.quiz" />
                 *
-                <input v-model="mQuiz" />
+                <input v-model="criterias.mQuiz" />
               </p>
               <p>
                 Total:
-                <input v-model="tQuiz" />
+                <input v-model="criterias.tQuiz" />
               </p>
             </div>
 
             <div class="container">
               <p>
                 Exam:
-                <input v-model="exam" />
+                <input v-model="criterias.exam" />
                 *
-                <input v-model="mExam" />
+                <input v-model="criterias.mExam" />
               </p>
               <p>
                 Total:
-                <input v-model="tExam" />
+                <input v-model="criterias.tExam" />
               </p>
             </div>
 
             <div class="container">
               <p>
                 Extra:
-                <input v-model="extra" />
+                <input v-model="criterias.extra" />
                 *
-                <input v-model="mExtra" />
+                <input v-model="criterias.mExtra" />
               </p>
               <p>
                 Total:
-                <input v-model="tExtra" />
+                <input v-model="criterias.tExtra" />
               </p>
             </div>
 
@@ -94,13 +111,27 @@
               <p style="font-size: 25sp;">
                 <b><u style="color: maroon;">Calculated Grade</u></b>
               </p>
-              <p>TOTAL GRADE: <input :value="calculateGrade" /></p>
-              <p>REMARKS: <input type="text" id="remark" value="" /></p>
-            </div>
+              <p v-if="$store.state.calculator.listGrades">
+                TOTAL GRADE:
+                <input :value="$store.state.calculator.listGrades" />
+              </p>
 
+              <p v-else>
+                TOTAL GRADE:
+                <input :value="calculateGrade" />
+              </p>
+              <p>
+                REMARKS:
+                <input type="text" id="remark" value="" />
+              </p>
+            </div>
             <div>
-              <button type="button" class="btn">Save</button>
-              <button type="button" class="btn">Edit</button>
+              <button type="button" class="btn" @click="updateGrade">
+                Save
+              </button>
+              <button type="button" class="btn">
+                Edit
+              </button>
             </div>
           </div>
         </div>

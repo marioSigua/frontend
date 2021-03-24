@@ -1,18 +1,27 @@
 export default {
   computed: {
     selectSubj() {
-      return this.subjects;
+      console.log(this.$store.state.calculator.listSubjects);
+      return this.$store.state.calculator.listSubjects;
     },
 
     selectTerm() {
       return this.Terms;
     },
 
+    listStudents() {
+      console.log(this.$store.state.calculator.listStudents);
+      return this.$store.state.calculator.listStudents;
+    },
+
     calculateGrade() {
-      return (this.totalPoints = (
-        ((this.quiz / this.tQuiz) * 50 + 50) * this.mQuiz +
-        ((this.exam / this.tExam) * 50 + 50) * this.mExam +
-        ((this.extra / this.tExtra) * 50 + 50) * this.mExtra
+      return (this.criterias.totalPoints = (
+        ((this.criterias.quiz / this.criterias.tQuiz) * 50 + 50) *
+          this.criterias.mQuiz +
+        ((this.criterias.exam / this.criterias.tExam) * 50 + 50) *
+          this.criterias.mExam +
+        ((this.criterias.extra / this.criterias.tExtra) * 50 + 50) *
+          this.criterias.mExtra
       ).toFixed(2));
     },
   },
@@ -29,7 +38,12 @@ export default {
         {
           name: "Seminars and Fieldtrips",
           sCode: "ENGG521",
-          students: [{ name: "Mario Louis Sigua", studentID: "2015010237" }],
+          students: [
+            {
+              name: "Mario Louis Sigua",
+              studentID: "2015010237",
+            },
+          ],
         },
       ],
 
@@ -48,21 +62,28 @@ export default {
         },
       ],
 
+      criterias: {
+        quiz: "",
+        exam: "",
+        extra: "",
+        tQuiz: "",
+        tExam: "",
+        tExtra: "",
+        mQuiz: "",
+        mExam: "",
+        mExtra: "",
+        totalPoints: "",
+      },
+
       inpSubject: "",
       inpCode: "",
 
       lists: [],
 
-      quiz: "",
-      exam: "",
-      extra: "",
-      tQuiz: "",
-      tExam: "",
-      tExtra: "",
-      mQuiz: "",
-      mExam: "",
-      mExtra: "",
-      totalPoints: "",
+      payload: {
+        student_id: "",
+        date_created: "",
+      },
     };
   },
 
@@ -73,13 +94,41 @@ export default {
 
     newSubject: function(name, code) {
       this.subjects.push({ name, code });
-      console.log(this.subjects);
+    },
+
+    getStudentInfo(info) {
+      this.payload.student_id = info.student_id;
+      this.payload.date_created = info.created_at;
+    },
+
+    getSubjectCode(code) {
+      this.$store.dispatch("getStudents", code);
+    },
+
+    getGrades() {
+      const gradeList = {
+        student_id: this.payload.student_id,
+        created_at: this.payload.date_created,
+        term: this.selectedTerm,
+        subject_code: this.selectedSubject,
+      };
+
+      this.$store.dispatch("getStudentGrade", gradeList);
+    },
+
+    updateGrade() {
+      const needs = {
+        ...this.payload,
+        term: this.selectedTerm,
+        totalGrade: this.calculateGrade,
+      };
+
+      this.$store.dispatch("updateGrade", needs);
     },
   },
 
   watch: {
     selectedSubject: function(subj) {
-      console.log("subject changed" + subj);
       this.lists = [];
       this.subjects.map((s) => {
         if (s.name == subj) {
@@ -87,5 +136,10 @@ export default {
         }
       });
     },
+  },
+
+  mounted() {
+    this.$store.dispatch("getSubjects");
+    console.log(typeof localStorage.getItem("initGrades"));
   },
 };
