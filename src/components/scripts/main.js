@@ -1,4 +1,11 @@
+import nav from '../navbar'
 export default {
+
+  components: {
+    'navbar': nav
+  },
+
+
   computed: {
     selectSubj() {
       console.log(this.$store.state.calculator.listSubjects);

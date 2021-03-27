@@ -4,10 +4,7 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: helvetica;
-  background: #fafafa;
-}
+
 
 header {
   width: 100%;
@@ -27,9 +24,6 @@ main {
 #box {
   width: 70%;
   height: 400px;
-  border: 1px solid gray;
-
-  margin: auto;
   border-radius: 7px;
   padding: 15px;
   display: block;
@@ -51,9 +45,18 @@ input {
 }
 
 button {
-  width: 100%;
+  width: 20%;
   padding: 5px;
   font-size: 20px;
+}
+
+body{
+  background-image: url(https://i.imgur.com/pS9sP47.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: sans-serif;
+  margin: 0%;
+  padding: 0%;
 }
 
 /* #box[tab="login"] .signup {
@@ -63,3 +66,18 @@ button {
 #box[tab="signup"] .login {
   display: none !important;
 } */
+input{
+  border: none;
+  border-bottom: 1px solid white;
+  background: transparent;
+  outline: none;
+  width: 20%;
+}
+label{
+  margin: 0%;
+  padding: 0%;
+}
+
+label{
+  color: white;
+}

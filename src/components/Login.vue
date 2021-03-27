@@ -1,11 +1,10 @@
 <template>
   <div>
-    <header>CALSO</header>
+
     <main>
       <div id="box" tab="login">
         <!-- login code -->
         <div class="login" v-if="!showregister">
-          <h1>Login</h1>
           <label for="username">Username</label><br />
           <input
             type="email"

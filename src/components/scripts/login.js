@@ -112,6 +112,7 @@ export default {
           }
         }
       } catch (err) {
+        console.log(err.response)
         if (err.response !== undefined) {
           if (err.response.data.message.includes("password")) {
             this.loginErrors.password = err.response.data.message;
