@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <main>
       <div id="box" tab="login">
         <!-- login code -->
@@ -41,7 +40,8 @@
             @input="registerValidate('email')"
             @blur="registerValidate('email')"
           />
-          {{ registerErrors.email }}
+
+          <span class="primary">{{ registerErrors.email }}</span>
 
           <br />
           <label for="password">Password</label><br />

@@ -6,10 +6,17 @@ import createPersistedState from "vuex-persistedstate";
 import axios from "axios";
 Vue.use(Vuex);
 
+const logout = () => {
+  return {
+    access_token: "",
+    isAuth: false,
+  };
+};
+
 export default new Vuex.Store({
   // object
   state: {
-    BASE_URL: "http://192.168.100.4:5115/api/p1",
+    BASE_URL: "http://192.168.18.7:5115/api/p1",
     access_token: "",
     token_name: "",
     isAuth: false,
@@ -24,6 +31,18 @@ export default new Vuex.Store({
   // pang edit ng state
   // this.$store.commit(nameofmut, payload!null)
   mutations: {
+    resetState(state) {
+      Cookies.remove(state.token_name, { path: "/", domain: "localhost" });
+      const logoutUser = logout();
+      Object.keys(logoutUser).forEach((k) => {
+        console.log(k);
+        state[k] = logoutUser[k];
+      });
+
+      localStorage.removeItem("vuex");
+      router.push({ name: "usersLogin" });
+    },
+
     getSubjects(state, payload) {
       state.calculator.listSubjects = payload.data;
     },
