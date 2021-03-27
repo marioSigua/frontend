@@ -26,20 +26,32 @@
 
             <div class="" v-for="(components, index) in content" :key="index">
                   <component
-                        v-if="components.type === 'Essay'"
+                        v-if="
+                              components.type === 'Essay' &&
+                                    userValues[index].type === 'Essay'
+                        "
                         :is="components.format"
                         :essayValues="userValues[index]"
                   >
                   </component>
 
                   <component
-                        v-if="components.type === 'Identification'"
+                        v-if="
+                              components.type === 'Identification' &&
+                                    userValues[index].type === 'Identification'
+                        "
                         :is="components.format"
+                        :identificationValues="userValues[index]"
                   >
                   </component>
+
                   <component
-                        v-if="components.type === 'Multiple Choice'"
+                        v-if="
+                              components.type === 'Multiple Choice' &&
+                                    userValues[index].type === 'Multiple Choice'
+                        "
                         :is="components.format"
+                        :mcqValues="userValues[index]"
                   >
                   </component>
             </div>
@@ -70,7 +82,9 @@
                                     this.userValues.push({
                                           question: '',
                                           answer: '',
+                                          type: this.choiceFilter,
                                     })
+
                                     this.content.push({
                                           format: 'exam-essay',
                                           type: this.choiceFilter,
@@ -78,6 +92,13 @@
 
                                     break
                               case 'Identification':
+                                    this.userValues.push({
+                                          question: '',
+                                          userInput: '',
+                                          answer: '',
+                                          type: this.choiceFilter,
+                                    })
+
                                     this.content.push({
                                           format: 'exam-identification',
                                           type: this.choiceFilter,
@@ -88,6 +109,19 @@
                                     this.userValues.push({
                                           question: '',
                                           answer: '',
+                                          choices: {
+                                                a: '',
+                                                b: '',
+                                                c: '',
+                                                d: '',
+                                          },
+
+                                          type: this.choiceFilter,
+                                    })
+
+                                    this.content.push({
+                                          format: 'exam-mcq',
+                                          type: this.choiceFilter,
                                     })
 
                                     break

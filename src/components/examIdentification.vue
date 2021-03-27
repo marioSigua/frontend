@@ -4,6 +4,7 @@
             <div>
                   <label>Question</label>
                   <textarea
+                        v-model="identificationValues.question"
                         id="IdentAnswer"
                         name="IdentAnswer"
                         rows="4"
@@ -11,8 +12,18 @@
                   ></textarea
                   ><br />
                   <label for="Answer">Answer)</label>
-                  <input type="text" id="Anwer" name="Answer" /><br /><br />
-                  <input type="Submit" value="submit" />
+                  <input
+                        v-model="identificationValues.userInput"
+                        type="text"
+                        id="Anwer"
+                        name="Answer"
+                  /><br /><br />
             </div>
       </div>
 </template>
+
+<script>
+      export default {
+            props: ['identificationValues'],
+      }
+</script>
