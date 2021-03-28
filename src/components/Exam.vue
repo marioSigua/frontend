@@ -24,6 +24,14 @@
                   <option>Multiple Choice</option>
             </select>
 
+            <select v-model="choicePurpose">
+                  <option value="">Purpose of Form</option>
+                  <option>Activity</option>
+                  <option>Exam</option>
+                  <option>Quiz</option>
+            </select>
+
+            <!-- question body -->
             <div class="" v-for="(components, index) in content" :key="index">
                   <component
                         v-if="
@@ -56,7 +64,9 @@
                   </component>
             </div>
 
-            <button @click="showValues()">Eut</button>
+            <button @click="createForm()">
+                  Create {{ choicePurpose ? choicePurpose : 'Form' }}
+            </button>
       </div>
 </template>
 
@@ -66,12 +76,13 @@
 
             data() {
                   return {
+                        //question body
                         content: [],
                         choiceFilter: '',
 
                         userValues: [],
 
-                        value: [],
+                        choicePurpose: '',
                   }
             },
 
@@ -125,15 +136,18 @@
                                     })
 
                                     break
+
+                              default:
+                                    return ''
                         }
 
                         this.choiceFilter = ''
-                        console.log(this.content)
                   },
 
-                  showValues() {
-                        this.value.push(this.userValues)
-                        console.log(this.value)
+                  createForm() {
+                        console.log(
+                              'Dito dapat mgsesend ng request --> backend'
+                        )
                   },
             },
       }
