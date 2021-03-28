@@ -30,8 +30,6 @@
                   return {}
             },
 
-            mounted() {
-                  console.log(this.essayValues)
-            },
+            mounted() {},
       }
 </script>

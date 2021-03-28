@@ -32,7 +32,11 @@
             </select>
 
             <!-- question body -->
-            <div class="" v-for="(components, index) in content" :key="index">
+            <div
+                  class=""
+                  v-for="(components, index) in listComponents"
+                  :key="index"
+            >
                   <component
                         v-if="
                               components.type === 'Essay' &&
@@ -74,19 +78,32 @@
       export default {
             components: {},
 
+            computed: {
+                  listComponents() {
+                        return this.content
+                  },
+            },
+
             data() {
                   return {
+                        choiceFilter: '',
+                        choicePurpose: '',
+
                         //question body
                         content: [],
-                        choiceFilter: '',
 
                         userValues: [],
-
-                        choicePurpose: '',
                   }
             },
 
             methods: {
+                  createForm() {
+                        console.log(
+                              'Dito dapat mgsesend ng request --> backend'
+                        )
+                        console.log(this.userValues)
+                  },
+
                   letsGo() {
                         switch (this.choiceFilter) {
                               case 'Essay':
@@ -142,12 +159,6 @@
                         }
 
                         this.choiceFilter = ''
-                  },
-
-                  createForm() {
-                        console.log(
-                              'Dito dapat mgsesend ng request --> backend'
-                        )
                   },
             },
       }
