@@ -6,7 +6,7 @@ header {
   color: #ffffff;
   height: 92px ;
   display: flex;
-  justify-content: left;
+ 
   /* overflow: hidden; */
 }
 
@@ -53,7 +53,12 @@ img {
 
 
  body {
- background-color: #F2E3CF!important;
+  background-image: url(https://i.imgur.com/pS9sP47.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: sans-serif;
+  margin: 0%;
+  padding: 0%;
 } 
 
 /*subjects*/
