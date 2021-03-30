@@ -1,9 +1,14 @@
 <template>
+  
   <div>
     <main>
+      <img src="https://i.imgur.com/qO1REGc.png"  alt="Lyceum">
       <div id="box" tab="login">
+
         <!-- login code -->
+      
         <div class="login" v-if="!showregister">
+          <h1>Login</h1>
           <label for="username">Username</label><br />
           <input
             type="email"
@@ -12,7 +17,7 @@
             @input="loginValidate('email')"
             @blur="loginValidate('email')"
           />
-          {{ loginErrors.email }}
+          <span class="red">{{ loginErrors.email }}</span>
           <br />
           <label for="password">Password</label><br />
           <input
@@ -22,9 +27,9 @@
             @input="loginValidate('password')"
             @blur="loginValidate('password')"
           />
-          {{ loginErrors.password }}
+          <span class="red">{{ loginErrors.password }}</span>
           <br />
-          <button type="button" name="button" @click="sendLogin">Login</button>
+          <button type="button" name="button" @click="sendLogin">Log in</button>
         </div>
         <!-- login code -->
 
@@ -40,8 +45,12 @@
             @input="registerValidate('email')"
             @blur="registerValidate('email')"
           />
+<<<<<<< HEAD
 
           <span class="primary">{{ registerErrors.email }}</span>
+=======
+          <span class="red"> {{ registerErrors.email }}</span>
+>>>>>>> e24b467e791d366685c2291f8fcd75487d2b35a1
 
           <br />
           <label for="password">Password</label><br />
@@ -52,7 +61,7 @@
             @input="registerValidate('password')"
             @blur="registerValidate('password')"
           />
-          {{ registerErrors.password }}
+          <span class="red">{{ registerErrors.password }}</span>
 
           <br />
           <label for="password">Retype Password</label><br />
@@ -63,7 +72,7 @@
             @input="registerValidate('confirm')"
             @blur="registerValidate('confirm')"
           />
-          {{ registerErrors.confirm }}
+          <span class="red">{{ registerErrors.confirm }}</span> 
 
           <br />
           <label for="account">Account Type</label><br />
@@ -77,30 +86,33 @@
             <option value="Professor">Professor</option>
             <option value="Admin">Admin</option>
           </select>
-          {{ registerErrors.account_type }}
+          <span class="red">{{ registerErrors.account_type }}</span>
           <br />
           <button type="button" name="button" @click="sendRegistration">
-            Signup
+            Sign up
           </button>
         </div>
+
         <!-- signup code -->
 
         <!-- footer code -->
-        <nav>
-          <a href="#" class="signup" id="loginbtn">Login</a>
-          <a
-            href="#"
-            @click="showregister = !showregister"
-            class="login"
-            id="signbtn"
-            >Signup</a
-          >
-        </nav>
         <!-- footer code -->
       </div>
+
     </main>
+    <nav class="footer">
+      <!-- <button href="#" class="signup" id="loginbtn">Login</button> -->
+     <button
+        href="#"
+        @click="showregister = !showregister"
+        class="login"
+        id="signbtn"
+        > Sign up
+     </button>
+    </nav>
   </div>
 </template>
+
 
 <script>
 import app from "./scripts/login";
