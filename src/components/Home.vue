@@ -108,11 +108,25 @@
             <div class="subject">
                   <div class="container">
                         <div class="row row-cols-3">
-                              <div class="col">
+                              <div
+                                    class="col"
+                                    v-for="subj in listSubjs"
+                                    :key="subj.subject_code"
+                              >
+                                    <!-- listahan ng subject ng prof na nakalogin -->
                                     <div class="subjectbox">
-                                          <h3>Subject name</h3>
-                                          <p>Subject Code</p>
-                                          <p>Schedule</p>
+                                          <h3>
+                                                Subject name:
+                                                {{ subj.subject_name }}
+                                          </h3>
+                                          <p>
+                                                Subject Code:
+                                                {{ subj.subject_code }}
+                                          </p>
+                                          <p>
+                                                Schedule:
+                                                {{ subj.subject_desc }}
+                                          </p>
                                     </div>
                               </div>
                               <!-- 
@@ -143,5 +157,5 @@
 </script>
 
 <style scoped>
-      @import './styles/home.css';
+      @import './styles/HOME.css';
 </style>

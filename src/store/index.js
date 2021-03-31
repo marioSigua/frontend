@@ -152,7 +152,7 @@ export default new Vuex.Store({
             async profSubjects({ state, commit }) {
                   try {
                         const subjs = await axios.get(
-                              `${state.BASE_URL}/subjectGrade/students`,
+                              `${state.BASE_URL}/assigned/subjects`,
                               {
                                     headers: {
                                           Authorization: this.getters
@@ -186,7 +186,7 @@ export default new Vuex.Store({
 
       plugins: [
             createPersistedState({
-                  paths: ['access_token', 'isAuth'],
+                  paths: ['access_token', 'isAuth', 'token_name'],
             }),
       ],
 })
