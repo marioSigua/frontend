@@ -1,10 +1,8 @@
-import nav from '../navbar'
+import nav from "../navbar";
 export default {
-
   components: {
-    'navbar': nav
+    navbar: nav,
   },
-
 
   computed: {
     selectSubj() {
@@ -35,6 +33,9 @@ export default {
 
   data: function() {
     return {
+      selectStudents: false,
+
+      currentIndex: "",
       selectedTerm: "",
 
       selectedSubject: "",
@@ -104,6 +105,7 @@ export default {
     },
 
     getStudentInfo(info) {
+      this.currentIndex = this.listStudents.indexOf(info);
       this.payload.student_id = info.student_id;
       this.payload.date_created = info.created_at;
     },

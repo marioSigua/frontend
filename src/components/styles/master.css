@@ -4,7 +4,7 @@ header {
   color: #ffffff;
   height: 92px;
   display: flex;
- 
+
   /* overflow: hidden; */
 }
 
@@ -47,21 +47,14 @@ img {
   position: initial;
 }
 
-<<<<<<< HEAD
 body {
-  background-color: #f2e3cf !important;
-}
-=======
-
- body {
   background-image: url(https://i.imgur.com/pS9sP47.jpg);
   background-size: cover;
   background-position: center;
   font-family: sans-serif;
   margin: 0%;
   padding: 0%;
-} 
->>>>>>> e24b467e791d366685c2291f8fcd75487d2b35a1
+}
 
 /*subjects*/
 #box {
@@ -144,4 +137,12 @@ a:hover {
 
 input {
   border-radius: 5px;
+}
+
+.select-students {
+  background-color: beige;
+}
+
+.non-select {
+  background-color: transparent;
 }

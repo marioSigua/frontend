@@ -5,6 +5,8 @@ export default {
     return {
       showregister: false,
 
+      isregistered: false,
+
       loginErrors: {
         email: "",
         password: "",
@@ -79,12 +81,16 @@ export default {
           );
 
           if (res.status === 200) {
+            this.$store.state.openModal = true;
             Object.keys(this.registerCredentials).forEach((k) => {
               this.registerCredentials[k] = "";
             });
+
+            this.showregister = false;
           }
         }
       } catch (err) {
+        console.log(err);
         if (err.response !== undefined) {
           this.registerErrors.email = err.response.data.message;
         } else {
@@ -112,7 +118,7 @@ export default {
           }
         }
       } catch (err) {
-        console.log(err.response)
+        console.log(err.response);
         if (err.response !== undefined) {
           if (err.response.data.message.includes("password")) {
             this.loginErrors.password = err.response.data.message;
