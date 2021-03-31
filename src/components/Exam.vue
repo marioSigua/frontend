@@ -89,6 +89,7 @@
                         choiceFilter: '',
                         choicePurpose: '',
 
+                        formNumber: 1,
                         //question body
                         content: [],
 
@@ -98,9 +99,6 @@
 
             methods: {
                   createForm() {
-                        console.log(
-                              'Dito dapat mgsesend ng request --> backend'
-                        )
                         console.log(this.userValues)
                   },
 
@@ -109,7 +107,8 @@
                               case 'Essay':
                                     this.userValues.push({
                                           question: '',
-                                          answer: '',
+                                          student_input: '',
+                                          form_number: `${this.choiceFilter}-${this.formNumber}`,
                                           type: this.choiceFilter,
                                     })
 
@@ -117,13 +116,15 @@
                                           format: 'exam-essay',
                                           type: this.choiceFilter,
                                     })
-
+                                    this.formNumber++
                                     break
+
                               case 'Identification':
                                     this.userValues.push({
                                           question: '',
-                                          userInput: '',
-                                          answer: '',
+                                          student_input: '',
+                                          form_number: `${this.choiceFilter}-${this.formNumber}`,
+                                          form_answer: '',
                                           type: this.choiceFilter,
                                     })
 
@@ -131,12 +132,15 @@
                                           format: 'exam-identification',
                                           type: this.choiceFilter,
                                     })
+                                    this.formNumber++
                                     break
 
                               case 'Multiple Choice':
                                     this.userValues.push({
                                           question: '',
-                                          answer: '',
+                                          student_input: '',
+                                          form_number: `${this.choiceFilter}-${this.formNumber}`,
+                                          form_answer: '',
                                           choices: {
                                                 a: '',
                                                 b: '',
@@ -151,7 +155,7 @@
                                           format: 'exam-mcq',
                                           type: this.choiceFilter,
                                     })
-
+                                    this.formNumber++
                                     break
 
                               default:

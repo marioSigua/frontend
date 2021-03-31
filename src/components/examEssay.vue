@@ -13,7 +13,7 @@
                         ></textarea
                         ><br />
                         <input
-                              v-model="essayValues.answer"
+                              v-model="essayValues.student_input"
                               type="Submit"
                               value="submit"
                         />

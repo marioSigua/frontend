@@ -13,7 +13,7 @@
                   ><br />
                   <label for="Answer">Answer)</label>
                   <input
-                        v-model="identificationValues.userInput"
+                        v-model="identificationValues.student_input"
                         type="text"
                         id="Anwer"
                         name="Answer"
