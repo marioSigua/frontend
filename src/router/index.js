@@ -1,57 +1,16 @@
-<<<<<<< HEAD
-import Vue from "vue";
-import VueRouter from "vue-router";
-import store from "../store/index";
-Vue.use(VueRouter);
-
-const routes = [
-  {
-    path: "/auth/exam",
-    name: "usersExam",
-    component: () =>
-      import(/* webpackChunkName: "usersExam" */ "../components/Exam.vue"),
-  },
-
-  {
-    path: "/",
-    name: "usersLogin",
-    component: () =>
-      import(/* webpackChunkName: "usersLogin" */ "../components/Login.vue"),
-
-    beforeEnter(to, from, next) {
-      if (store.state.isAuth) {
-        next({ name: "calculator" });
-      } else {
-        next();
-      }
-    },
-  },
-=======
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import store from '../store/index'
+import store from '../store/index'
 Vue.use(VueRouter)
 
 const routes = [
       {
-            path: '/auth/Studentlist',
-            name: 'HOME',
+            path: '/auth/exam',
+            name: 'usersExam',
             component: () =>
                   import(
-                        /* webpackChunkName: "HOME" */ '../components/Studentlist.vue'
+                        /* webpackChunkName: "usersExam" */ '../components/Exam.vue'
                   ),
-
-      },
-
-
-      {
-            path: '/auth/HOME',
-            name: 'HOME',
-            component: () =>
-                  import(
-                        /* webpackChunkName: "HOME" */ '../components/HOME.vue'
-                  ),
-
       },
 
       {
@@ -62,68 +21,65 @@ const routes = [
                         /* webpackChunkName: "usersLogin" */ '../components/Login.vue'
                   ),
 
-            // beforeEnter(to, from, next) {
-            //       if (store.state.isAuth) {
-            //             next({ name: 'calculator' })
-            //       } else {
-            //             next()
-            //       }
-            // },
+            beforeEnter(to, from, next) {
+                  if (store.state.isAuth) {
+                        next({ name: 'calculator' })
+                  } else {
+                        next()
+                  }
+            },
       },
 
       {
-            path: '/auth/calculator',
+            path: '/auth/professor',
             component: () =>
                   import(
                         /* webpackChunkName: "calculator" */ '../views/index-view.vue'
                   ),
-            // beforeEnter(to, from, next) {
-            //       if (store.state.isAuth) {
-            //             next()
-            //       } else {
-            //             next({ name: 'usersLogin' })
-            //       }
-            // },
->>>>>>> de44fecff935738681b2e63b83c126064be56c75
 
-  {
-    path: "/auth/calculator",
-    component: () =>
-      import(/* webpackChunkName: "calculator" */ "../views/index-view.vue"),
-    beforeEnter(to, from, next) {
-      if (store.state.isAuth) {
-        next();
-      } else {
-        next({ name: "usersLogin" });
-      }
-    },
+            beforeEnter(to, from, next) {
+                  if (store.state.isAuth) {
+                        next()
+                  } else {
+                        next({ name: 'usersLogin' })
+                  }
+            },
 
-    children: [
-      {
-        path: "",
-        name: "calculator",
-        component: () =>
-          import(
-            /* webpackChunkName: "calculator" */ "../components/calculator.vue"
-          ),
+            children: [
+                  {
+                        path: '',
+                        name: 'home',
+                        component: () =>
+                              import(
+                                    /* webpackChunkName: "calculator" */ '../components/home.vue'
+                              ),
+                  },
+
+                  {
+                        path: 'calculator',
+                        name: 'calculator',
+                        component: () =>
+                              import(
+                                    /* webpackChunkName: "calculator" */ '../components/calculator.vue'
+                              ),
+                  },
+            ],
       },
-    ],
-  },
 
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // }
-];
+      // {
+      //   path: '/about',
+      //   name: 'About',
+      //   // route level code-splitting
+      //   // this generates a separate chunk (about.[hash].js) for this route
+      //   // which is lazy-loaded when the route is visited.
+      //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+      // }
+]
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
-});
+      mode: 'history',
+      base: process.env.BASE_URL,
+      routes,
+})
 
-export default router;
+export default router
