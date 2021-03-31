@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "../store/index";
@@ -25,6 +26,65 @@ const routes = [
       }
     },
   },
+=======
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+// import store from '../store/index'
+Vue.use(VueRouter)
+
+const routes = [
+      {
+            path: '/auth/Studentlist',
+            name: 'HOME',
+            component: () =>
+                  import(
+                        /* webpackChunkName: "HOME" */ '../components/Studentlist.vue'
+                  ),
+
+      },
+
+
+      {
+            path: '/auth/HOME',
+            name: 'HOME',
+            component: () =>
+                  import(
+                        /* webpackChunkName: "HOME" */ '../components/HOME.vue'
+                  ),
+
+      },
+
+      {
+            path: '/',
+            name: 'usersLogin',
+            component: () =>
+                  import(
+                        /* webpackChunkName: "usersLogin" */ '../components/Login.vue'
+                  ),
+
+            // beforeEnter(to, from, next) {
+            //       if (store.state.isAuth) {
+            //             next({ name: 'calculator' })
+            //       } else {
+            //             next()
+            //       }
+            // },
+      },
+
+      {
+            path: '/auth/calculator',
+            component: () =>
+                  import(
+                        /* webpackChunkName: "calculator" */ '../views/index-view.vue'
+                  ),
+            // beforeEnter(to, from, next) {
+            //       if (store.state.isAuth) {
+            //             next()
+            //       } else {
+            //             next({ name: 'usersLogin' })
+            //       }
+            // },
+>>>>>>> de44fecff935738681b2e63b83c126064be56c75
 
   {
     path: "/auth/calculator",
