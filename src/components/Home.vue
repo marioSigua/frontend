@@ -138,7 +138,7 @@
 </template>
 
 <script>
-      import app from './scripts/home'
+      import app from './scripts/HOME'
       export default app
 </script>
 

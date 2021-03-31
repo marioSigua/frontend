@@ -117,13 +117,13 @@ export default {
                                     `${this.stateVariables.BASE_URL}/accounts/login`,
                                     this.inputCredentials
                               )
-                              
+
                               if (res.status === 200) {
                                     this.$store.commit('set_cookie', res.data)
                               }
                         }
-
                   } catch (err) {
+                        console.log(err)
                         if (err.response !== undefined) {
                               if (
                                     err.response.data.message.includes(

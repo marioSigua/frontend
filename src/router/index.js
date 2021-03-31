@@ -51,7 +51,7 @@ const routes = [
                         name: 'home',
                         component: () =>
                               import(
-                                    /* webpackChunkName: "calculator" */ '../components/home.vue'
+                                    /* webpackChunkName: "calculator" */ '../components/HOME.vue'
                               ),
                   },
 
