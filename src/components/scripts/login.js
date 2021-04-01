@@ -119,11 +119,11 @@ export default {
                               )
 
                               if (res.status === 200) {
+                                    console.log(res.data)
                                     this.$store.commit('set_cookie', res.data)
                               }
                         }
                   } catch (err) {
-                        console.log(err)
                         if (err.response !== undefined) {
                               if (
                                     err.response.data.message.includes(
