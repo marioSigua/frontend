@@ -22,7 +22,7 @@
         <ul class="navbar-nav">
           <li class="nav-item" href="#">
             <a
-              class="nav-link active"
+              class="nav-link"
               aria-current="page"
               href="#"
               style="color: white;"
@@ -30,12 +30,12 @@
             >
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link active"
-              aria-current="page"
+            <router-link
+              class="nav-link"
               href="#"
               style="color: white;"
-              >Home</a
+              to="/auth/home"
+              >Home</router-link
             >
           </li>
           <li class="nav-item">
@@ -48,38 +48,33 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#calculator.vue" style="color: white;"
-              >Calculator</a
+            <router-link
+              class="nav-link"
+              href="#"
+              style="color: white;"
+              to="/auth/calculator"
+              >Calculator</router-link
             >
           </li>
         </ul>
       </div>
     </div>
-    <div>
-      <a
-        class="nav-link dropdown-toggle"
-        href="#"
-        id="navbarDropdownMenuLink"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        style="color: white;"
-        @click="openNavEnd = !openNavEnd"
-      >
-        Account
-      </a>
 
-      <ul
-        :class="{ 'dropdown show': openNavEnd }"
-        class="dropdown-menu"
-        aria-labelledby="navbarDropdownMenuLink"
+    <div>
+      <b-dropdown
+        id="dropdown-account"
+        text="Account"
+        right
+        variant="none"
+        class="m-2"
       >
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Setting</a></li>
-        <li>
-          <a class="dropdown-item" href="#" @click="logoutUser">Logout</a>
-        </li>
-      </ul>
+        <b-dropdown-text style="width: 240px;">
+          Name: <br />
+          Account type:
+        </b-dropdown-text>
+        <b-dropdown-divider></b-dropdown-divider>
+        <b-dropdown-item @click="logoutUser">Logout</b-dropdown-item>
+      </b-dropdown>
     </div>
   </nav>
 </template>
