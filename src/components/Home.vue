@@ -78,7 +78,16 @@
     <div class="subject">
       <div class="container">
         <div class="row row-cols-3">
-          <div class="col">
+
+          <div class="col"  v-for="subj in listSubjs" :key="subj.subject_code">
+            <div class="subjectbox">
+              <h3>{{subj.subject_name}}</h3>
+              <p> {{subj.subject_code}}</p>
+              <p>{{subj.subject_desc}}</p>
+            </div>
+          </div>
+
+          <!-- <div class="col">
             <div class="subjectbox">
               <h3>Subject name</h3>
               <p>Subject Code</p>
@@ -92,15 +101,7 @@
               <p>Subject Code</p>
               <p>Schedule</p>
             </div>
-          </div>
-
-          <div class="col">
-            <div class="subjectbox">
-              <h3>Subject name</h3>
-              <p>Subject Code</p>
-              <p>Schedule</p>
-            </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

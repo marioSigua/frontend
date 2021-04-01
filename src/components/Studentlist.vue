@@ -10,7 +10,6 @@
             <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
               <b-card-body>
                 <b-card-text>Yawa</b-card-text>
-                <b-card-text>{{ text }}</b-card-text>
               </b-card-body>
             </b-collapse>
           </b-card>
@@ -21,8 +20,49 @@
             </b-card-header>
             <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
               <b-card-body>
-                <b-card-text>Yawa</b-card-text>
-                <b-card-text>{{ text }}</b-card-text>
+                <b-card-text>
+                   
+                    <div class="studentlist">
+                          <H2>Student List</H2>
+                          <div class="Studentlist">
+                            <b-table :items="items" :fields="fields" striped hover responsive="sm">
+                              <template #cell(show_details)="row">
+                                <b-button size="sm" @click="row.toggleDetails" class="mr-2 mr2btn">
+                                  {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+                                </b-button>
+                              </template>
+                        
+                              <template #row-details="row">
+                                <b-card>
+                                  <b-row class="mb-2">
+                                    <b-col sm="3" class="text-sm-right"><b>Prelim:</b></b-col>
+                                    <b-col>{{ row.item.age }}</b-col>
+                                  </b-row>
+                        
+                                  <b-row class="mb-2">
+                                    <b-col sm="3" class="text-sm-right"><b>Midterm:</b></b-col>
+                                    <b-col>{{ row.item.isActive }}</b-col>
+                                  </b-row>
+                                  
+                                  <b-row class="mb-2">
+                                    <b-col sm="3" class="text-sm-right"><b>Finals:</b></b-col>
+                                    <b-col>{{ row.item.age }}</b-col>
+                                  </b-row>
+
+                                  <b-row class="mb-2">
+                                    <b-col sm="3" class="text-sm-right"><b>GWA:</b></b-col>
+                                    <b-col>{{ row.item.age }}</b-col>
+                                  </b-row>
+                                </b-card>
+                              </template>
+                            </b-table>
+                            <!-- <b-table striped hover :items="items" :fields="fields">
+                            </b-table> -->
+                          </div>
+                          
+                    </div>
+
+                </b-card-text>
               </b-card-body>
             </b-collapse>
           </b-card>
@@ -34,7 +74,6 @@
             <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
               <b-card-body>
                 <b-card-text>Yawa</b-card-text>
-                <b-card-text>{{ text }}</b-card-text>
               </b-card-body>
             </b-collapse>
           </b-card>

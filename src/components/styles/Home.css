@@ -18,6 +18,9 @@ body {
   border-radius: 10px;
   padding: 5px;
   color: #503918;
+  height: 220px;
+  margin: 10px ;
+  width: 360px;
 }
 
 .addsubj {
@@ -57,4 +60,8 @@ input {
 
 .width2 {
   width: 95px;
+}
+
+h3{
+  border-bottom: 1px solid black;
 }

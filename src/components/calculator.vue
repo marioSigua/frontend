@@ -129,39 +129,39 @@
             <div class="container">
               <p>
                 Quiz:
-                <input v-model="criterias.quiz" title="Quiz Score" />
+                <input v-model="criterias.quiz"  placeholder="Enter Quiz Score" />
                 *
-                <input v-model="criterias.mQuiz" title="Multiplier" />
+                <input v-model="criterias.mQuiz"  placeholder="0.3"/>
               </p>
               <p>
                 Total:
-                <input v-model="criterias.tQuiz" title="Total Quiz Score" />
+                <input v-model="criterias.tQuiz"  placeholder="Enter Total Quiz Score"/>
               </p>
             </div>
 
             <div class="container">
               <p>
                 Exam:
-                <input v-model="criterias.exam" title="Exam Score" />
+                <input v-model="criterias.exam"  placeholder="Enter Exam Score"/>
                 *
-                <input v-model="criterias.mExam" title="Multiplier" />
+                <input v-model="criterias.mExam"  placeholder="0.6" />
               </p>
               <p>
                 Total:
-                <input v-model="criterias.tExam" title="Total Exam Score" />
+                <input v-model="criterias.tExam"  placeholder="Enter Total Exam Score"/>
               </p>
             </div>
 
             <div class="container">
               <p>
                 Extra:
-                <input v-model="criterias.extra" />
+                <input v-model="criterias.extra" placeholder="Enter Participation Grade"/>
                 *
-                <input v-model="criterias.mExtra" />
+                <input v-model="criterias.mExtra" placeholder="0.1" />
               </p>
               <p>
                 Total:
-                <input v-model="criterias.tExtra" />
+                <input v-model="criterias.tExtra" placeholder="Enter Total Participation Grade"/>
               </p>
             </div>
 
@@ -195,7 +195,7 @@
                 class="btn btn-secondary"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-                title="Save Calculated Grades"
+              
               >
                 SAVE
               </button>
@@ -204,7 +204,7 @@
                 class="btn btn-secondary"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-                title="Edit Grades"
+        
                 style="margin: 10px;"
               >
                 EDIT

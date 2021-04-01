@@ -137,6 +137,7 @@ a:hover {
 
 input {
   border-radius: 5px;
+  padding-left: 5px;
 }
 
 .select-students {
@@ -145,4 +146,20 @@ input {
 
 .non-select {
   background-color: transparent;
+}
+
+::placeholder{
+  color: #8f8475;
+  opacity: 1;
+  font-style: italic;
+}
+
+:-ms-input-placeholder{
+  color: #8f8475;
+  font-style: italic;
+}
+
+::-ms-input-placeholder{
+  color: #8f8475;
+  font-style: italic;
 }
