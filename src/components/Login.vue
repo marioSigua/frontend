@@ -5,7 +5,7 @@
                   <div id="box" tab="login">
                         <!-- login code -->
 
-                        <div class="login" v-if="!showregister">
+                        <div class="loginn" v-if="!showregister">
                               <h1>Login</h1>
                               <label for="username">Username</label><br />
                               <input
@@ -119,7 +119,7 @@
                   </div>
             </main>
             <nav class="footer">
-                  <!-- <button href="#" class="signup" id="loginbtn">Login</button> -->
+                  <!-- <button href="#" class="signupp" id="loginbtn">Login</button> -->
                   <button
                         href="#"
                         @click="showregister = !showregister"

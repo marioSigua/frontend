@@ -5,6 +5,13 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "/auth/Studentlist",
+    name: "Studentlist",
+    component: () =>
+      import(/* webpackChunkName: "Studentlist" */ "../components/Studentlist.vue"),
+  },
+
+  {
     path: "/auth/exam",
     name: "usersExam",
     component: () =>

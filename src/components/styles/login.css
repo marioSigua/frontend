@@ -29,6 +29,8 @@ main {
   display: block;
   margin-top: 12%;
   margin-left: 150px;
+  background-color: rgb(0, 0, 0, 0.3);
+  
 }
 /* nav {
   font-size: 20px;
@@ -120,10 +122,17 @@ img{
 }
 
 .footer{
-  float: right;
-  margin-top: -48%;
-margin-left: -20%;
-  padding: 20px;
+  
+  padding: 10px;
   font-weight: bolder;
   width: 20%;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+}
+
+.loginn{
+padding-top: 60px;
+margin-bottom: 60px;
 }
