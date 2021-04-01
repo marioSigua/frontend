@@ -77,6 +77,7 @@ export default new Vuex.Store({
 
             profSubjects(state, payload) {
                   state.subjectList = payload
+                  console.log(state.subjectList)
             },
 
             remove_cookie(state) {
@@ -170,6 +171,25 @@ export default new Vuex.Store({
                         )
 
                         console.log(subjs.data)
+                        if (subjs.status === 200)
+                              commit('profSubjects', subjs.data)
+                  } catch (error) {
+                        console.log(error.response)
+                  }
+            },
+
+            async getEnrolledStudents({ state, commit }) {
+                  try {
+                        const subjs = await axios.get(
+                              `${state.BASE_URL}/enrolled/students`,
+                              {
+                                    headers: {
+                                          Authorization: this.getters
+                                                .isLoggedIn,
+                                    },
+                              }
+                        )
+
                         if (subjs.status === 200)
                               commit('profSubjects', subjs.data)
                   } catch (error) {
