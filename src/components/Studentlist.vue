@@ -75,7 +75,7 @@
                                                             <template
                                                                   #cell(show_details)="row"
                                                             >
-                                                                  <b-row
+                                                                  <b-button
                                                                         size="sm"
                                                                         class="mr-2 mr2btn"
                                                                         @click="
@@ -88,7 +88,7 @@
                                                                                     : 'Show'
                                                                         }}
                                                                         Details
-                                                                  </b-row>
+                                                                  </b-button>
                                                             </template>
 
                                                             <template
