@@ -37,7 +37,7 @@
                   <b-card
                         no-body
                         class="mb-1"
-                        v-for="subj in subjectList"
+                        v-for="(subj, index) in subjectList"
                         :key="subj.subject_code"
                   >
                         <b-card-header
@@ -47,14 +47,14 @@
                         >
                               <b-button
                                     block
-                                    v-b-toggle.accordion-2
                                     variant="info"
+                                    v-b-toggle="'accordion' + index"
                                     >{{ subj.subject_name }}</b-button
                               >
                         </b-card-header>
 
                         <b-collapse
-                              id="accordion-2"
+                              :id="'accordion' + index"
                               accordion="my-accordion"
                               role="tabpanel"
                         >
@@ -75,12 +75,12 @@
                                                             <template
                                                                   #cell(show_details)="row"
                                                             >
-                                                                  <b-button
+                                                                  <b-row
                                                                         size="sm"
+                                                                        class="mr-2 mr2btn"
                                                                         @click="
                                                                               row.toggleDetails
                                                                         "
-                                                                        class="mr-2 mr2btn"
                                                                   >
                                                                         {{
                                                                               row.detailsShowing
@@ -88,7 +88,7 @@
                                                                                     : 'Show'
                                                                         }}
                                                                         Details
-                                                                  </b-button>
+                                                                  </b-row>
                                                             </template>
 
                                                             <template

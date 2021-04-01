@@ -65,9 +65,23 @@ export default {
             }
       },
 
+      methods: {
+            toggleDetails(row) {
+                  if (row._showDetails) {
+                        this.$set(row, '_showDetails', false)
+                  } else {
+                        this.currentItems.forEach((item) => {
+                              this.$set(item, '_showDetails', false)
+                        })
+
+                        this.$nextTick(() => {
+                              this.$set(row, '_showDetails', true)
+                        })
+                  }
+            },
+      },
+
       mounted() {
             this.$store.dispatch('getEnrolledStudents')
-
-            console.log(this.subjectList)
       },
 }
