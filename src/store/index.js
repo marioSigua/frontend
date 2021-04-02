@@ -108,7 +108,6 @@ export default new Vuex.Store({
                               `${state.BASE_URL}/list/subjects`
                         )
 
-                        console.log(subjects.data, 'hahaha')
                         if (subjects.status === 200) {
                               commit('getSubjects', subjects)
                         }

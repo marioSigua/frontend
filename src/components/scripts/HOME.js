@@ -51,8 +51,6 @@ export default {
                               this.initSuggest = false
                         }
                   }
-
-                  console.log(this.autoComplete)
             },
       },
 

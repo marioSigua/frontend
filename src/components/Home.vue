@@ -21,13 +21,10 @@
                                           type="text"
                                           list="subjects"
                                           v-model="searchList"
-                                          @keydown="showSuggest()"
+                                          @input="showSuggest()"
                                     />
 
-                                    <datalist
-                                          v-show="initSuggest"
-                                          id="subjects"
-                                    >
+                                    <datalist id="subjects">
                                           <option
                                                 v-for="subj in autoComplete"
                                                 :key="subj.subject_code"
