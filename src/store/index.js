@@ -77,7 +77,6 @@ export default new Vuex.Store({
 
             profSubjects(state, payload) {
                   state.subjectList = payload
-                  console.log(state.subjectList)
             },
 
             remove_cookie(state) {
@@ -109,6 +108,7 @@ export default new Vuex.Store({
                               `${state.BASE_URL}/list/subjects`
                         )
 
+                        console.log(subjects.data, 'hahaha')
                         if (subjects.status === 200) {
                               commit('getSubjects', subjects)
                         }

@@ -25,9 +25,9 @@
                         <ul class="navbar-nav">
                               <li class="nav-item" href="#">
                                     <a
+                                          aria-disabled="true"
                                           class="nav-link"
                                           aria-current="page"
-                                          href="#"
                                           style="color: white;"
                                           >Lyceum</a
                                     >
@@ -35,9 +35,8 @@
                               <li class="nav-item">
                                     <router-link
                                           class="nav-link"
-                                          href="#"
                                           style="color: white;"
-                                          to="/auth/home"
+                                          to="/auth/professor"
                                           >Home</router-link
                                     >
                               </li>
@@ -46,7 +45,7 @@
                                           class="nav-link"
                                           href="#"
                                           style="color: white;"
-                                          to="/auth/exam"
+                                          to="/auth/professor/exam"
                                           >Exam</router-link
                                     >
                               </li>
@@ -55,8 +54,18 @@
                                           class="nav-link"
                                           href="#"
                                           style="color: white;"
-                                          to="/auth/calculator"
+                                          to="/auth/professor/calculator"
                                           >Calculator</router-link
+                                    >
+                              </li>
+
+                              <li class="nav-item">
+                                    <router-link
+                                          class="nav-link"
+                                          href="#"
+                                          style="color: white;"
+                                          to="/auth/professor/studentlist"
+                                          >Student List</router-link
                                     >
                               </li>
                         </ul>

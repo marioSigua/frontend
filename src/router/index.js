@@ -5,24 +5,6 @@ Vue.use(VueRouter)
 
 const routes = [
       {
-            path: '/auth/Studentlist',
-            name: 'Studentlist',
-            component: () =>
-                  import(
-                        /* webpackChunkName: "Studentlist" */ '../components/Studentlist.vue'
-                  ),
-      },
-
-      {
-            path: '/auth/exam',
-            name: 'usersExam',
-            component: () =>
-                  import(
-                        /* webpackChunkName: "usersExam" */ '../components/Exam.vue'
-                  ),
-      },
-
-      {
             path: '/',
             name: 'usersLogin',
             component: () =>
@@ -74,11 +56,20 @@ const routes = [
                   },
 
                   {
-                        path: 'studentList',
+                        path: 'studentlist',
                         name: 'studentList',
                         component: () =>
                               import(
                                     /* webpackChunkName: "calculator" */ '../components/Studentlist.vue'
+                              ),
+                  },
+
+                  {
+                        path: 'exam',
+                        name: 'usersExam',
+                        component: () =>
+                              import(
+                                    /* webpackChunkName: "usersExam" */ '../components/Exam.vue'
                               ),
                   },
             ],
