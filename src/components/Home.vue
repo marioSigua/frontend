@@ -31,39 +31,43 @@
                                                 >{{ subj.subject_name }}</option
                                           >
                                     </datalist>
-                                    {{ optionVal }}
+
                                     Subject code:
-                                    <input type="text" />
+                                    <input
+                                          type="text"
+                                          :value="
+                                                !foundData
+                                                      ? ''
+                                                      : foundData.subject_code
+                                          "
+                                    />
                               </p>
+
                               <span>
                                     Subject Course:
-                                    <b-form-select
-                                          v-model="selected"
-                                          :options="options"
-                                          class="mb-3 width2"
-                                    >
+                                    <b-form-select class="mb-3 width2">
                                           <!-- This slot appears above the options from 'options' prop -->
                                           <!-- These options will appear after the ones from 'options' prop -->
-                                          <b-form-select-option value="A"
-                                                >BSCpE</b-form-select-option
-                                          >
-                                          <b-form-select-option value="B"
-                                                >BSEE</b-form-select-option
-                                          >
-                                          <b-form-select-option value="A"
-                                                >BSECE</b-form-select-option
-                                          >
-                                          <b-form-select-option value="B"
-                                                >BSIE</b-form-select-option
-                                          >
-                                          <b-form-select-option value="B"
-                                                >BS
-                                                Architecture</b-form-select-option
+                                          <b-form-select-option
+                                                v-for="(subj,
+                                                index) in selected"
+                                                :key="index"
+                                                :value="subj"
+                                                >{{
+                                                      subj
+                                                }}</b-form-select-option
                                           >
                                     </b-form-select>
 
                                     Subject Desc:
-                                    <input type="text" />
+                                    <input
+                                          type="text"
+                                          :value="
+                                                !foundData
+                                                      ? ''
+                                                      : foundData.subject_desc
+                                          "
+                                    />
                               </span>
                               <p>
                                     Subject Semester:

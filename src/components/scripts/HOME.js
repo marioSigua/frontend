@@ -21,6 +21,12 @@ export default {
                                       )
                           })
             },
+
+            foundData() {
+                  return this.autoComplete.find(
+                        (o) => o.subject_name === this.searchList
+                  )
+            },
       },
 
       components: {
@@ -33,7 +39,13 @@ export default {
 
                   options: [],
 
-                  selected: [],
+                  selected: [
+                        'BSCpE',
+                        'BSEE',
+                        'BSECE',
+                        'BSIE',
+                        'BS Architecture',
+                  ],
 
                   searchList: '',
 
@@ -48,7 +60,6 @@ export default {
             showSuggest(e) {
                   let val = e.target.value
 
-                  console.log(e.target.value)
                   if (val) {
                         this.optionVal = val
                   }
