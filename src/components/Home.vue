@@ -21,17 +21,17 @@
                                           type="text"
                                           list="subjects"
                                           v-model="searchList"
-                                          @input="showSuggest()"
+                                          @input="showSuggest"
                                     />
 
                                     <datalist id="subjects">
                                           <option
                                                 v-for="subj in autoComplete"
                                                 :key="subj.subject_code"
-                                                :value="subj.subject_name"
-                                          ></option>
+                                                >{{ subj.subject_name }}</option
+                                          >
                                     </datalist>
-
+                                    {{ optionVal }}
                                     Subject code:
                                     <input type="text" />
                               </p>

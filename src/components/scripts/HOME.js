@@ -36,26 +36,33 @@ export default {
                   selected: [],
 
                   searchList: '',
+
+                  payload: {},
                   sizeChangedBy: null,
+
+                  optionVal: '',
             }
       },
 
       methods: {
-            showSuggest() {
-                  if (!this.searchList) {
-                        this.initSuggest = false
-                  } else {
-                        if (this.autoComplete.length > 0) {
-                              this.initSuggest = true
-                        } else {
-                              this.initSuggest = false
-                        }
+            showSuggest(e) {
+                  let val = e.target.value
+
+                  console.log(e.target.value)
+                  if (val) {
+                        this.optionVal = val
                   }
+                  e.target.value = ''
             },
 
             sendToStudentList(id) {
-                  console.log(id)
                   this.$store.state.openAccordion = id
+            },
+
+            getSubjectValues(obj) {
+                  console.log(obj)
+                  this.payload = { ...obj }
+                  console.log(this.payload)
             },
       },
 

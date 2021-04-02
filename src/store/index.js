@@ -142,7 +142,6 @@ export default new Vuex.Store({
                         )
 
                         if (students.status === 200) {
-                              console.log(students.data)
                               if (students.data.prelim_grade) {
                                     state.calculator.listGrades =
                                           students.data.prelim_grade
