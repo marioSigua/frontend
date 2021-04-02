@@ -37,7 +37,7 @@
                   <b-card
                         no-body
                         class="mb-1"
-                        v-for="(subj, index) in subjectList"
+                        v-for="subj in subjectList"
                         :key="subj.subject_code"
                   >
                         <b-card-header
@@ -48,13 +48,17 @@
                               <b-button
                                     block
                                     variant="info"
-                                    v-b-toggle="'accordion' + index"
+                                    v-b-toggle="'accordion' + subj.subject_code"
                                     >{{ subj.subject_name }}</b-button
                               >
                         </b-card-header>
 
                         <b-collapse
-                              :id="'accordion' + index"
+                              :visible="
+                                    $store.state.openAccordion ===
+                                          subj.subject_code
+                              "
+                              :id="'accordion' + subj.subject_code"
                               accordion="my-accordion"
                               role="tabpanel"
                         >

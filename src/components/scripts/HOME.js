@@ -52,6 +52,11 @@ export default {
                         }
                   }
             },
+
+            sendToStudentList(id) {
+                  console.log(id)
+                  this.$store.state.openAccordion = id
+            },
       },
 
       mounted() {

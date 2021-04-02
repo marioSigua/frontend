@@ -34,6 +34,8 @@ export default new Vuex.Store({
             subjectList: [],
 
             openModal: false,
+
+            openAccordion: '',
       },
 
       getters: {

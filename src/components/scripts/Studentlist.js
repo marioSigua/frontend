@@ -83,5 +83,7 @@ export default {
 
       mounted() {
             this.$store.dispatch('getEnrolledStudents')
+
+            console.log(this.$store.state.openAccordion)
       },
 }
