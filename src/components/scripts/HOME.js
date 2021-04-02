@@ -112,7 +112,6 @@ export default {
                               )
 
                               this.searchList = ''
-                              console.log(this.foundData)
                         }
                   } catch (error) {
                         console.log(error.response)
