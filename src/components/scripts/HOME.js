@@ -37,19 +37,35 @@ export default {
             return {
                   initSuggest: false,
 
-                  options: [],
+                  options: {
+                        semester: ['1st SEMESTER', '2nd SEMESTER'],
+                        course: [
+                              'BSCpE',
+                              'BSEE',
+                              'BSECE',
+                              'BSIE',
+                              'BS Architecture',
+                        ],
 
-                  selected: [
-                        'BSCpE',
-                        'BSEE',
-                        'BSECE',
-                        'BSIE',
-                        'BS Architecture',
-                  ],
+                        year: [
+                              '1st Year',
+                              '2nd Year',
+                              '3rd Year',
+                              '4th Year',
+                              '5th Year',
+                        ],
+                  },
 
                   searchList: '',
 
-                  payload: {},
+                  payload: {
+                        subject_code: '',
+                        subject_course: '',
+                        subject_desc: '',
+                        subject_sem: '',
+                        subject_year: '',
+                  },
+
                   sizeChangedBy: null,
 
                   optionVal: '',
@@ -57,13 +73,12 @@ export default {
       },
 
       methods: {
-            showSuggest(e) {
-                  let val = e.target.value
-
-                  if (val) {
-                        this.optionVal = val
+            sendDispatch() {
+                  if (this.foundData) {
+                        this.patchRequest(this.foundData.subject_code)
+                  } else {
+                        this.patchRequest(this.payload.subject_code)
                   }
-                  e.target.value = ''
             },
 
             sendToStudentList(id) {
@@ -75,6 +90,34 @@ export default {
                   this.payload = { ...obj }
                   console.log(this.payload)
             },
+
+            async patchRequest(subject_code) {
+                  try {
+                        const grade = await this.$axios.patch(
+                              `${this.$store.state.BASE_URL}/add/prof/subjects`,
+                              { subject_code },
+                              {
+                                    headers: {
+                                          Authorization: this.$store.getters
+                                                .isLoggedIn,
+                                    },
+                              }
+                        )
+                        console.log(grade)
+                        if (grade.status === 200) {
+                              this.$store.dispatch('profSubjects')
+
+                              Object.keys(this.payload).forEach(
+                                    (k) => (this.payload[k] = '')
+                              )
+
+                              this.searchList = ''
+                              console.log(this.foundData)
+                        }
+                  } catch (error) {
+                        console.log(error.response)
+                  }
+            },
       },
 
       mounted() {
@@ -83,5 +126,7 @@ export default {
             setTimeout(() => {
                   this.$store.dispatch('getSubjects')
             }, 2000)
+
+            console.log(this.foundData, 'hahahas')
       },
 }
