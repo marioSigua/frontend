@@ -21,6 +21,12 @@ export default {
                                       )
                           })
             },
+
+            foundData() {
+                  return this.autoComplete.find(
+                        (o) => o.subject_name === this.searchList
+                  )
+            },
       },
 
       components: {
@@ -31,28 +37,85 @@ export default {
             return {
                   initSuggest: false,
 
-                  options: [],
+                  options: {
+                        semester: ['1st SEMESTER', '2nd SEMESTER'],
+                        course: [
+                              'BSCpE',
+                              'BSEE',
+                              'BSECE',
+                              'BSIE',
+                              'BS Architecture',
+                        ],
 
-                  selected: [],
+                        year: [
+                              '1st Year',
+                              '2nd Year',
+                              '3rd Year',
+                              '4th Year',
+                              '5th Year',
+                        ],
+                  },
 
                   searchList: '',
+
+                  payload: {
+                        subject_code: '',
+                        subject_course: '',
+                        subject_desc: '',
+                        subject_sem: '',
+                        subject_year: '',
+                  },
+
                   sizeChangedBy: null,
+
+                  optionVal: '',
             }
       },
 
       methods: {
-            showSuggest() {
-                  if (!this.searchList) {
-                        this.initSuggest = false
+            sendDispatch() {
+                  if (this.foundData) {
+                        this.patchRequest(this.foundData.subject_code)
                   } else {
-                        if (this.autoComplete.length > 0) {
-                              this.initSuggest = true
-                        } else {
-                              this.initSuggest = false
-                        }
+                        this.patchRequest(this.payload.subject_code)
                   }
+            },
 
-                  console.log(this.autoComplete)
+            sendToStudentList(id) {
+                  this.$store.state.openAccordion = id
+            },
+
+            getSubjectValues(obj) {
+                  console.log(obj)
+                  this.payload = { ...obj }
+                  console.log(this.payload)
+            },
+
+            async patchRequest(subject_code) {
+                  try {
+                        const grade = await this.$axios.patch(
+                              `${this.$store.state.BASE_URL}/add/prof/subjects`,
+                              { subject_code },
+                              {
+                                    headers: {
+                                          Authorization: this.$store.getters
+                                                .isLoggedIn,
+                                    },
+                              }
+                        )
+                        console.log(grade)
+                        if (grade.status === 200) {
+                              this.$store.dispatch('profSubjects')
+
+                              Object.keys(this.payload).forEach(
+                                    (k) => (this.payload[k] = '')
+                              )
+
+                              this.searchList = ''
+                        }
+                  } catch (error) {
+                        console.log(error.response)
+                  }
             },
       },
 
@@ -62,5 +125,7 @@ export default {
             setTimeout(() => {
                   this.$store.dispatch('getSubjects')
             }, 2000)
+
+            console.log(this.foundData, 'hahahas')
       },
 }

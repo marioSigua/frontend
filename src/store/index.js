@@ -18,7 +18,7 @@ const logout = () => {
 export default new Vuex.Store({
   // object
   state: {
-    BASE_URL: "http://192.168.18.7:5115/api/p1",
+    BASE_URL: "http://192.168.1.12:5115/api/p1",
     access_token: "",
     token_name: "",
     isAuth: false,
@@ -34,6 +34,8 @@ export default new Vuex.Store({
     subjectList: [],
 
     openModal: false,
+
+    openAccordion: "",
   },
 
   getters: {
@@ -106,7 +108,6 @@ export default new Vuex.Store({
       try {
         const subjects = await axios.get(`${state.BASE_URL}/list/subjects`);
 
-        console.log(subjects.data, "hahaha");
         if (subjects.status === 200) {
           commit("getSubjects", subjects);
         }
@@ -139,7 +140,6 @@ export default new Vuex.Store({
         );
 
         if (students.status === 200) {
-          console.log(students.data);
           if (students.data.prelim_grade) {
             state.calculator.listGrades = students.data.prelim_grade;
           } else if (students.data.midterm_grade) {

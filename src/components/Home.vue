@@ -21,102 +21,134 @@
                                           type="text"
                                           list="subjects"
                                           v-model="searchList"
-                                          @keydown="showSuggest()"
                                     />
 
-                                    <datalist
-                                          v-show="initSuggest"
-                                          id="subjects"
-                                    >
+                                    <datalist id="subjects">
                                           <option
                                                 v-for="subj in autoComplete"
                                                 :key="subj.subject_code"
-                                                :value="subj.subject_name"
-                                          ></option>
+                                                >{{ subj.subject_name }}</option
+                                          >
                                     </datalist>
 
                                     Subject code:
-                                    <input type="text" />
+                                    <input
+                                          v-if="!foundData"
+                                          v-model="payload.subject_code"
+                                          type="text"
+                                    />
+                                    <input
+                                          v-else
+                                          :value="
+                                                foundData
+                                                      ? foundData.subject_code
+                                                      : ''
+                                          "
+                                          type="text"
+                                    />
                               </p>
                               <span>
                                     Subject Course:
                                     <b-form-select
-                                          v-model="selected"
-                                          :options="options"
                                           class="mb-3 width2"
+                                          v-model="payload.subject_course"
                                     >
+                                          <b-form-select-option value="">{{
+                                                foundData
+                                                      ? foundData.subject_course
+                                                      : 'Select Course'
+                                          }}</b-form-select-option>
                                           <!-- This slot appears above the options from 'options' prop -->
                                           <!-- These options will appear after the ones from 'options' prop -->
-                                          <b-form-select-option value="A"
-                                                >BSCpE</b-form-select-option
-                                          >
-                                          <b-form-select-option value="B"
-                                                >BSEE</b-form-select-option
-                                          >
-                                          <b-form-select-option value="A"
-                                                >BSECE</b-form-select-option
-                                          >
-                                          <b-form-select-option value="B"
-                                                >BSIE</b-form-select-option
-                                          >
-                                          <b-form-select-option value="B"
-                                                >BS
-                                                Architecture</b-form-select-option
+                                          <b-form-select-option
+                                                v-for="(subj,
+                                                index) in options.course"
+                                                :key="index"
+                                                :value="subj"
+                                                >{{
+                                                      subj
+                                                }}</b-form-select-option
                                           >
                                     </b-form-select>
+                                    {{ payload.subject_course }}
 
                                     Subject Desc:
-                                    <input type="text" />
+
+                                    <input
+                                          v-if="!foundData"
+                                          v-model="payload.subject_desc"
+                                          type="text"
+                                    />
+
+                                    <input
+                                          v-else
+                                          :value="
+                                                foundData
+                                                      ? foundData.subject_desc
+                                                      : ''
+                                          "
+                                          type="text"
+                                    />
                               </span>
                               <p>
                                     Subject Semester:
                                     <b-form-select
-                                          v-model="selected"
-                                          :options="options"
+                                          v-model="payload.subject_sem"
                                           class="mb-3 width"
                                     >
+                                          <b-form-select-option value="">{{
+                                                foundData
+                                                      ? foundData.subject_sem
+                                                      : 'Select Sem'
+                                          }}</b-form-select-option>
                                           <!-- This slot appears above the options from 'options' prop -->
                                           <!-- These options will appear after the ones from 'options' prop -->
-                                          <b-form-select-option value="A"
-                                                >1st
-                                          </b-form-select-option>
-                                          <b-form-select-option value="B"
-                                                >2nd
+                                          <b-form-select-option
+                                                v-for="(sem,
+                                                index) in options.semester"
+                                                :key="index"
+                                                :value="sem"
+                                          >
+                                                {{ sem }}
                                           </b-form-select-option>
                                     </b-form-select>
 
                                     <span>
                                           Subject Year:
                                           <b-form-select
-                                                v-model="selected"
-                                                :options="options"
+                                                v-model="payload.subject_year"
                                                 class="mb-3 width1"
                                           >
+                                                <b-form-select-option
+                                                      value=""
+                                                      >{{
+                                                            foundData
+                                                                  ? foundData.subject_year
+                                                                  : 'Select Year'
+                                                      }}</b-form-select-option
+                                                >
                                                 <!-- This slot appears above the options from 'options' prop -->
                                                 <!-- These options will appear after the ones from 'options' prop -->
-                                                <b-form-select-option value="A"
-                                                      >1st
-                                                      Year</b-form-select-option
+                                                <b-form-select-option
+                                                      v-for="(year,
+                                                      index) in options.year"
+                                                      :key="index"
+                                                      :value="
+                                                            foundData
+                                                                  ? foundData.subject_year
+                                                                  : year
+                                                      "
                                                 >
-                                                <b-form-select-option value="B"
-                                                      >2nd
-                                                      Year</b-form-select-option
-                                                >
-                                                <b-form-select-option value="A"
-                                                      >3rd
-                                                      Year</b-form-select-option
-                                                >
-                                                <b-form-select-option value="B"
-                                                      >4th
-                                                      Year</b-form-select-option
-                                                >
-                                                <b-form-select-option value="B"
-                                                      >5th
-                                                      Year</b-form-select-option
-                                                >
+                                                      {{ year }}
+                                                </b-form-select-option>
                                           </b-form-select>
                                     </span>
-                                    <button class="addbtn">Add</button>
+                                    <button
+                                          class="addbtn"
+                                          @click="sendDispatch()"
+                                    >
+                                          Add
+                                    </button>
                               </p>
                         </b-card>
                   </b-collapse>
@@ -130,11 +162,22 @@
                                     v-for="subj in listSubjs"
                                     :key="subj.subject_code"
                               >
-                                    <div class="subjectbox">
-                                          <h3>{{ subj.subject_name }}</h3>
-                                          <p>{{ subj.subject_code }}</p>
-                                          <p>{{ subj.subject_desc }}</p>
-                                    </div>
+                                    <router-link
+                                          to="/auth/professor/studentlist"
+                                    >
+                                          <div
+                                                class="subjectbox"
+                                                @click="
+                                                      sendToStudentList(
+                                                            subj.subject_code
+                                                      )
+                                                "
+                                          >
+                                                <h3>{{ subj.subject_name }}</h3>
+                                                <p>{{ subj.subject_code }}</p>
+                                                <p>{{ subj.subject_desc }}</p>
+                                          </div>
+                                    </router-link>
                               </div>
 
                               <!-- <div class="col">
