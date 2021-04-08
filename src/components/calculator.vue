@@ -23,7 +23,7 @@
             <div class="container">
               <div class="row row-cols-1">
                 <div class="col">
-                  <h4 style="color: #503918; float: left;">
+                  <h4 style="color: white">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="28"
@@ -83,7 +83,7 @@
         <!--subjects-->
         <div class="col-sm-6" id="Ssubjects">
           <div id="box">
-            <h4 style="color: #503918; float: left;">
+            <h4 style="color: white; float: left;">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="25"
@@ -167,7 +167,7 @@
 
             <div style="padding: 10px;">
               <p style="font-size: 25sp;">
-                <b><u style="color: #685f52;">Calculated Grade</u></b>
+                <b><u style="color:white;">Calculated Grade</u></b>
               </p>
               <p v-if="$store.state.calculator.listGrades">
                 TOTAL GRADE:

@@ -7,3 +7,5 @@ Vue.component("exam-identification", () => import("../examIdentification"));
 Vue.component("exam-mcq", () => import("../examMCQ"));
 
 Vue.component("prompt-modal", () => import("../promptModal"));
+
+Vue.component("navbar", () => import("../navbar"));

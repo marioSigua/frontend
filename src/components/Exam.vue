@@ -1,7 +1,71 @@
 <template>
   <div>
     <navbar />
+    <!--Import Question-->
+    <div>
+      <b-button v-b-modal.modal-xl variant="primary">Import Question</b-button>
+      <!--Accordian-->
+      <b-modal id="modal-xl" size="xl" title="Extra Large Modal">
+          <div class="accordion" role="tablist">
+              <b-card no-body class="mb-1">
+                <b-card-header header-tag="header" class="p-1" role="tab">
+                  <b-button block v-b-toggle.accordion-1 variant="info" class="clsbtn">Subject 1</b-button>
+                </b-card-header>
+                <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+                  <b-card-body>
+                      <!--List of topic-->
+                      <div class="ctn">
+                          <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
+                      </div>
+                       <b-button v-b-toggle="['collapse-a']" class="btnss">Multiple Choice</b-button>
+                       <b-button v-b-toggle="['collapse-b']" class="btnss">Identification</b-button>
+                       <b-button v-b-toggle="['collapse-c']" class="btnss">Essay</b-button>
+                       <b-button v-b-toggle="['collapse-d']" class="btnss">Toggle Collapse A and B</b-button>
+                       <!-- Elements to collapse -->
+                                      <b-collapse id="collapse-a" class="mt-2">
+                                      <b-card>yawa</b-card>
+                                      </b-collapse>
+                                      <b-collapse id="collapse-b" class="mt-2">
+                                          <b-card>bobo ml</b-card>
+                                      </b-collapse>
+                                      <b-collapse id="collapse-c" class="mt-2">
+                                          <b-card>dota malakas</b-card>
+                                      </b-collapse>
+                                      <b-collapse id="collapse-d" class="mt-2">
+                                          <b-card>kaso may bisaya YAWA!</b-card>
+                                      </b-collapse>
+                       <!-- Elements to collapse -->
+                  </b-card-body>
+                </b-collapse>
+              </b-card>
+          
+              <b-card no-body class="mb-1">
+                <b-card-header header-tag="header" class="p-1" role="tab">
+                  <b-button block v-b-toggle.accordion-2 variant="info" class="clsbtn">Subject 2</b-button>
+                </b-card-header>
+                <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
+                  <b-card-body>
+                      <b-card-text>bobo ni w33</b-card-text>
+                  </b-card-body>
+                </b-collapse>
+              </b-card>
+          
+              <b-card no-body class="mb-1">
+                <b-card-header header-tag="header" class="p-1" role="tab">
+                  <b-button block v-b-toggle.accordion-3 variant="info" class="clsbtn">Subject 3</b-button>
+                </b-card-header>
+                <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
+                  <b-card-body>
+                      <b-card-text>Nigma.sumail</b-card-text>
+                  </b-card-body>
+                </b-collapse>
+              </b-card>
+            </div>
+          <!--Accordian-->
+      </b-modal>
 
+    </div>
+    <!--Import Question-->
     <div>
       <select v-model="choiceFilter" @change="letsGo">
         <option value="">Select a Format</option>
@@ -159,3 +223,20 @@ ExamEssay
 <style scoped>
 @import "./styles/Exam.css";
 </style>
+
+<!-- <script>
+  export default {
+  data() {
+    return {
+      selected: null,
+      options: [
+        { value: null, text: 'Please select an option' },
+        { value: 'a', text: 'This is First option' },
+        { value: 'b', text: 'Selected Option' },
+        { value: { C: '3PO' }, text: 'This is an option with object value' },
+        { value: 'd', text: 'This one is disabled', disabled: true }
+      ]
+    }
+  }
+}
+</script> -->
