@@ -32,9 +32,14 @@ tr:hover td{
   color: white;
 }
 
-svg{
 
-  width: 100%;
+.botton{
+  background-color: transparent;
+  border: none;
 }
 
+.bottons{
+  width: 100%;
+  text-align: end;
+}
 
