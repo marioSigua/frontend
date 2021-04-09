@@ -2,7 +2,7 @@
   <div class="ExamType" id="Identification">
     <h2>Identification</h2>
     <div>
-      <label>Question</label>
+      <p>Question</p>
       <textarea
         v-model="identificationValues.question"
         id="IdentAnswer"
@@ -11,7 +11,7 @@
         cols="50"
       ></textarea
       ><br />
-      <label for="Answer">Answer)</label>
+      <label for="Answer">Answer) </label>
       <input
         v-model="identificationValues.student_input"
         type="text"
@@ -27,3 +27,4 @@ export default {
   props: ["identificationValues"],
 };
 </script>
+

@@ -2,8 +2,8 @@
       <div class="">
             <div class="ExamType" id="Essay">
                   <h2>Essay</h2>
-                  <div>
-                        <label>Question</label>
+                  <div class="textset">
+                        <p>Question</p>
                         <textarea
                               v-model="essayValues.question"
                               id="EssAnswer"
@@ -12,11 +12,11 @@
                               cols="50"
                         ></textarea
                         ><br />
-                        <input
+                        <!-- <input
                               v-model="essayValues.student_input"
                               type="Submit"
                               value="submit"
-                        />
+                        /> -->
                   </div>
             </div>
       </div>
@@ -33,3 +33,4 @@
             mounted() {},
       }
 </script>
+

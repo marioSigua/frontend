@@ -115,7 +115,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("getSubjects");
+    this.$store.dispatch("profSubjects");
     console.log(typeof localStorage.getItem("initGrades"));
   },
 };

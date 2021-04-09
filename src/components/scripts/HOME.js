@@ -88,7 +88,6 @@ export default {
             getSubjectValues(obj) {
                   console.log(obj)
                   this.payload = { ...obj }
-                  console.log(this.payload)
             },
 
             async patchRequest(subject_code) {
@@ -103,7 +102,6 @@ export default {
                                     },
                               }
                         )
-                        console.log(grade)
                         if (grade.status === 200) {
                               this.$store.dispatch('profSubjects')
 
@@ -125,7 +123,5 @@ export default {
             setTimeout(() => {
                   this.$store.dispatch('getSubjects')
             }, 2000)
-
-            console.log(this.foundData, 'hahahas')
       },
 }
