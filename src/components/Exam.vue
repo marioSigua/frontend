@@ -148,20 +148,25 @@
 
             <!-- question body -->
 
-            <div class="" v-for="(essay, index) in listEssay" :key="index">
+            <div
+                class=""
+                v-for="(essay, index) in listEssay"
+                :key="'Essay' + index"
+            >
                 <component :is="essay.format" :essayValues="essay"> </component>
             </div>
 
             <div
                 class=""
                 v-for="(identi, index) in listIdentification"
-                :key="index"
+                :key="'identi' + index"
             >
                 <component :is="identi.format" :identificationValues="identi">
                 </component>
             </div>
 
-            <div class="" v-for="(mcq, index) in listMCQ" :key="index">
+            <div class="" v-for="(mcq, index) in listMCQ" :key="'mcq' + index">
+                {{ index }}
                 <component :is="mcq.format" :mcqValues="mcq"> </component>
             </div>
 
