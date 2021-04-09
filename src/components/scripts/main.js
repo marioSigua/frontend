@@ -6,8 +6,7 @@ export default {
 
       computed: {
             selectSubj() {
-                  console.log(this.$store.state.calculator.listSubjects)
-                  return this.$store.state.calculator.listSubjects
+                  return this.$store.state.subjectList
             },
 
             selectTerm() {
@@ -151,7 +150,7 @@ export default {
       },
 
       mounted() {
-            this.$store.dispatch('getSubjects')
+            this.$store.dispatch('profSubjects')
             console.log(typeof localStorage.getItem('initGrades'))
       },
 }

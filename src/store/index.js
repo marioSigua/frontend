@@ -28,7 +28,6 @@ export default new Vuex.Store({
 
             calculator: {
                   listStudents: [],
-                  listSubjects: [],
                   listGrades: '',
             },
 
