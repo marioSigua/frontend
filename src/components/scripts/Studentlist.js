@@ -33,7 +33,7 @@ export default {
           // variant: 'danger'
         },
 
-        "show_details",
+        "grades",
 
         "drop_students",
       ],
@@ -114,7 +114,6 @@ export default {
     getSubjectCode(code) {
       const { subject_code, subject_sem } = code;
       this.subjectInfo = { subject_code, subject_sem };
-      console.log(this.subjectInfo);
     },
 
     checkFormValidity() {
@@ -125,6 +124,7 @@ export default {
 
     resetModal() {
       Object.keys(this.payload).some((k) => (this.payload[k] = ""));
+      this.$bvModal.hide("modal-prevent-closing");
     },
 
     async handleOk(bvModalEvt) {
@@ -141,10 +141,10 @@ export default {
             `${state.BASE_URL}/add/students`,
             sendDispatch
           );
-
+          console.log(postResponse);
           if (postResponse.status === 200) {
             this.$store.dispatch("getEnrolledStudents");
-            this.resetModal;
+            this.resetModal();
           }
         }
         // Trigger submit handler

@@ -5,9 +5,18 @@ export default {
   },
 
   computed: {
+    remarks() {
+      if (this.calculateGrade >= 75) {
+        return "passed";
+      } else if (!this.calculateGrade) {
+        return null;
+      } else {
+        return "failed";
+      }
+    },
+
     selectSubj() {
-      console.log(this.$store.state.calculator.listSubjects);
-      return this.$store.state.calculator.listSubjects;
+      return this.$store.state.subjectList;
     },
 
     selectTerm() {
@@ -15,19 +24,22 @@ export default {
     },
 
     listStudents() {
-      console.log(this.$store.state.calculator.listStudents);
       return this.$store.state.calculator.listStudents;
     },
 
     calculateGrade() {
-      return (this.criterias.totalPoints = (
-        ((this.criterias.quiz / this.criterias.tQuiz) * 50 + 50) *
-          this.criterias.mQuiz +
-        ((this.criterias.exam / this.criterias.tExam) * 50 + 50) *
-          this.criterias.mExam +
-        ((this.criterias.extra / this.criterias.tExtra) * 50 + 50) *
-          this.criterias.mExtra
-      ).toFixed(2));
+      if (Object.values(this.criterias).some((v) => v === "")) {
+        return "";
+      } else {
+        return (
+          ((this.criterias.quiz / this.criterias.tQuiz) * 50 + 50) *
+            this.criterias.mQuiz +
+          ((this.criterias.exam / this.criterias.tExam) * 50 + 50) *
+            this.criterias.mExam +
+          ((this.criterias.extra / this.criterias.tExtra) * 50 + 50) *
+            this.criterias.mExtra
+        ).toFixed(2);
+      }
     },
   },
 
@@ -64,7 +76,6 @@ export default {
         mQuiz: "",
         mExam: "",
         mExtra: "",
-        totalPoints: "",
       },
 
       inpSubject: "",
@@ -74,10 +85,21 @@ export default {
         student_id: "",
         date_created: "",
       },
+
+      previousPrice: null,
     };
   },
 
   methods: {
+    handleInput(e) {
+      let stringValue = e.target.value.toString();
+      let regex = /^\d*(\.\d{1,2})?$/;
+      if (!stringValue.match(regex) && this.criterias.mQuiz !== "") {
+        this.criterias.mQuiz = this.previousPrice;
+      }
+      this.previousPrice = this.criterias.mQuiz;
+    },
+
     newSubject: function(name, code) {
       this.subjects.push({ name, code });
     },
@@ -112,6 +134,10 @@ export default {
 
       this.$store.dispatch("updateGrade", needs);
     },
+  },
+
+  beforeDestroy() {
+    this.$store.commit("getStudents", []);
   },
 
   mounted() {

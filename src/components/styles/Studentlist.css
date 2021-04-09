@@ -27,20 +27,16 @@ body {
 }
 
 tr:hover td {
+  color: white;
   background-color: rgb(107, 81, 51);
 }
-<<<<<<< HEAD
-=======
 
-
-.botton{
+.botton {
   background-color: transparent;
   border: none;
 }
 
-.bottons{
+.bottons {
   width: 100%;
   text-align: end;
 }
-
->>>>>>> 9eb2b8a6df9800b8c2698e9b5cd09faa034b0dd5
