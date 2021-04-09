@@ -88,6 +88,20 @@ export default {
       },
 
       methods: {
+            async dropStudent(student) {
+                  const { state } = this.$store
+                  try {
+                        const deactStudent = await this.$axios.patch(
+                              `${state.BASE_URL}/drop/students`,
+                              student
+                        )
+                        if (deactStudent.status === 200)
+                              this.$store.dispatch('getEnrolledStudents')
+                  } catch (error) {
+                        console.log(error.response)
+                  }
+            },
+
             toggleDetails(row) {
                   console.log(row)
                   if (row._showDetails) {

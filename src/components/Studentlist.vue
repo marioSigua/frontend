@@ -108,7 +108,11 @@
                                                 <div class="Studentlist">
                                                       <b-table
                                                             :items="
-                                                                  subj.students
+                                                                  subj.students.filter(
+                                                                        (v) =>
+                                                                              v.isEnrolled ===
+                                                                              1
+                                                                  )
                                                             "
                                                             :fields="fields"
                                                             striped
@@ -135,9 +139,14 @@
                                                             </template>
 
                                                             <template
-                                                                  #cell(drop_students)
+                                                                  #cell(drop_students)="student"
                                                             >
                                                                   <button
+                                                                        @click="
+                                                                              dropStudent(
+                                                                                    student.item
+                                                                              )
+                                                                        "
                                                                         style="color: rgb(7, 7, 7);"
                                                                   >
                                                                         <svg
