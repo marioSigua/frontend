@@ -3,9 +3,6 @@
             <navbar />
             <!--Import Question-->
             <div>
-                  <b-button v-b-modal.modal-xl variant="primary"
-                        >Import Question</b-button
-                  >
                   <!--Accordian-->
                   <b-modal id="modal-xl" size="xl" title="Extra Large Modal">
                         <div class="accordion" role="tablist">
@@ -36,7 +33,7 @@
                                                             v-model="selected"
                                                             :options="options"
                                                             size="sm"
-                                                            class="mt-3"
+                                                            class="mt-3 dtn"
                                                       ></b-form-select>
                                                 </div>
                                                 <b-button
@@ -163,20 +160,60 @@
             </div>
             <!--Import Question-->
             <div>
-                  <select v-model="choiceFilter" @change="letsGo">
+                  <div>
+                  <!--Type-->
+                  <b-form-select v-model="choiceFilter" :options="options" size="sm" class="mt-3" @change="letsGo"> 
+                  <!-- <select v-model="choiceFilter" @change="letsGo"> -->
                         <option value="">Select a Format</option>
                         <option>Essay</option>
                         <option>Identification</option>
                         <option>Multiple Choice</option>
-                  </select>
+                  <!-- </select> -->
+                  </b-form-select>
 
-                  <select v-model="choicePurpose">
+                  <!--Purpose-->
+                  <b-form-select v-model="choicePurpose" :options="options" size="sm" class="mt-3">  
+                  <!-- <select v-model="choicePurpose"> -->
                         <option value="">Purpose of Form</option>
                         <option>Activity</option>
-                        <option>Exam</option>
+                        <option>Examamination</option>
                         <option>Quiz</option>
-                  </select>
+                  <!-- </select> -->
+                   </b-form-select>
 
+                  <!--Term-->
+                  <b-form-select v-model="choicePurpose" :options="options" size="sm" class="mt-3">  
+                        <option value="">Select Term</option>
+                        <option>Preliminary</option>
+                        <option>Midterm</option>
+                        <option>Final</option>
+                  </b-form-select>
+
+                  
+                <!--Subject-->
+                  <b-form-select v-model="choicePurpose" :options="options" size="sm" class="mt-3">                    
+                        <option value="">Select Subject</option>
+                        <option>Subject1</option>
+                        <option>Subject2</option>
+                        <option>Subject3</option>
+                  </b-form-select>
+
+                  <!-- <b-form-select v-model="choicePurpose" :options="options" size="sm" class="mt-3">                    
+                        <option value="">Select Topic</option>
+                        <option>topic1</option>
+                        <option>topic2</option>
+                        <option>topic3</option>
+                  </b-form-select> -->
+
+                  <!--MODAL BUTTON-->
+                  <b-button v-b-modal.modal-xl variant="primary" class="modbtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1h-2z"/>
+                        <path fill-rule="evenodd" d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+                      </svg> Import Question</b-button>
+                
+                  </div>
+
+                  
                   <!-- question body -->
                   <div
                         class="qBody"

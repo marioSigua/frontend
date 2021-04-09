@@ -2,6 +2,7 @@
       <div class="ExamType" id="Multiple choice">
             <h2>Multiple Choice</h2>
             <div>
+                 
                   <p>Question</p>
                   <textarea
                         v-model="mcqValues.question"
@@ -11,6 +12,8 @@
                         cols="50"
                   ></textarea
                   ><br />
+                  <div>
+                  <input type="radio" name="frequency" checked="checked" class="circle">
                   <label for="A">A) </label>
                   <input
                         v-model="mcqValues.choices.a"
@@ -18,6 +21,9 @@
                         id="A"
                         name="A"
                   /><br />
+                  </div>
+                  <div>
+                  <input type="radio" name="frequency" checked="checked" class="circle">
                   <label for="B">B) </label>
                   <input
                         v-model="mcqValues.choices.b"
@@ -25,6 +31,9 @@
                         id="B"
                         name="B"
                   /><br />
+                  </div>
+                  <div>
+                  <input type="radio" name="frequency" checked="checked" class="circle">
                   <label for="C">C) </label>
                   <input
                         v-model="mcqValues.choices.c"
@@ -32,6 +41,9 @@
                         id="C"
                         name="C"
                   /><br />
+                  </div>
+                  <div>
+                  <input type="radio" name="frequency" checked="checked" class="circle">
                   <label for="D">D) </label>
                   <input
                         v-model="mcqValues.choices.d"
@@ -39,6 +51,7 @@
                         id="D"
                         name="D"
                   /><br />
+                  </div>
             </div>
       </div>
 </template>

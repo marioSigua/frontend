@@ -43,3 +43,6 @@ tr:hover td{
   text-align: end;
 }
 
+label{
+  color: black !important;
+}
