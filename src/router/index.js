@@ -4,7 +4,6 @@ import store from '../store/index'
 Vue.use(VueRouter)
 
 const routes = [
-
       {
             path: '/',
             name: 'usersLogin',
