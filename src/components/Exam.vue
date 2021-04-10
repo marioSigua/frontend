@@ -54,39 +54,29 @@
 
                                     {{ modalTopics }}
                                 </div>
+
                                 <b-button
-                                    v-b-toggle="['collapse-a']"
+                                    v-for="(btn, index) in btnNames"
+                                    :key="index"
+                                    v-b-toggle="[btn + index]"
                                     class="btnss"
-                                    >Multiple Choice</b-button
+                                    >{{ btn }}</b-button
                                 >
-                                <b-button
-                                    v-b-toggle="['collapse-b']"
-                                    class="btnss"
-                                    >Identification</b-button
-                                >
-                                <b-button
-                                    v-b-toggle="['collapse-c']"
-                                    class="btnss"
-                                    >Essay</b-button
-                                >
-                                <b-button
-                                    v-b-toggle="['collapse-d']"
-                                    class="btnss"
-                                    >Toggle Collapse A and B</b-button
-                                >
+
                                 <!-- Elements to collapse -->
-                                <b-collapse id="collapse-a" class="mt-2">
+                                <b-collapse :id="btn + index" class="mt-2">
                                     <b-card>yawa</b-card>
                                 </b-collapse>
-                                <b-collapse id="collapse-b" class="mt-2">
-                                    <b-card>bobo ml</b-card>
-                                </b-collapse>
-                                <b-collapse id="collapse-c" class="mt-2">
-                                    <b-card>dota malakas</b-card>
-                                </b-collapse>
-                                <b-collapse id="collapse-d" class="mt-2">
-                                    <b-card>kaso may bisaya YAWA!</b-card>
-                                </b-collapse>
+                                <!-- <b-collapse id="collapse-b" class="mt-2">
+                                        <b-card>bobo ml</b-card>
+                                    </b-collapse>
+                                    <b-collapse id="collapse-c" class="mt-2">
+                                        <b-card>dota malakas</b-card>
+                                    </b-collapse>
+                                    <b-collapse id="collapse-d" class="mt-2">
+                                        <b-card>kaso may bisaya YAWA!</b-card>
+                                    </b-collapse> -->
+
                                 <!-- Elements to collapse -->
                             </b-card-body>
                         </b-collapse>

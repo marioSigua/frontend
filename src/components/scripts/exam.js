@@ -46,6 +46,8 @@ export default {
             content: [],
 
             questionsValues: [],
+
+            btnNames: ['Multiple Choice', 'Identification', 'Essay'],
         }
     },
 
