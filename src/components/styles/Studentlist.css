@@ -40,3 +40,7 @@ tr:hover td {
   width: 100%;
   text-align: end;
 }
+
+label {
+  color: black !important;
+}
