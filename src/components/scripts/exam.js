@@ -20,18 +20,17 @@ export default {
         },
 
         topics() {
-            console.log(
-                this.questionsValues.length >= 1
-                    ? this.questionsValues[0].questionTopics.map(
-                          ({ question_form }) => JSON.parse(question_form)
-                      )
-                    : []
-            )
-            return this.questionsValues.length >= 1
-                ? this.questionsValues[0].questionTopics.map((subarray) =>
-                      console.log(JSON.parse(subarray.question_form))
+            const list = []
+
+            this.questionsValues.length >= 1
+                ? this.questionsValues[0].questionTopics.map((v) =>
+                      JSON.parse(v.question_form).map((col) => {
+                          list.push(col)
+                      })
                   )
                 : []
+
+            return list.filter((v) => v.type !== 'Essay')
         },
     },
 
@@ -53,7 +52,6 @@ export default {
     methods: {
         async createForm() {
             const { state } = this.$store
-
             try {
                 const saveQuestion = await this.$axios.post(
                     `${state.BASE_URL}/create/form/questions`,
@@ -65,7 +63,7 @@ export default {
                 )
 
                 if (saveQuestion.status === 200) {
-                    console.log(1)
+                    this.content = []
                 }
             } catch (error) {
                 console.log(error.response)
@@ -78,11 +76,9 @@ export default {
                 const questions = await this.$axios.get(
                     `${state.BASE_URL}/exam/question/${subj.subject_code}`
                 )
-                console.log(questions)
 
                 if (questions.status === 200)
-                    console.log(questions.data[0].questionTopics)
-                this.questionsValues = questions.data
+                    this.questionsValues = questions.data
             } catch (error) {
                 console.log(error)
             }
