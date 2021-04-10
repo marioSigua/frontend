@@ -20,6 +20,13 @@ const routes = [
   },
 
   {
+    path: "/haha/exam",
+    name: "examform",
+    component: () =>
+      import(/* webpackChunkName: "usersExam" */ "../components/ExamForm.vue"),
+  },
+
+  {
     path: "/auth/professor",
     component: () =>
       import(/* webpackChunkName: "calculator" */ "../views/index-view.vue"),
