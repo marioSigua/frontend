@@ -145,6 +145,7 @@ input {
 }
 
 .select-students {
+  cursor: pointer;
   background-color: beige;
 }
 
@@ -152,18 +153,18 @@ input {
   background-color: transparent;
 }
 
-::placeholder{
+::placeholder {
   color: #8f8475;
   opacity: 1;
   font-style: italic;
 }
 
-:-ms-input-placeholder{
+:-ms-input-placeholder {
   color: #8f8475;
   font-style: italic;
 }
 
-::-ms-input-placeholder{
+::-ms-input-placeholder {
   color: #8f8475;
   font-style: italic;
 }

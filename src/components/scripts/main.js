@@ -1,156 +1,147 @@
 import nav from '../navbar'
 export default {
-      components: {
-            navbar: nav,
-      },
+    components: {
+        navbar: nav,
+    },
 
-      computed: {
-            selectSubj() {
-                  return this.$store.state.subjectList
-            },
-
-            selectTerm() {
-                  return this.Terms
-            },
-
-            listStudents() {
-                  console.log(this.$store.state.calculator.listStudents)
-                  return this.$store.state.calculator.listStudents
-            },
-
-            calculateGrade() {
-                  return (this.criterias.totalPoints = (
-                        ((this.criterias.quiz / this.criterias.tQuiz) * 50 +
-                              50) *
-                              this.criterias.mQuiz +
-                        ((this.criterias.exam / this.criterias.tExam) * 50 +
-                              50) *
-                              this.criterias.mExam +
-                        ((this.criterias.extra / this.criterias.tExtra) * 50 +
-                              50) *
-                              this.criterias.mExtra
-                  ).toFixed(2))
-            },
-      },
-
-      data: function() {
-            return {
-                  selectStudents: false,
-
-                  currentIndex: '',
-                  selectedTerm: '',
-
-                  selectedSubject: '',
-
-                  selectedStudent: '',
-
-                  subjects: [
-                        {
-                              name: 'Seminars and Fieldtrips',
-                              sCode: 'ENGG521',
-                              students: [
-                                    {
-                                          name: 'Mario Louis Sigua',
-                                          studentID: '2015010237',
-                                    },
-                              ],
-                        },
-                  ],
-
-                  Terms: [
-                        {
-                              name: 'Prelims',
-                              //criterias: [{ quiz: "", exam: "", extra: "", totalGrade: "" }],
-                        },
-                        {
-                              name: 'Midterm',
-                              // criterias: [{ quiz: "", exam: "", extra: "", totalGrade: "" }],
-                        },
-                        {
-                              name: 'Finals',
-                              //criterias: [{ quiz: "", exam: "", extra: "", totalGrade: "" }],
-                        },
-                  ],
-
-                  criterias: {
-                        quiz: '',
-                        exam: '',
-                        extra: '',
-                        tQuiz: '',
-                        tExam: '',
-                        tExtra: '',
-                        mQuiz: '',
-                        mExam: '',
-                        mExtra: '',
-                        totalPoints: '',
-                  },
-
-                  inpSubject: '',
-                  inpCode: '',
-
-                  lists: [],
-
-                  payload: {
-                        student_id: '',
-                        date_created: '',
-                  },
+    computed: {
+        remarks() {
+            if (this.calculateGrade >= 75) {
+                return 'passed'
+            } else if (!this.calculateGrade) {
+                return null
+            } else {
+                return 'failed'
             }
-      },
+        },
 
-      methods: {
-            select: function(category) {
-                  this.lists = category.students
+        selectSubj() {
+            return this.$store.state.subjectList
+        },
+
+        selectTerm() {
+            return this.Terms
+        },
+
+        listStudents() {
+            return this.$store.state.calculator.listStudents
+        },
+
+        calculateGrade() {
+            if (Object.values(this.criterias).some((v) => v === '')) {
+                return ''
+            } else {
+                return (
+                    ((this.criterias.quiz / this.criterias.tQuiz) * 50 + 50) *
+                        this.criterias.mQuiz +
+                    ((this.criterias.exam / this.criterias.tExam) * 50 + 50) *
+                        this.criterias.mExam +
+                    ((this.criterias.extra / this.criterias.tExtra) * 50 + 50) *
+                        this.criterias.mExtra
+                ).toFixed(2)
+            }
+        },
+    },
+
+    data: function() {
+        return {
+            selectStudents: false,
+
+            currentIndex: '',
+            selectedTerm: '',
+
+            selectedSubject: '',
+
+            selectedStudent: '',
+
+            Terms: [
+                {
+                    name: 'Prelims',
+                },
+                {
+                    name: 'Midterm',
+                },
+                {
+                    name: 'Finals',
+                },
+            ],
+
+            criterias: {
+                quiz: '',
+                exam: '',
+                extra: '',
+                tQuiz: '',
+                tExam: '',
+                tExtra: '',
+                mQuiz: '',
+                mExam: '',
+                mExtra: '',
             },
 
-            newSubject: function(name, code) {
-                  this.subjects.push({ name, code })
+            inpSubject: '',
+            inpCode: '',
+
+            payload: {
+                student_id: '',
+                date_created: '',
             },
 
-            getStudentInfo(info) {
-                  this.currentIndex = this.listStudents.indexOf(info)
-                  this.payload.student_id = info.student_id
-                  this.payload.date_created = info.created_at
-            },
+            previousPrice: null,
+        }
+    },
 
-            getSubjectCode(code) {
-                  this.$store.dispatch('getStudents', code)
-            },
+    methods: {
+        handleInput(e) {
+            let stringValue = e.target.value.toString()
+            let regex = /^\d*(\.\d{1,2})?$/
+            if (!stringValue.match(regex) && this.criterias.mQuiz !== '') {
+                this.criterias.mQuiz = this.previousPrice
+            }
+            this.previousPrice = this.criterias.mQuiz
+        },
 
-            getGrades() {
-                  const gradeList = {
-                        student_id: this.payload.student_id,
-                        created_at: this.payload.date_created,
-                        term: this.selectedTerm,
-                        subject_code: this.selectedSubject,
-                  }
+        newSubject: function(name, code) {
+            this.subjects.push({ name, code })
+        },
 
-                  this.$store.dispatch('getStudentGrade', gradeList)
-            },
+        getStudentInfo(info) {
+            this.currentIndex = this.listStudents.indexOf(info)
+            this.payload.student_id = info.student_id
+            this.payload.date_created = info.created_at
+        },
 
-            updateGrade() {
-                  const needs = {
-                        ...this.payload,
-                        term: this.selectedTerm,
-                        totalGrade: this.calculateGrade,
-                  }
+        getSubjectCode(code) {
+            this.$store.dispatch('getStudents', code)
+        },
 
-                  this.$store.dispatch('updateGrade', needs)
-            },
-      },
+        getGrades() {
+            const gradeList = {
+                student_id: this.payload.student_id,
+                created_at: this.payload.date_created,
+                term: this.selectedTerm,
+                subject_code: this.selectedSubject,
+            }
 
-      watch: {
-            selectedSubject: function(subj) {
-                  this.lists = []
-                  this.subjects.map((s) => {
-                        if (s.name == subj) {
-                              this.lists = s.students
-                        }
-                  })
-            },
-      },
+            this.$store.dispatch('getStudentGrade', gradeList)
+        },
 
-      mounted() {
-            this.$store.dispatch('profSubjects')
-            console.log(typeof localStorage.getItem('initGrades'))
-      },
+        updateGrade() {
+            const needs = {
+                ...this.payload,
+                term: this.selectedTerm,
+                totalGrade: this.calculateGrade,
+            }
+
+            this.$store.dispatch('updateGrade', needs)
+        },
+    },
+
+    beforeDestroy() {
+        this.$store.commit('getStudents', [])
+    },
+
+    mounted() {
+        this.$store.dispatch('profSubjects')
+        console.log(typeof localStorage.getItem('initGrades'))
+    },
 }

@@ -99,3 +99,20 @@ input{
 .btnss{
   margin-left: 20px;
 }
+
+.circle{
+  margin-right: 10px;
+}
+
+.custom-select{
+  width: auto;
+}
+
+.modbtn{
+  margin-left: 10px;
+  padding-top: -10px;
+}
+
+.dtn{
+  width: 100%;
+}

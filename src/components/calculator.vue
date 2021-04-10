@@ -2,20 +2,6 @@
   <div>
     <navbar />
 
-    <!-- <header>
-      <ul>
-        <li class="float">
-          <div>
-            <img src="https://i.imgur.com/qO1REGc.png" width="85" height="85" />
-          </div>
-        </li>
-        <li class="float">
-          <h1>Lyceum of Subic Bay</h1>
-          <h4>College of Engineering</h4>
-        </li>
-      </ul>
-    </header> -->
-
     <div class="grid">
       <div class="row">
         <div class="col-sm-6">
@@ -64,19 +50,6 @@
                 </div>
               </div>
             </div>
-            <!-- <h2>Student</h2>
-          
-            <div>
-              <ul
-                class="dabid"
-                v-for="(list, index) in listStudents"
-                :key="index"
-              >
-                <li id="lname" @click="getStudentInfo(list)">
-                  <br />{{ list.firstname + " " + list.lastname }}
-                </li>
-              </ul>
-            </div> -->
           </div>
         </div>
 
@@ -129,39 +102,84 @@
             <div class="container">
               <p>
                 Quiz:
-                <input v-model="criterias.quiz"  placeholder="Enter Quiz Score" />
+                <input
+                  type="number"
+                  @input="handleInput"
+                  v-model.number="criterias.quiz"
+                  placeholder="Enter Quiz Score"
+                />
                 *
-                <input v-model="criterias.mQuiz"  placeholder="0.3"/>
+                <input
+                  type="number"
+                  @input="handleInput"
+                  v-model.number="criterias.mQuiz"
+                  placeholder="0.3"
+                />
               </p>
               <p>
                 Total:
-                <input v-model="criterias.tQuiz"  placeholder="Enter Total Quiz Score"/>
+                <input
+                  type="number"
+                  @input="handleInput"
+                  v-model.number="criterias.tQuiz"
+                  placeholder="Enter Total Quiz Score"
+                />
               </p>
             </div>
 
             <div class="container">
               <p>
                 Exam:
-                <input v-model="criterias.exam"  placeholder="Enter Exam Score"/>
+                <input
+                  type="number"
+                  @input="handleInput"
+                  v-model.number="criterias.exam"
+                  placeholder="Enter Exam Score"
+                />
                 *
-                <input v-model="criterias.mExam"  placeholder="0.6" />
+                <input
+                  type="number"
+                  @input="handleInput"
+                  v-model.number="criterias.mExam"
+                  placeholder="0.6"
+                />
               </p>
               <p>
                 Total:
-                <input v-model="criterias.tExam"  placeholder="Enter Total Exam Score"/>
+                <input
+                  type="number"
+                  @input="handleInput"
+                  v-model.number="criterias.tExam"
+                  placeholder="Enter Total Exam Score"
+                />
               </p>
             </div>
 
             <div class="container">
               <p>
                 Extra:
-                <input v-model="criterias.extra" placeholder="Enter Participation Grade"/>
+                <input
+                  type="number"
+                  @input="handleInput"
+                  v-model.number="criterias.extra"
+                  placeholder="Enter Participation Grade"
+                />
                 *
-                <input v-model="criterias.mExtra" placeholder="0.1" />
+                <input
+                  type="number"
+                  @input="handleInput"
+                  v-model.number="criterias.mExtra"
+                  placeholder="0.1"
+                />
               </p>
               <p>
                 Total:
-                <input v-model="criterias.tExtra" placeholder="Enter Total Participation Grade"/>
+                <input
+                  type="number"
+                  @input="handleInput"
+                  v-model.number="criterias.tExtra"
+                  placeholder="Enter Total Participation Grade"
+                />
               </p>
             </div>
 
@@ -180,22 +198,16 @@
               </p>
               <p>
                 REMARKS:
-                <input type="text" id="remark" value="" />
+                <input :value="remarks" />
               </p>
             </div>
             <div>
-              <!-- <button  type="button" class="btn" @click="updateGrade">
-                Save
-              </button>
-              <button type="button" class="btn" style="margin: 10px;">
-                Edit
-              </button> -->
               <button
                 type="button"
                 class="btn btn-secondary"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-              
+                @click="updateGrade"
               >
                 SAVE
               </button>
@@ -204,7 +216,6 @@
                 class="btn btn-secondary"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-        
                 style="margin: 10px;"
               >
                 EDIT
