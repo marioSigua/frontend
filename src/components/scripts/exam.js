@@ -41,6 +41,8 @@ export default {
             choiceTerm: '',
             choiceSubj: '',
 
+            topicValue: {},
+
             modalTopics: '',
             //question body
             content: [],
@@ -130,6 +132,11 @@ export default {
             }
 
             this.choiceFilter = ''
+        },
+
+        getTopicValue(val) {
+            this.topicValue = { ...val }
+            console.log(this.topicValue)
         },
     },
 

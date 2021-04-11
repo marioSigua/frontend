@@ -43,6 +43,7 @@
                                         v-model="modalTopics"
                                         size="sm"
                                         class="mt-3"
+                                        @change="getTopicValue(modalTopics)"
                                     >
                                         <option value="">Select Term</option>
                                         <option
@@ -50,11 +51,11 @@
                                                 (v) => v.type !== 'Essay'
                                             )"
                                             :key="index"
+                                            :value="v"
                                             >{{ v.topic }}</option
                                         >
                                     </b-form-select>
                                 </div>
-
                                 <b-card-body
                                     class="grid"
                                     v-for="(btn, index) in btnNames"
@@ -67,13 +68,35 @@
 
                                     <!-- Elements to collapse -->
                                     <b-collapse
-                                        :id="btn + index"
+                                        :visible="topicValue.type === btn"
                                         class="mt-2 btnss col"
                                     >
-                                        <b-card>
+                                        <b-card
+                                            v-if="
+                                                Object.values(topicValue)
+                                                    .length > 0
+                                            "
+                                            @click="content.push(topicValue)"
+                                        >
                                             <component
-                                                :is="mcq.format"
-                                                :mcqValues="mcq"
+                                                v-if="
+                                                    topicValue.type ===
+                                                        'Identification'
+                                                "
+                                                :is="topicValue.format"
+                                                :identificationValues="
+                                                    topicValue
+                                                "
+                                            >
+                                            </component>
+
+                                            <component
+                                                v-if="
+                                                    topicValue.type ===
+                                                        'Multiple Choice'
+                                                "
+                                                :is="topicValue.format"
+                                                :mcqValues="topicValue"
                                             >
                                             </component>
                                         </b-card>
