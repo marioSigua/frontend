@@ -79,6 +79,7 @@
                                             @click="content.push(topicValue)"
                                         >
                                             <component
+                                                class="highlight-card"
                                                 v-if="
                                                     topicValue.type ===
                                                         'Identification'
@@ -218,7 +219,6 @@
             </div>
 
             <div
-                class=""
                 v-for="(identi, index) in listIdentification"
                 :key="'identi' + index"
             >
