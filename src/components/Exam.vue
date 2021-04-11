@@ -224,11 +224,32 @@
         </div>
 
         <br />
-        <button @click="createForm()" style="margin-left: 10px">
+        <b-button variant="primary" @click="createForm()" v-b-modal.modal-tall>
+        <!-- <button @click="createForm()" v-b-modal.modal-tall style="margin-left: 10px"> -->
             Create Form
-        </button>
+            <div> 
+                <b-modal id="modal-tall" title="Student List">
+                    <div>
+                    
+                        <b-form-group
+                          label="Select Student"
+                          v-slot="{ ariaDescribedby }"
+                        >
+                          <b-form-checkbox-group
+                            v-model="selected"
+                            :options="options"
+                            :aria-describedby="ariaDescribedby"
+                            name="flavour-2a"
+                            stacked
+                          ></b-form-checkbox-group>
+                        </b-form-group>
+                      </div>
+                </b-modal>
+            </div>
+        </b-button>
+        <!-- </button> -->
 
-        <div
+        <!-- <div
             class="accordion"
             role="tablist"
             style="width: 47%; margin-left: 10px;"
@@ -247,7 +268,7 @@
                 >
                     <b-card-body>
                         <b-card-text>
-                            <!--checklist-->
+                         
                             <div>
                                 <b-form-group
                                     label="Select Students who will recieve"
@@ -258,12 +279,12 @@
                                     ></b-form-checkbox-group>
                                 </b-form-group>
                             </div>
-                            <!--checklist-->
+                          
                         </b-card-text>
                     </b-card-body>
                 </b-collapse>
             </b-card>
-        </div>
+        </div> -->
     </div>
 </template>
 

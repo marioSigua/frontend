@@ -49,6 +49,14 @@ export default {
             questionsValues: [],
 
             btnNames: ['Multiple Choice', 'Identification', 'Essay'],
+
+            selected: [], // Must be an array reference!
+            options: [
+              { text: 'Orange', value: 'orange' },
+              { text: 'Apple', value: 'apple' },
+              { text: 'Pineapple', value: 'pineapple' },
+              { text: 'Grape', value: 'grape' }
+            ]
         }
     },
 

@@ -1,6 +1,7 @@
 <template>
       <div class="">
             <div class="ExamType" id="Essay">
+                 <b-button-close></b-button-close>
                   <h2>Essay</h2>
                   <div class="textset">
                         <p>Question</p>
@@ -18,6 +19,7 @@
                               value="submit"
                         /> -->
                   </div>
+          
             </div>
       </div>
 </template>

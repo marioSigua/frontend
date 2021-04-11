@@ -1,5 +1,6 @@
 <template>
     <div>
+     <b-button-close></b-button-close>
         <div class="Essay">
             <label>Question for essay</label><br>
             <textarea name="" id="" cols="94" rows="1"></textarea>
