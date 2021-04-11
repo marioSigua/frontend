@@ -20,10 +20,10 @@ const routes = [
   },
 
   {
-    path: "/auth/student/exam",
-    name: "EForm",
+    path: "/haha/exam",
+    name: "examform",
     component: () =>
-      import(/* webpackChunkName: "usersLogin" */ "../components/ExamForm.vue"),
+      import(/* webpackChunkName: "usersExam" */ "../components/ExamForm.vue"),
   },
 
   {
@@ -61,7 +61,7 @@ const routes = [
         name: "studentList",
         component: () =>
           import(
-            /* webpackChunkName: "calculator" */ "../components/Studentlist.vue"
+            /* webpackChunkName: "studentList" */ "../components/Studentlist.vue"
           ),
       },
 
