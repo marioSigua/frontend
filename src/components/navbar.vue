@@ -103,9 +103,5 @@
                 this.$store.commit('resetState')
             },
         },
-
-        mounted() {
-            console.log(this.profileState)
-        },
     }
 </script>

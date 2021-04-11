@@ -37,7 +37,6 @@ export default {
     data() {
         return {
             choiceFilter: '',
-            choicePurpose: '',
             choiceTerm: '',
             choiceSubj: '',
 
@@ -56,14 +55,17 @@ export default {
     methods: {
         async createForm() {
             const { state } = this.$store
+            const formBody = {
+                term: this.choiceTerm,
+                subject_code: this.choiceSubj,
+                question_form: JSON.stringify(this.content),
+            }
+            console.log(formBody)
+
             try {
                 const saveQuestion = await this.$axios.post(
                     `${state.BASE_URL}/create/form/questions`,
-                    {
-                        subject_code: this.choiceSubj,
-                        term: this.choiceTerm,
-                        question_form: JSON.stringify(this.content),
-                    }
+                    formBody
                 )
 
                 if (saveQuestion.status === 200) {
@@ -95,7 +97,7 @@ export default {
                         format: 'exam-essay',
                         type: this.choiceFilter,
                         question: '',
-                        student_input: '',
+                        student_answer: '',
                     })
                     break
 
@@ -104,7 +106,7 @@ export default {
                         format: 'exam-identification',
                         type: this.choiceFilter,
                         question: '',
-                        student_input: '',
+                        student_answer: '',
                         form_answer: '',
                         topic: '',
                     })
@@ -115,7 +117,7 @@ export default {
                         format: 'exam-mcq',
                         type: this.choiceFilter,
                         question: '',
-                        student_input: '',
+                        student_answer: '',
                         form_answer: '',
                         topic: '',
                         choices: {
@@ -136,7 +138,6 @@ export default {
 
         getTopicValue(val) {
             this.topicValue = { ...val }
-            console.log(this.topicValue)
         },
     },
 
