@@ -46,27 +46,39 @@
                                     >
                                         <option value="">Select Term</option>
                                         <option
-                                            v-for="(v, index) in topics"
+                                            v-for="(v, index) in topics.filter(
+                                                (v) => v.type !== 'Essay'
+                                            )"
                                             :key="index"
                                             >{{ v.topic }}</option
                                         >
                                     </b-form-select>
-
-                                    {{ modalTopics }}
                                 </div>
 
-                                <b-button
+                                <b-card-body
+                                    class="grid"
                                     v-for="(btn, index) in btnNames"
                                     :key="index"
                                     v-b-toggle="[btn + index]"
-                                    class="btnss"
-                                    >{{ btn }}</b-button
                                 >
+                                    <b-button class="btnss col">{{
+                                        btn
+                                    }}</b-button>
 
-                                <!-- Elements to collapse -->
-                                <b-collapse :id="btn + index" class="mt-2">
-                                    <b-card>yawa</b-card>
-                                </b-collapse>
+                                    <!-- Elements to collapse -->
+                                    <b-collapse
+                                        :id="btn + index"
+                                        class="mt-2 btnss col"
+                                    >
+                                        <b-card>
+                                            <component
+                                                :is="mcq.format"
+                                                :mcqValues="mcq"
+                                            >
+                                            </component>
+                                        </b-card>
+                                    </b-collapse>
+                                </b-card-body>
                                 <!-- <b-collapse id="collapse-b" class="mt-2">
                                         <b-card>bobo ml</b-card>
                                     </b-collapse>

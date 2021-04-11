@@ -30,7 +30,7 @@ export default {
                   )
                 : []
 
-            return list.filter((v) => v.type !== 'Essay')
+            return list
         },
     },
 
