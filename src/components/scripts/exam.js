@@ -19,6 +19,14 @@ export default {
             return this.$store.state.subjectList
         },
 
+        listStudents() {
+            return !this.choiceSubj
+                ? []
+                : this.$store.state.calculator.listStudents.filter(
+                      (v) => v.subject_code === this.choiceSubj
+                  )[0].students
+        },
+
         topics() {
             const list = []
 
@@ -45,18 +53,15 @@ export default {
             modalTopics: '',
             //question body
             content: [],
+            formNumber: 1,
+
+            stdEmail: [],
 
             questionsValues: [],
 
             btnNames: ['Multiple Choice', 'Identification', 'Essay'],
 
             selected: [], // Must be an array reference!
-            options: [
-              { text: 'Orange', value: 'orange' },
-              { text: 'Apple', value: 'apple' },
-              { text: 'Pineapple', value: 'pineapple' },
-              { text: 'Grape', value: 'grape' }
-            ]
         }
     },
 
@@ -67,8 +72,8 @@ export default {
                 term: this.choiceTerm,
                 subject_code: this.choiceSubj,
                 question_form: JSON.stringify(this.content),
+                stdEmail: this.stdEmail,
             }
-            console.log(formBody)
 
             try {
                 const saveQuestion = await this.$axios.post(
@@ -76,11 +81,24 @@ export default {
                     formBody
                 )
 
+                console.log(saveQuestion)
                 if (saveQuestion.status === 200) {
                     this.content = []
+
+                    console.log(1)
+                    this.resetModal
                 }
             } catch (error) {
                 console.log(error.response)
+            }
+        },
+
+        openStudentList(e) {
+            if (!this.choiceSubj) {
+                alert('Please Select a Subject')
+                e.preventDefault()
+            } else {
+                this.$bvModal.show('modal-tall')
             }
         },
 
@@ -98,6 +116,16 @@ export default {
             }
         },
 
+        getTopics(obj) {
+            obj.form_number = this.formNumber
+            this.content.push(obj)
+            this.formNumber++
+        },
+
+        getEmailStudent(email) {
+            console.log(email)
+        },
+
         letsGo() {
             switch (this.choiceFilter) {
                 case 'Essay':
@@ -106,7 +134,9 @@ export default {
                         type: this.choiceFilter,
                         question: '',
                         student_answer: '',
+                        form_number: this.formNumber,
                     })
+                    this.formNumber++
                     break
 
                 case 'Identification':
@@ -117,7 +147,9 @@ export default {
                         student_answer: '',
                         form_answer: '',
                         topic: '',
+                        form_number: this.formNumber,
                     })
+                    this.formNumber++
                     break
 
                 case 'Multiple Choice':
@@ -134,7 +166,9 @@ export default {
                             c: '',
                             d: '',
                         },
+                        form_number: this.formNumber,
                     })
+                    this.formNumber++
                     break
 
                 default:
@@ -147,9 +181,19 @@ export default {
         getTopicValue(val) {
             this.topicValue = { ...val }
         },
+
+        resetModal() {
+            this.$nextTick(() => {
+                this.$bvModal.hide('modal-prevent-closing')
+            })
+        },
     },
 
     mounted() {
         this.$store.dispatch('profSubjects')
+
+        setTimeout(() => {
+            this.$store.dispatch('getEnrolledStudents')
+        }, 2000)
     },
 }

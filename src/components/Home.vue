@@ -135,6 +135,7 @@
                 </b-card>
             </b-collapse>
         </div>
+
         <!--list of subject-->
         <div class="subject">
             <div class="container">
@@ -155,22 +156,6 @@
                             </div>
                         </router-link>
                     </div>
-
-                    <!-- <div class="col">
-            <div class="subjectbox">
-              <h3>Subject name</h3>
-              <p>Subject Code</p>
-              <p>Schedule</p>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="subjectbox">
-              <h3>Subject name</h3>
-              <p>Subject Code</p>
-              <p>Schedule</p>
-            </div>
-          </div> -->
                 </div>
             </div>
         </div>

@@ -61,17 +61,10 @@
                                 <h2>Student List</h2>
 
                                 <div class="Studentlist">
-                                    <!-- <b-table
-                    :items="subj.students"
-                    :fields="fields"
-                    striped
-                    hover
-                    responsive="sm"
-                  > -->
                                     <b-table
                                         :items="
                                             subj.students.filter(
-                                                (v) => v.isEnrolled === 1
+                                                (v) => v.isDropped === 0
                                             )
                                         "
                                         :fields="fields"

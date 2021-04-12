@@ -43,7 +43,6 @@ body {
     font-family: sans-serif;
     margin: 0%;
     padding: 0%;
-    background-color: white;
 }
 
 .textset {
@@ -123,6 +122,6 @@ input {
     width: 100%;
 }
 
-span{
+span {
     color: black !important;
 }

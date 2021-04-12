@@ -76,7 +76,7 @@
                                                 Object.values(topicValue)
                                                     .length > 0
                                             "
-                                            @click="content.push(topicValue)"
+                                            @click="getTopics(topicValue)"
                                         >
                                             <component
                                                 class="highlight-card"
@@ -103,62 +103,9 @@
                                         </b-card>
                                     </b-collapse>
                                 </b-card-body>
-                                <!-- <b-collapse id="collapse-b" class="mt-2">
-                                        <b-card>bobo ml</b-card>
-                                    </b-collapse>
-                                    <b-collapse id="collapse-c" class="mt-2">
-                                        <b-card>dota malakas</b-card>
-                                    </b-collapse>
-                                    <b-collapse id="collapse-d" class="mt-2">
-                                        <b-card>kaso may bisaya YAWA!</b-card>
-                                    </b-collapse> -->
-
-                                <!-- Elements to collapse -->
                             </b-card-body>
                         </b-collapse>
                     </b-card>
-
-                    <!-- <b-card no-body class="mb-1">
-            <b-card-header header-tag="header" class="p-1" role="tab">
-              <b-button
-                block
-                v-b-toggle.accordion-2
-                variant="info"
-                class="clsbtn"
-                >Subject 2</b-button
-              >
-            </b-card-header>
-            <b-collapse
-              id="accordion-2"
-              accordion="my-accordion"
-              role="tabpanel"
-            >
-              <b-card-body>
-                <b-card-text>bobo ni w33</b-card-text>
-              </b-card-body>
-            </b-collapse>
-          </b-card>
-
-          <b-card no-body class="mb-1">
-            <b-card-header header-tag="header" class="p-1" role="tab">
-              <b-button
-                block
-                v-b-toggle.accordion-3
-                variant="info"
-                class="clsbtn"
-                >Subject 3</b-button
-              >
-            </b-card-header>
-            <b-collapse
-              id="accordion-3"
-              accordion="my-accordion"
-              role="tabpanel"
-            >
-              <b-card-body>
-                <b-card-text>Nigma.sumail</b-card-text>
-              </b-card-body>
-            </b-collapse>
-          </b-card> -->
                 </div>
                 <!--Accordian-->
             </b-modal>
@@ -224,67 +171,47 @@
         </div>
 
         <br />
-        <b-button variant="primary" @click="createForm()" v-b-modal.modal-tall>
-        <!-- <button @click="createForm()" v-b-modal.modal-tall style="margin-left: 10px"> -->
+        <b-button variant="primary" @click="openStudentList">
+            <!-- <button @click="createForm()" v-b-modal.modal-tall style="margin-left: 10px"> -->
             Create Form
-            <div> 
-                <b-modal id="modal-tall" title="Student List">
+            <div>
+                <b-modal
+                    @show="resetModal"
+                    @hidden="resetModal"
+                    @ok="createForm"
+                    id="modal-tall"
+                    title="Student List"
+                >
                     <div>
-                    
                         <b-form-group
-                          label="Select Student"
-                          v-slot="{ ariaDescribedby }"
+                            @submit.stop.prevent="createForm"
+                            label="Select Student"
+                            v-slot="{ ariaDescribedby }"
                         >
-                          <b-form-checkbox-group
-                            v-model="selected"
-                            :options="options"
-                            :aria-describedby="ariaDescribedby"
-                            name="flavour-2a"
-                            stacked
-                          ></b-form-checkbox-group>
+                            <b-form-checkbox-group
+                                v-model="stdEmail"
+                                :aria-describedby="ariaDescribedby"
+                                name="flavour-2a"
+                                stacked
+                            >
+                                <b-form-checkbox
+                                    v-for="student in listStudents"
+                                    :key="student.student_id"
+                                    :value="student.student_email"
+                                    >{{
+                                        student.student_id +
+                                            ' ' +
+                                            student.firstname
+                                    }}</b-form-checkbox
+                                ></b-form-checkbox-group
+                            >
                         </b-form-group>
-                      </div>
+
+                        {{ stdEmail }}
+                    </div>
                 </b-modal>
             </div>
         </b-button>
-        <!-- </button> -->
-
-        <!-- <div
-            class="accordion"
-            role="tablist"
-            style="width: 47%; margin-left: 10px;"
-        >
-            <b-card no-body class="mb-1">
-                <b-card-header header-tag="header" class="p-1" role="tab">
-                    <b-button block v-b-toggle.accordion-1 variant="info"
-                        >Student List</b-button
-                    >
-                </b-card-header>
-                <b-collapse
-                    id="accordion-1"
-                    visible
-                    accordion="my-accordion"
-                    role="tabpanel"
-                >
-                    <b-card-body>
-                        <b-card-text>
-                         
-                            <div>
-                                <b-form-group
-                                    label="Select Students who will recieve"
-                                >
-                                    <b-form-checkbox-group
-                                        name="flavour-2a"
-                                        stacked
-                                    ></b-form-checkbox-group>
-                                </b-form-group>
-                            </div>
-                          
-                        </b-card-text>
-                    </b-card-body>
-                </b-collapse>
-            </b-card>
-        </div> -->
     </div>
 </template>
 

@@ -18,7 +18,7 @@ const logout = () => {
 export default new Vuex.Store({
     // object
     state: {
-        BASE_URL: 'http://192.168.100.4:5115/api/p1',
+        BASE_URL: 'http://192.168.1.12:5115/api/p1',
         access_token: '',
         token_name: '',
         isAuth: false,
@@ -74,7 +74,7 @@ export default new Vuex.Store({
         },
 
         getStudents(state, payload) {
-            state.calculator.listStudents = payload.data
+            state.calculator.listStudents = payload
         },
 
         profSubjects(state, payload) {
@@ -184,7 +184,7 @@ export default new Vuex.Store({
                     }
                 )
 
-                if (subjs.status === 200) commit('profSubjects', subjs.data)
+                if (subjs.status === 200) commit('getStudents', subjs.data)
             } catch (error) {
                 console.log(error.response)
             }
