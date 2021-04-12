@@ -5,7 +5,7 @@
         <div class="grid">
             <div class="row">
                 <div class="col-sm-6">
-                    <div id="sidePanel">
+                    <div class="sidePanel">
                         <div class="container">
                             <div class="row row-cols-1">
                                 <div class="col">
@@ -62,8 +62,8 @@
                 </div>
 
                 <!--subjects-->
-                <div class="col-sm-6" id="Ssubjects">
-                    <div id="box">
+                <div class="col-sm-6 Ssubjects">
+                    <div id="box-container">
                         <h4 style="color: white; float: left;">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +79,7 @@
                             </svg>
                             Calculator
                         </h4>
-                        <div id="sContainer">
+                        <div class="sContainer">
                             <select
                                 name="Subject"
                                 id="subjects"
@@ -97,7 +97,7 @@
                             </select>
                         </div>
 
-                        <div class="container" id="termcontainer">
+                        <div class="container termcontainer">
                             <label for="name">Select Term:</label>
                             <select v-model="selectedTerm" @change="getGrades">
                                 <option value="">Select Term</option>

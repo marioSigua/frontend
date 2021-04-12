@@ -1,46 +1,46 @@
 body {
-  background-image: url(https://i.imgur.com/pS9sP47.jpg);
-  background-size: cover !important;
-  /* background-position: center center; */
-  font-family: sans-serif;
-  margin: 0%;
-  padding: 0%;
+    background-image: url(https://i.imgur.com/pS9sP47.jpg);
+    background-size: cover !important;
+    /* background-position: center center; */
+    font-family: sans-serif;
+    margin: 0%;
+    padding: 0%;
 }
 
 .card {
-  background-color: rgb(0, 0, 0, 0.6);
+    background-color: rgb(0, 0, 0, 0.6);
 }
 
 .btn-info {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
 }
 
 .card-text {
-  color: white;
+    color: white;
 }
 
 .table {
-  color: white;
-  background-color: none;
+    color: white;
+    background-color: none;
 }
 
 tr:hover td {
-  color: white;
-  background-color: rgb(107, 81, 51);
+    color: white;
+    background-color: rgb(107, 81, 51);
 }
 
 .botton {
-  background-color: transparent;
-  border: none;
+    background-color: transparent;
+    border: none;
 }
 
 .bottons {
-  width: 100%;
-  text-align: end;
+    width: 100%;
+    text-align: end;
 }
 
 label {
-  color: black !important;
+    color: black !important;
 }
