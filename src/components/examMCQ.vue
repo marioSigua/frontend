@@ -1,5 +1,6 @@
 <template>
     <div class="ExamType" id="Multiple choice">
+     <b-button-close></b-button-close>
         <h2>Multiple Choice</h2>
         <label for="Topic">Topic: </label>
         <input type="text" v-model="mcqValues.topic" />

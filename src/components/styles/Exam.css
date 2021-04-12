@@ -122,3 +122,7 @@ input {
 .dtn {
     width: 100%;
 }
+
+span{
+    color: black !important;
+}

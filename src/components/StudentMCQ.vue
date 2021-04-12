@@ -1,5 +1,6 @@
 <template>
     <div class="MCQ">
+     <b-button-close></b-button-close>
         <div class="ui form">
          <div class="grouped fields">
            <label style="font-size: 20px">Sino and pinaka YAWA sa apat?</label>
