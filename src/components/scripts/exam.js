@@ -127,10 +127,6 @@ export default {
             }
         },
 
-        getEmailStudent(email) {
-            console.log(email)
-        },
-
         letsGo() {
             let d = new Date().getTime()
             switch (this.choiceFilter) {
