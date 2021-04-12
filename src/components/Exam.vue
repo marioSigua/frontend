@@ -3,9 +3,9 @@
         <navbar />
         <!--Import Question-->
         <div>
-            <b-button v-b-modal.modal-xl variant="primary"
+            <!-- <b-button v-b-modal.modal-xl variant="primary"
                 >Import Question</b-button
-            >
+            > -->
             <!--Accordian-->
             <b-modal id="modal-xl" size="xl" title="Extra Large Modal">
                 <div
@@ -199,6 +199,51 @@
                     {{ subj.subject_name }}
                 </option>
             </b-form-select>
+
+            <!--sidebar-->
+                <b-button v-b-toggle.sidebar-right>History</b-button>
+                <b-sidebar id="sidebar-right" title="History" right shadow>
+                  <div class="px-3 py-2">
+                    <div>
+                        <b-form-select v-model="choiceSubj" size="sm" class="mt-3">
+                            <option value="">Select Subject</option>
+                            <option
+                                v-for="(subj, index) in selectSubj"
+                                :key="index"
+                                :value="subj.subject_code"
+                            >
+                                {{ subj.subject_name }}
+                            </option>
+                        </b-form-select>
+                        
+                        <b-list-group>
+                            <b-list-group-item href="#" class="flex-column align-items-start">
+                              <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Subject1</h5>
+                                <small>Date</small>
+                              </div>
+                              <p class="mb-1">
+                                Format
+                              </p>
+                              <p class="mb-1">
+                                term
+                              </p>
+                              <p class="mb-1">
+                                topic
+                              </p>
+                              <small>Description</small>
+                            </b-list-group-item>
+                          
+                          </b-list-group>
+                    
+                      </div>
+                  </div>
+                </b-sidebar>
+
+
+                <b-button v-b-modal.modal-xl variant="primary"
+                >Import Question</b-button
+            >
         </div>
         <!-- question body -->
 
