@@ -50,7 +50,7 @@
                                             v-for="(v, index) in topics.filter(
                                                 (v) => v.type !== 'Essay'
                                             )"
-                                            :key="index"
+                                            :key="v + index"
                                             :value="v"
                                             >{{ v.topic }}</option
                                         >
@@ -152,21 +152,24 @@
         <div
             class=""
             v-for="(essay, index) in listEssay"
-            :key="'Essay' + index"
+            :key="`${index}-${essay.batch_number}`"
         >
             <component :is="essay.format" :essayValues="essay"> </component>
         </div>
 
         <div
             v-for="(identi, index) in listIdentification"
-            :key="'identi' + index"
+            :key="`${index}-${identi.batch_number}`"
         >
             <component :is="identi.format" :identificationValues="identi">
             </component>
         </div>
 
-        <div class="" v-for="(mcq, index) in listMCQ" :key="'mcq' + index">
-            {{ index }}
+        <div
+            class=""
+            v-for="(mcq, index) in listMCQ"
+            :key="`${index}-${mcq.batch_number}`"
+        >
             <component :is="mcq.format" :mcqValues="mcq"> </component>
         </div>
 

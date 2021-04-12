@@ -1,3 +1,4 @@
+import { setTimeout } from 'core-js'
 import Navbar from '../navbar.vue'
 export default {
     components: { Navbar },
@@ -117,9 +118,13 @@ export default {
         },
 
         getTopics(obj) {
-            obj.form_number = this.formNumber
-            this.content.push(obj)
-            this.formNumber++
+            let d = new Date().getTime()
+            obj['batch_number'] = d
+            if (this.content.includes(obj)) {
+                alert('topic is already added')
+            } else {
+                this.content.push(obj)
+            }
         },
 
         getEmailStudent(email) {
@@ -127,6 +132,7 @@ export default {
         },
 
         letsGo() {
+            let d = new Date().getTime()
             switch (this.choiceFilter) {
                 case 'Essay':
                     this.content.push({
@@ -134,9 +140,8 @@ export default {
                         type: this.choiceFilter,
                         question: '',
                         student_answer: '',
-                        form_number: this.formNumber,
+                        batch_number: d,
                     })
-                    this.formNumber++
                     break
 
                 case 'Identification':
@@ -147,9 +152,8 @@ export default {
                         student_answer: '',
                         form_answer: '',
                         topic: '',
-                        form_number: this.formNumber,
+                        batch_number: d,
                     })
-                    this.formNumber++
                     break
 
                 case 'Multiple Choice':
@@ -166,9 +170,8 @@ export default {
                             c: '',
                             d: '',
                         },
-                        form_number: this.formNumber,
+                        batch_number: d,
                     })
-                    this.formNumber++
                     break
 
                 default:

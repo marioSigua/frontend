@@ -1,6 +1,6 @@
 <template>
     <div class="ExamType" id="Identification">
-     <b-button-close></b-button-close>
+        <b-button-close></b-button-close>
         <h2>Identification</h2>
         <label for="Topic">Topic: </label>
         <input type="text" v-model="identificationValues.topic" />
@@ -14,7 +14,7 @@
             ><br />
             <label for="Answer">Answer </label>
             <input
-                v-model="identificationValues.student_input"
+                v-model="identificationValues.form_answer"
                 type="text"
             /><br /><br />
         </div>
