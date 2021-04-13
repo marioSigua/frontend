@@ -30,26 +30,75 @@ xam<template>
                preventCopy(e) {
                     return e
                },
+
+               wrapText: function(context, text, x, y, maxWidth, lineHeight) {
+                    var words = text
+                    var line = ''
+                    for (var n = 0; n < words.length; n++) {
+                         var testLine = line + words[n] + ' '
+                         var metrics = context.measureText(testLine)
+
+                         var testWidth = metrics.width
+                         if (testWidth > maxWidth && n > 0) {
+                              context.fillText(line, x, y)
+                              line = words[n] + ' '
+                              y += lineHeight
+                         } else {
+                              line = testLine
+                         }
+                    }
+                    context.fillText(line, x, y)
+               },
+
+               fragmentText: function(text, maxWidth, ctx) {
+                    var words = text.split(' '),
+                         lines = [],
+                         line = ''
+                    if (ctx.measureText(text).width < maxWidth) {
+                         return [text]
+                    }
+                    while (words.length > 0) {
+                         while (ctx.measureText(words[0]).width >= maxWidth) {
+                              var tmp = words[0]
+                              words[0] = tmp.slice(0, -1)
+                              if (words.length > 1) {
+                                   words[1] = tmp.slice(-1) + words[1]
+                              } else {
+                                   words.push(tmp.slice(-1))
+                              }
+                         }
+                         if (
+                              ctx.measureText(line + words[0]).width < maxWidth
+                         ) {
+                              line += words.shift() + ' '
+                         } else {
+                              lines.push(line)
+                              line = ''
+                         }
+                         if (words.length === 0) {
+                              lines.push(line)
+                         }
+                    }
+                    return lines
+               },
           },
 
           mounted() {
                var canvas = document.createElement('canvas')
-
-               canvas.width = 1000
-               canvas.height = 200
-               let lineHeight = 30
                var ctx = canvas.getContext('2d')
-               ctx.font = '30px Arial'
-               var text = this.identi.question
-               let lines = text.split('\n')
-               console.log(lines)
+               canvas.width = 600
+               canvas.height = 250
+
+               // //spacing between words in row
+               let lineHeight = 30
+               ctx.font = '16px Arial'
+
+               let lines = this.fragmentText(this.identi.question, 500, ctx)
                for (let i = 0; i < lines.length; i++) {
                     ctx.fillText(lines[i] + '\n', 10, 20 + i * lineHeight)
                }
 
-               var img = document.createElement('img')
-               img.src = canvas.toDataURL()
-               this.imgUrl = img.src
+               this.imgUrl = canvas.toDataURL()
           },
      }
 </script>

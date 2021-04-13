@@ -7,7 +7,6 @@
           <div>
                <p>Question</p>
                <textarea
-                    @input="addNewLine"
                     v-model="identificationValues.question"
                     rows="4"
                     cols="50"
