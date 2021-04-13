@@ -86,7 +86,6 @@ export default {
                 if (saveQuestion.status === 200) {
                     this.content = []
 
-                    console.log(1)
                     this.resetModal
                 }
             } catch (error) {
