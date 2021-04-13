@@ -31,25 +31,6 @@ xam<template>
                     return e
                },
 
-               wrapText: function(context, text, x, y, maxWidth, lineHeight) {
-                    var words = text
-                    var line = ''
-                    for (var n = 0; n < words.length; n++) {
-                         var testLine = line + words[n] + ' '
-                         var metrics = context.measureText(testLine)
-
-                         var testWidth = metrics.width
-                         if (testWidth > maxWidth && n > 0) {
-                              context.fillText(line, x, y)
-                              line = words[n] + ' '
-                              y += lineHeight
-                         } else {
-                              line = testLine
-                         }
-                    }
-                    context.fillText(line, x, y)
-               },
-
                fragmentText: function(text, maxWidth, ctx) {
                     var words = text.split(' '),
                          lines = [],
@@ -86,8 +67,9 @@ xam<template>
           mounted() {
                var canvas = document.createElement('canvas')
                var ctx = canvas.getContext('2d')
+
                canvas.width = 600
-               canvas.height = 250
+               canvas.height = 500
 
                // //spacing between words in row
                let lineHeight = 30
@@ -95,7 +77,7 @@ xam<template>
 
                let lines = this.fragmentText(this.identi.question, 500, ctx)
                for (let i = 0; i < lines.length; i++) {
-                    ctx.fillText(lines[i] + '\n', 10, 20 + i * lineHeight)
+                    ctx.fillText(lines[i] + '\n', 20, 20 + i * lineHeight)
                }
 
                this.imgUrl = canvas.toDataURL()

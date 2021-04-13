@@ -3,7 +3,8 @@
      border-radius: 10px;
 }
 canvas {
-     border: 1px solid red !important;
+     display: inline-block;
+     background-color: #fff;
 }
 .Eform {
      background-color: rgb(241, 241, 241);
@@ -59,10 +60,10 @@ body {
      padding-bottom: 20px;
      border-radius: 7px;
      margin-top: 10px;
-     overflow: hidden;
      padding: 15px;
 
-     overflow: auto !important;
+     display: inline-block;
+     overflow: scroll;
 }
 
 .clr {
