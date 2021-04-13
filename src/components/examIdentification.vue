@@ -7,6 +7,7 @@
           <div>
                <p>Question</p>
                <textarea
+                    @input="addNewLine"
                     v-model="identificationValues.question"
                     rows="4"
                     cols="50"
@@ -24,5 +25,20 @@
 <script>
      export default {
           props: ['identificationValues'],
+
+          methods: {
+               addNewLine() {
+                    let splitQuestion = this.identificationValues.question.split(
+                         ' '
+                    )
+
+                    if (splitQuestion.length % 12 === 0) {
+                         splitQuestion.push('\n')
+                         this.identificationValues.question = splitQuestion.join(
+                              ' '
+                         )
+                    }
+               },
+          },
      }
 </script>

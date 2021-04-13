@@ -13,8 +13,40 @@
                <input />
           </div>
 
+          ,
+          <div class="" v-for="(quest, index) in questionList" :key="index">
+               <component
+                    v-if="quest.type === 'Identification'"
+                    :key="`${index}-${quest.batch_number}`"
+                    :is="quest.response_name"
+                    :identi="quest"
+               >
+               </component>
+
+               <component
+                    v-if="quest.type === 'Essay'"
+                    :key="`${index}-${quest.batch_number}`"
+                    :is="quest.response_name"
+                    :essay="quest"
+               >
+               </component>
+
+               <component
+                    v-if="quest.type === 'Multiple Choice'"
+                    :key="`${index}-${quest.batch_number}`"
+                    :is="quest.response_name"
+                    :mcq="quest"
+               >
+               </component>
+          </div>
+
           <div class="btnx">
-               <b-button variant="primary" class="submit">Submit</b-button>
+               <b-button
+                    @click="createStudentForm"
+                    variant="primary"
+                    class="submit"
+                    >Submit</b-button
+               >
           </div>
      </div>
 </template>

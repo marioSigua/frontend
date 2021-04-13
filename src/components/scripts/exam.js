@@ -82,7 +82,7 @@ export default {
                          formBody
                     )
 
-                    console.log(saveQuestion)
+                    console.log(formBody)
                     if (saveQuestion.status === 200) {
                          this.content = []
 
@@ -133,6 +133,7 @@ export default {
                          this.content.push({
                               format: 'exam-essay',
                               type: this.choiceFilter,
+                              response_name: 'student-essay',
                               question: '',
                               student_answer: '',
                               batch_number: d,
@@ -144,6 +145,7 @@ export default {
                               format: 'exam-identification',
                               type: this.choiceFilter,
                               question: '',
+                              response_name: 'student-identification',
                               student_answer: '',
                               form_answer: '',
                               topic: '',
@@ -154,6 +156,7 @@ export default {
                     case 'Multiple Choice':
                          this.content.push({
                               format: 'exam-mcq',
+                              response_name: 'student-mcq',
                               type: this.choiceFilter,
                               question: '',
                               student_answer: '',

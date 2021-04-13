@@ -33,6 +33,9 @@ export default new Vuex.Store({
 
           subjectList: [],
 
+          //sa examform to
+          questionList: {},
+
           openModal: false,
 
           openAccordion: '',
@@ -77,6 +80,10 @@ export default new Vuex.Store({
                state.calculator.listStudents = payload
           },
 
+          getQuestion(state, payload) {
+               state.questionList = { ...payload }
+          },
+
           profSubjects(state, payload) {
                state.subjectList = payload
           },
@@ -103,6 +110,22 @@ export default new Vuex.Store({
      // mga functions
      // this.$store.dispatch(nameofact, payload=={})
      actions: {
+          async getQuestion({ commit, state }, payload) {
+               try {
+                    const { status, data } = await axios.get(
+                         `${state.BASE_URL}/student/question/${payload}`
+                    )
+
+                    console.log(status)
+
+                    if (status === 200) {
+                         commit('getQuestion', data)
+                    }
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
+
           //payload = object
           async getSubjects({ commit, state }) {
                try {
