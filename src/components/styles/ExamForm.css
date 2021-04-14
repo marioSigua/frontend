@@ -2,10 +2,7 @@
      width: 100%;
      border-radius: 10px;
 }
-canvas {
-     display: inline-block;
-     background-color: #fff;
-}
+
 .Eform {
      background-color: rgb(241, 241, 241);
      margin-left: 22%;

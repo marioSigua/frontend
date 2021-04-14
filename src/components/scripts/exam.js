@@ -69,20 +69,30 @@ export default {
      methods: {
           async createForm() {
                const { state } = this.$store
-               const formBody = {
-                    term: this.choiceTerm,
-                    subject_code: this.choiceSubj,
-                    question_form: JSON.stringify(this.content),
-                    stdEmail: this.stdEmail,
-               }
+               // const formBody = {
+               //      term: this.choiceTerm,
+               //      subject_code: this.choiceSubj,
+               //      question_form: this.content,
+               //      stdEmail: this.stdEmail,
+               // }
 
+               let formData = new FormData()
+               formData.append('term', this.choiceTerm)
+               formData.append('subject_code', this.choiceSubj)
+               formData.append('question_form', JSON.stringify(this.content))
+               formData.append('stdEmail', JSON.stringify(this.stdEmail))
                try {
                     const saveQuestion = await this.$axios.post(
                          `${state.BASE_URL}/create/form/questions`,
-                         formBody
+                         formData,
+                         {
+                              headers: {
+                                   'content-type': 'multipart/form-data',
+                              },
+                         }
                     )
 
-                    console.log(formBody)
+                    console.log(formData)
                     if (saveQuestion.status === 200) {
                          this.content = []
 

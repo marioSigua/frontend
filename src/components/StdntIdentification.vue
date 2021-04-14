@@ -2,7 +2,7 @@ xam<template>
      <div>
           <b-button-close></b-button-close>
           <div class="Identification">
-               <img :src="imgUrl" alt="" />
+               <img height="500" width="500" :src="imgUrl" alt="" />
                <br />
                <input
                     v-model="identi.student_answer"
@@ -22,7 +22,7 @@ xam<template>
 
           data() {
                return {
-                    imgUrl: '',
+                    imgUrl: null,
                }
           },
 
@@ -31,56 +31,25 @@ xam<template>
                     return e
                },
 
-               fragmentText: function(text, maxWidth, ctx) {
-                    var words = text.split(' '),
-                         lines = [],
-                         line = ''
-                    if (ctx.measureText(text).width < maxWidth) {
-                         return [text]
-                    }
-                    while (words.length > 0) {
-                         while (ctx.measureText(words[0]).width >= maxWidth) {
-                              var tmp = words[0]
-                              words[0] = tmp.slice(0, -1)
-                              if (words.length > 1) {
-                                   words[1] = tmp.slice(-1) + words[1]
-                              } else {
-                                   words.push(tmp.slice(-1))
-                              }
-                         }
-                         if (
-                              ctx.measureText(line + words[0]).width < maxWidth
-                         ) {
-                              line += words.shift() + ' '
-                         } else {
-                              lines.push(line)
-                              line = ''
-                         }
-                         if (words.length === 0) {
-                              lines.push(line)
-                         }
-                    }
-                    return lines
+               encodeBase64(file) {
+                    return new Promise((resolve, reject) => {
+                         const reader = new FileReader()
+                         reader.readAsDataURL(file)
+                         reader.onload = () => resolve(reader.result)
+                         reader.onerror = (error) => reject(error)
+                    })
+               },
+
+               imageToDataURL: function(image) {
+                    const canvas = document.createElement('canvas')
+                    const context = canvas.getContext('2d')
+                    context.drawImage(image, image.width, image.height)
+                    return canvas.toDataURL('image/png')
                },
           },
 
-          mounted() {
-               var canvas = document.createElement('canvas')
-               var ctx = canvas.getContext('2d')
-
-               canvas.width = 600
-               canvas.height = 500
-
-               // //spacing between words in row
-               let lineHeight = 30
-               ctx.font = '16px Arial'
-
-               let lines = this.fragmentText(this.identi.question, 500, ctx)
-               for (let i = 0; i < lines.length; i++) {
-                    ctx.fillText(lines[i] + '\n', 20, 20 + i * lineHeight)
-               }
-
-               this.imgUrl = canvas.toDataURL()
+          async mounted() {
+               this.imgUrl = this.identi.question
           },
      }
 </script>
