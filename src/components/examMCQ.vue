@@ -127,6 +127,8 @@
                          this.mcqValues.question_image,
                          'base64'
                     )
+               } else {
+                    this.imgResponse = 'https://i.imgur.com/SbAMcxP.png'
                }
           },
      }

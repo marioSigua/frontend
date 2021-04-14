@@ -1,14 +1,55 @@
 export default {
      computed: {
           questionList() {
-               const { question_form } = this.$store.state.questionList
-               return question_form ? JSON.parse(question_form) : []
+               return this.$store.state.questionList
           },
      },
 
+     data() {
+          return {
+               student_id: '',
+               fname: '',
+               lname: '',
+          }
+     },
+
      methods: {
-          createStudentForm() {
-               console.log(this.questionList)
+          async createStudentForm() {
+               const { state } = this.$store
+               const dispatch = this.questionList.map((k) => {
+                    //aayusin ko pa
+                    delete k.question_image
+                    delete k.question_text
+                    delete k.choices
+                    delete k.form_answer
+                    delete k.created_at
+                    delete k.updated_at
+                    delete k.topic
+                    delete k.term
+                    delete k.format
+                    delete k.type
+                    delete k.question_id
+
+                    return {
+                         student_answer: k.student_answer,
+                         firstname: this.fname,
+                         lastname: this.lname,
+                         student_id: this.student_id,
+                         batch_number: k.batch_number,
+                         form_number: k.form_number,
+                         subject_code: k.subject_code,
+                    }
+               })
+               try {
+                    const isSuccess = await this.$axios.post(
+                         `${state.BASE_URL}/student/response`,
+                         { questionList: dispatch }
+                    )
+
+                    if (isSuccess.status === 200) console.log(1)
+               } catch (error) {
+                    console.log(error.response)
+               }
           },
      },
 
@@ -19,9 +60,9 @@ export default {
                console.log(this.questionList)
           }, 2000)
 
-          document.addEventListener('contextmenu', function(e) {
-               e.preventDefault()
-          })
+          // document.addEventListener('contextmenu', function(e) {
+          //      e.preventDefault()
+          // })
 
           // document.addEventListener('keydown', function(e) {
           //      e.preventDefault()

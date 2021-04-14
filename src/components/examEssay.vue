@@ -83,6 +83,8 @@
                     this.imgResponse = await this.encodeBase64(
                          this.essayValues.question_image
                     )
+               } else {
+                    this.imgResponse = 'https://i.imgur.com/SbAMcxP.png'
                }
           },
      }

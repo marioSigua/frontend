@@ -16,7 +16,7 @@
                     class="is-rounded"
                     height="300"
                     width="300"
-                    :src="imgUrl ? imgUrl : 'https://i.imgur.com/bCOd9N0.jpg'"
+                    :src="imgUrl ? imgUrl : imgResponse"
                     alt="Placeholder image"
                     @click="$refs.file.click()"
                />
@@ -102,6 +102,8 @@
                          this.identificationValues.question_image,
                          'base64'
                     )
+               } else {
+                    this.imgResponse = 'https://i.imgur.com/SbAMcxP.png'
                }
           },
      }

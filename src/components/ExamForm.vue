@@ -7,10 +7,13 @@
           </div>
           <div class="Term">
                <div class="Info"></div>
+               <label for="text">Student ID:</label>
+               <input v-model="student_id" />
+               <div class="Info"></div>
                <label for="text">First Name:</label>
-               <input />
+               <input v-model="fname" />
                <label for="text">Last Name:</label>
-               <input />
+               <input v-model="lname" />
           </div>
 
           ,
@@ -18,7 +21,7 @@
                <component
                     v-if="quest.type === 'Identification'"
                     :key="`${index}-${quest.batch_number}`"
-                    :is="quest.response_name"
+                    :is="quest.format.replace('exam', 'student')"
                     :identi="quest"
                >
                </component>
@@ -26,7 +29,7 @@
                <component
                     v-if="quest.type === 'Essay'"
                     :key="`${index}-${quest.batch_number}`"
-                    :is="quest.response_name"
+                    :is="quest.format.replace('exam', 'student')"
                     :essay="quest"
                >
                </component>
@@ -34,7 +37,7 @@
                <component
                     v-if="quest.type === 'Multiple Choice'"
                     :key="`${index}-${quest.batch_number}`"
-                    :is="quest.response_name"
+                    :is="quest.format.replace('exam', 'student')"
                     :mcq="quest"
                >
                </component>

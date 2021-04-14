@@ -2,7 +2,7 @@
      <div>
           <b-button-close></b-button-close>
           <div class="Essay unselected">
-               <img :src="imgurl" alt="" />
+               <img :src="imgurl" height="300" width="300" alt="" />
                <br />
                <textarea
                     @keydown="preventCopy"
@@ -34,18 +34,12 @@
           },
 
           mounted() {
-               var canvas = document.createElement('canvas')
-               canvas.width = 620
-               canvas.height = 80
-               var ctx = canvas.getContext('2d')
-               ctx.font = '30px Arial'
-               var text = this.essay.question
-               ctx.fillText(text, 10, 50)
-               var img = document.createElement('img')
-               img.src = canvas.toDataURL()
-               this.imgurl = img.src
-
-               //$("body").append(canvas);
+               if (this.essay.question_image) {
+                    this.imgurl = new Buffer.from(
+                         this.essay.question_image,
+                         'base64'
+                    )
+               }
           },
      }
 </script>

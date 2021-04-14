@@ -34,7 +34,7 @@ export default new Vuex.Store({
           subjectList: [],
 
           //sa examform to
-          questionList: {},
+          questionList: [],
 
           openModal: false,
 
@@ -81,7 +81,7 @@ export default new Vuex.Store({
           },
 
           getQuestion(state, payload) {
-               state.questionList = { ...payload }
+               state.questionList = payload
           },
 
           profSubjects(state, payload) {
@@ -116,11 +116,11 @@ export default new Vuex.Store({
                          `${state.BASE_URL}/student/question/${payload}`
                     )
 
-                    console.log(status)
-
                     if (status === 200) {
                          commit('getQuestion', data)
                     }
+
+                    console.log(data)
                } catch (error) {
                     console.log(error.response)
                }
