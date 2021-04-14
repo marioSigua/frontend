@@ -1,155 +1,210 @@
+import { setTimeout } from 'core-js'
 import Navbar from '../navbar.vue'
 export default {
-    components: { Navbar },
+     components: { Navbar },
 
-    computed: {
-        listEssay() {
-            return this.content.filter((v) => v.type === 'Essay')
-        },
+     computed: {
+          listEssay() {
+               return this.content.filter((v) => v.type === 'Essay')
+          },
 
-        listIdentification() {
-            return this.content.filter((v) => v.type === 'Identification')
-        },
+          listIdentification() {
+               return this.content.filter((v) => v.type === 'Identification')
+          },
 
-        listMCQ() {
-            return this.content.filter((v) => v.type === 'Multiple Choice')
-        },
+          listMCQ() {
+               return this.content.filter((v) => v.type === 'Multiple Choice')
+          },
 
-        selectSubj() {
-            return this.$store.state.subjectList
-        },
+          selectSubj() {
+               return this.$store.state.subjectList
+          },
 
-        topics() {
-            const list = []
+          listStudents() {
+               return !this.choiceSubj
+                    ? []
+                    : this.$store.state.calculator.listStudents.filter(
+                           (v) => v.subject_code === this.choiceSubj
+                      )[0].students
+          },
 
-            this.questionsValues.length >= 1
-                ? this.questionsValues[0].questionTopics.map((v) =>
-                      JSON.parse(v.question_form).map((col) => {
-                          list.push(col)
-                      })
-                  )
-                : []
+          topics() {
+               const list = []
 
-            return list
-        },
-    },
+               this.questionsValues.length >= 1
+                    ? this.questionsValues[0].questionTopics.map((v) =>
+                           JSON.parse(v.question_form).map((col) => {
+                                list.push(col)
+                           })
+                      )
+                    : []
 
-    data() {
-        return {
-            choiceFilter: '',
-            choiceTerm: '',
-            choiceSubj: '',
+               return list
+          },
+     },
 
-            topicValue: {},
+     data() {
+          return {
+               choiceFilter: '',
+               choiceTerm: '',
+               choiceSubj: '',
 
-            modalTopics: '',
-            //question body
-            content: [],
+               topicValue: {},
 
-            questionsValues: [],
+               modalTopics: '',
+               //question body
+               content: [],
+               formNumber: 1,
 
-            btnNames: ['Multiple Choice', 'Identification', 'Essay'],
+               stdEmail: [],
 
-            selected: [], // Must be an array reference!
-            options: [
-              { text: 'Orange', value: 'orange' },
-              { text: 'Apple', value: 'apple' },
-              { text: 'Pineapple', value: 'pineapple' },
-              { text: 'Grape', value: 'grape' }
-            ]
-        }
-    },
+               questionsValues: [],
 
-    methods: {
-        async createForm() {
-            const { state } = this.$store
-            const formBody = {
-                term: this.choiceTerm,
-                subject_code: this.choiceSubj,
-                question_form: JSON.stringify(this.content),
-            }
-            console.log(formBody)
+               btnNames: ['Multiple Choice', 'Identification', 'Essay'],
 
-            try {
-                const saveQuestion = await this.$axios.post(
-                    `${state.BASE_URL}/create/form/questions`,
-                    formBody
-                )
+               selected: [], // Must be an array reference!
+          }
+     },
 
-                if (saveQuestion.status === 200) {
-                    this.content = []
-                }
-            } catch (error) {
-                console.log(error.response)
-            }
-        },
+     methods: {
+          async createForm() {
+               const { state } = this.$store
+               // const formBody = {
+               //      term: this.choiceTerm,
+               //      subject_code: this.choiceSubj,
+               //      question_form: this.content,
+               //      stdEmail: this.stdEmail,
+               // }
 
-        async getSubjectCode(subj) {
-            const { state } = this.$store
-            try {
-                const questions = await this.$axios.get(
-                    `${state.BASE_URL}/exam/question/${subj.subject_code}`
-                )
+               let formData = new FormData()
+               formData.append('term', this.choiceTerm)
+               formData.append('subject_code', this.choiceSubj)
+               formData.append('question_form', JSON.stringify(this.content))
+               formData.append('stdEmail', JSON.stringify(this.stdEmail))
+               try {
+                    const saveQuestion = await this.$axios.post(
+                         `${state.BASE_URL}/create/form/questions`,
+                         formData,
+                         {
+                              headers: {
+                                   'content-type': 'multipart/form-data',
+                              },
+                         }
+                    )
 
-                if (questions.status === 200)
-                    this.questionsValues = questions.data
-            } catch (error) {
-                console.log(error)
-            }
-        },
+                    console.log(formData)
+                    if (saveQuestion.status === 200) {
+                         this.content = []
 
-        letsGo() {
-            switch (this.choiceFilter) {
-                case 'Essay':
-                    this.content.push({
-                        format: 'exam-essay',
-                        type: this.choiceFilter,
-                        question: '',
-                        student_answer: '',
-                    })
-                    break
+                         this.resetModal
+                    }
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
 
-                case 'Identification':
-                    this.content.push({
-                        format: 'exam-identification',
-                        type: this.choiceFilter,
-                        question: '',
-                        student_answer: '',
-                        form_answer: '',
-                        topic: '',
-                    })
-                    break
+          openStudentList(e) {
+               if (!this.choiceSubj) {
+                    alert('Please Select a Subject')
+                    e.preventDefault()
+               } else {
+                    this.$bvModal.show('modal-tall')
+               }
+          },
 
-                case 'Multiple Choice':
-                    this.content.push({
-                        format: 'exam-mcq',
-                        type: this.choiceFilter,
-                        question: '',
-                        student_answer: '',
-                        form_answer: '',
-                        topic: '',
-                        choices: {
-                            a: '',
-                            b: '',
-                            c: '',
-                            d: '',
-                        },
-                    })
-                    break
+          async getSubjectCode(subj) {
+               const { state } = this.$store
+               try {
+                    const questions = await this.$axios.get(
+                         `${state.BASE_URL}/exam/question/${subj.subject_code}`
+                    )
 
-                default:
-                    return ''
-            }
+                    if (questions.status === 200)
+                         this.questionsValues = questions.data
+               } catch (error) {
+                    console.log(error)
+               }
+          },
 
-            this.choiceFilter = ''
-        },
+          getTopics(obj) {
+               let d = new Date().getTime()
+               obj['batch_number'] = d
+               if (this.content.includes(obj)) {
+                    alert('topic is already added')
+               } else {
+                    this.content.push(obj)
+               }
+          },
 
-        getTopicValue(val) {
-            this.topicValue = { ...val }
-        },
-    },
+          letsGo() {
+               let d = new Date().getTime()
+               switch (this.choiceFilter) {
+                    case 'Essay':
+                         this.content.push({
+                              format: 'exam-essay',
+                              type: this.choiceFilter,
+                              response_name: 'student-essay',
+                              question: '',
+                              student_answer: '',
+                              batch_number: d,
+                         })
+                         break
 
-    mounted() {
-        this.$store.dispatch('profSubjects')
-    },
+                    case 'Identification':
+                         this.content.push({
+                              format: 'exam-identification',
+                              type: this.choiceFilter,
+                              question: '',
+                              response_name: 'student-identification',
+                              student_answer: '',
+                              form_answer: '',
+                              topic: '',
+                              batch_number: d,
+                         })
+                         break
+
+                    case 'Multiple Choice':
+                         this.content.push({
+                              format: 'exam-mcq',
+                              response_name: 'student-mcq',
+                              type: this.choiceFilter,
+                              question: '',
+                              student_answer: '',
+                              form_answer: '',
+                              topic: '',
+                              choices: {
+                                   a: '',
+                                   b: '',
+                                   c: '',
+                                   d: '',
+                              },
+                              batch_number: d,
+                         })
+                         break
+
+                    default:
+                         return ''
+               }
+
+               this.choiceFilter = ''
+          },
+
+          getTopicValue(val) {
+               this.topicValue = { ...val }
+          },
+
+          resetModal() {
+               this.$nextTick(() => {
+                    this.$bvModal.hide('modal-prevent-closing')
+               })
+          },
+     },
+
+     mounted() {
+          this.$store.dispatch('profSubjects')
+
+          setTimeout(() => {
+               this.$store.dispatch('getEnrolledStudents')
+          }, 2000)
+     },
 }

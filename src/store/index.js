@@ -7,206 +7,233 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 const logout = () => {
-    return {
-        access_token: '',
-        isAuth: false,
-        userProfile: {},
-        token_name: '',
-    }
+     return {
+          access_token: '',
+          isAuth: false,
+          userProfile: {},
+          token_name: '',
+     }
 }
 
 export default new Vuex.Store({
-    // object
-    state: {
-        BASE_URL: 'http://192.168.100.4:5115/api/p1',
-        access_token: '',
-        token_name: '',
-        isAuth: false,
+     // object
+     state: {
+          BASE_URL: 'http://192.168.100.4:5115/api/p1',
+          access_token: '',
+          token_name: '',
+          isAuth: false,
 
-        userProfile: {},
+          userProfile: {},
 
-        calculator: {
-            listStudents: [],
-            listSubjects: [],
-            listGrades: '',
-        },
+          calculator: {
+               listStudents: [],
+               listSubjects: [],
+               listGrades: '',
+          },
 
-        subjectList: [],
+          subjectList: [],
 
-        openModal: false,
+          //sa examform to
+          questionList: {},
 
-        openAccordion: '',
-    },
+          openModal: false,
 
-    getters: {
-        isLoggedIn: (state) => {
-            if (!Cookies.get(state.token_name)) {
-                return false
-            } else {
-                return Cookies.get(state.token_name)
-            }
-        },
-    },
-    // pang edit ng state
-    // this.$store.commit(nameofmut, payload!null)
-    mutations: {
-        resetState(state) {
-            Cookies.remove(state.token_name, {
-                path: '/',
-                domain: 'localhost',
-            })
-            const logoutUser = logout()
+          openAccordion: '',
+     },
 
-            Object.keys(logoutUser).forEach((k) => {
-                state[k] = logoutUser[k]
-            })
+     getters: {
+          isLoggedIn: (state) => {
+               if (!Cookies.get(state.token_name)) {
+                    return false
+               } else {
+                    return Cookies.get(state.token_name)
+               }
+          },
+     },
+     // pang edit ng state
+     // this.$store.commit(nameofmut, payload!null)
+     mutations: {
+          resetState(state) {
+               Cookies.remove(state.token_name, {
+                    path: '/',
+                    domain: 'localhost',
+               })
+               const logoutUser = logout()
 
-            localStorage.removeItem('vuex')
-            router.push({ name: 'usersLogin' })
-        },
+               Object.keys(logoutUser).forEach((k) => {
+                    state[k] = logoutUser[k]
+               })
 
-        getProfile(state, payload) {
-            console.log(payload)
-        },
+               localStorage.removeItem('vuex')
+               router.push({ name: 'usersLogin' })
+          },
 
-        getSubjects(state, payload) {
-            state.calculator.listSubjects = payload.data
-        },
+          getProfile(state, payload) {
+               console.log(payload)
+          },
 
-        getStudents(state, payload) {
-            state.calculator.listStudents = payload.data
-        },
+          getSubjects(state, payload) {
+               state.calculator.listSubjects = payload.data
+          },
 
-        profSubjects(state, payload) {
-            state.subjectList = payload
-        },
+          getStudents(state, payload) {
+               state.calculator.listStudents = payload
+          },
 
-        remove_cookie(state) {
-            Cookies.remove(state.token_name, {
-                path: '/',
-                domain: 'localhost',
-            })
-        },
+          getQuestion(state, payload) {
+               state.questionList = { ...payload }
+          },
 
-        set_cookie(state, payload) {
-            state.access_token = payload.token
-            state.token_name = payload.name
-            state.isAuth = true
-            state.userProfile = { ...payload.profile }
+          profSubjects(state, payload) {
+               state.subjectList = payload
+          },
 
-            Cookies.set(state.token_name, state.access_token, {
-                expires: 1,
-            })
-            router.push({ name: 'home' })
-        },
-    },
-    // mga functions
-    // this.$store.dispatch(nameofact, payload=={})
-    actions: {
-        //payload = object
-        async getSubjects({ commit, state }) {
-            try {
-                const subjects = await axios.get(
-                    `${state.BASE_URL}/list/subjects`
-                )
+          remove_cookie(state) {
+               Cookies.remove(state.token_name, {
+                    path: '/',
+                    domain: 'localhost',
+               })
+          },
 
-                if (subjects.status === 200) {
-                    commit('getSubjects', subjects)
-                }
-            } catch (error) {
-                console.log(error.response)
-            }
-        },
+          set_cookie(state, payload) {
+               state.access_token = payload.token
+               state.token_name = payload.name
+               state.isAuth = true
+               state.userProfile = { ...payload.profile }
 
-        async getStudents({ commit, state }, subject_code) {
-            try {
-                const students = await axios.get(
-                    `${state.BASE_URL}/list/students/${subject_code}`
-                )
+               Cookies.set(state.token_name, state.access_token, {
+                    expires: 1,
+               })
+               router.push({ name: 'home' })
+          },
+     },
+     // mga functions
+     // this.$store.dispatch(nameofact, payload=={})
+     actions: {
+          async getQuestion({ commit, state }, payload) {
+               try {
+                    const { status, data } = await axios.get(
+                         `${state.BASE_URL}/student/question/${payload}`
+                    )
 
-                if (students.status === 200) {
-                    commit('getStudents', students)
-                }
-            } catch (error) {
-                console.log(error.response)
-            }
-        },
+                    console.log(status)
 
-        async getStudentGrade({ state }, payload) {
-            try {
-                const students = await axios.get(
-                    `${state.BASE_URL}/subjectGrade/listGrade`,
-                    {
-                        params: { ...payload },
+                    if (status === 200) {
+                         commit('getQuestion', data)
                     }
-                )
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
 
-                if (students.status === 200) {
-                    if (students.data.prelim_grade) {
-                        state.calculator.listGrades = students.data.prelim_grade
-                    } else if (students.data.midterm_grade) {
-                        state.calculator.listGrades =
-                            students.data.midterm_grade
-                    } else {
-                        state.calculator.listGrades = students.data.finals_grade
+          //payload = object
+          async getSubjects({ commit, state }) {
+               try {
+                    const subjects = await axios.get(
+                         `${state.BASE_URL}/list/subjects`
+                    )
+
+                    if (subjects.status === 200) {
+                         commit('getSubjects', subjects)
                     }
-                }
-            } catch (error) {
-                console.log(error.response)
-            }
-        },
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
 
-        async profSubjects({ state, commit }) {
-            try {
-                const subjs = await axios.get(
-                    `${state.BASE_URL}/assigned/subjects`,
-                    {
-                        headers: {
-                            Authorization: this.getters.isLoggedIn,
-                        },
+          async getStudents({ commit, state }, subject_code) {
+               try {
+                    const students = await axios.get(
+                         `${state.BASE_URL}/list/students/${subject_code}`
+                    )
+
+                    console.log(students)
+
+                    if (students.status === 200) {
+                         commit('getStudents', students.data)
                     }
-                )
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
 
-                if (subjs.status === 200) commit('profSubjects', subjs.data)
-            } catch (error) {
-                console.log(error.response)
-            }
-        },
+          async getStudentGrade({ state }, payload) {
+               try {
+                    const students = await axios.get(
+                         `${state.BASE_URL}/subjectGrade/listGrade`,
+                         {
+                              params: { ...payload },
+                         }
+                    )
 
-        async getEnrolledStudents({ state, commit }) {
-            try {
-                const subjs = await axios.get(
-                    `${state.BASE_URL}/enrolled/students`,
-                    {
-                        headers: {
-                            Authorization: this.getters.isLoggedIn,
-                        },
+                    if (students.status === 200) {
+                         if (students.data.prelim_grade) {
+                              state.calculator.listGrades =
+                                   students.data.prelim_grade
+                         } else if (students.data.midterm_grade) {
+                              state.calculator.listGrades =
+                                   students.data.midterm_grade
+                         } else {
+                              state.calculator.listGrades =
+                                   students.data.finals_grade
+                         }
                     }
-                )
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
 
-                if (subjs.status === 200) commit('profSubjects', subjs.data)
-            } catch (error) {
-                console.log(error.response)
-            }
-        },
+          async profSubjects({ state, commit }) {
+               try {
+                    const subjs = await axios.get(
+                         `${state.BASE_URL}/assigned/subjects`,
+                         {
+                              headers: {
+                                   Authorization: this.getters.isLoggedIn,
+                              },
+                         }
+                    )
 
-        async updateGrade({ state }, payload) {
-            try {
-                await axios.patch(
-                    `${state.BASE_URL}/subjectGrade/students`,
-                    payload
-                )
-            } catch (error) {
-                console.log(error.response)
-            }
-        },
-    },
-    // dependencies
-    modules: {},
+                    if (subjs.status === 200) commit('profSubjects', subjs.data)
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
 
-    plugins: [
-        createPersistedState({
-            paths: ['access_token', 'isAuth', 'token_name', 'userProfile'],
-        }),
-    ],
+          async getEnrolledStudents({ state, commit }) {
+               try {
+                    const subjs = await axios.get(
+                         `${state.BASE_URL}/enrolled/students`,
+                         {
+                              headers: {
+                                   Authorization: this.getters.isLoggedIn,
+                              },
+                         }
+                    )
+
+                    if (subjs.status === 200) commit('getStudents', subjs.data)
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
+
+          async updateGrade({ state }, payload) {
+               try {
+                    await axios.patch(
+                         `${state.BASE_URL}/subjectGrade/students`,
+                         payload
+                    )
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
+     },
+     // dependencies
+     modules: {},
+
+     plugins: [
+          createPersistedState({
+               paths: ['access_token', 'isAuth', 'token_name', 'userProfile'],
+          }),
+     ],
 })

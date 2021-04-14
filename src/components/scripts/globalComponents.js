@@ -1,11 +1,15 @@
-import Vue from "vue";
+import Vue from 'vue'
 
-Vue.component("exam-essay", () => import("../examEssay"));
+//for questions
+Vue.component('exam-essay', () => import('../examEssay'))
+Vue.component('exam-identification', () => import('../examIdentification'))
+Vue.component('exam-mcq', () => import('../examMCQ'))
 
-Vue.component("exam-identification", () => import("../examIdentification"));
+Vue.component('prompt-modal', () => import('../promptModal'))
 
-Vue.component("exam-mcq", () => import("../examMCQ"));
+Vue.component('navbar', () => import('../navbar'))
 
-Vue.component("prompt-modal", () => import("../promptModal"));
-
-Vue.component("navbar", () => import("../navbar"));
+//students form
+Vue.component('student-essay', () => import('../StudentEssay'))
+Vue.component('student-identification', () => import('../StdntIdentification'))
+Vue.component('student-mcq', () => import('../StudentMCQ'))

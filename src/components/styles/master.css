@@ -1,101 +1,99 @@
 header {
-  background-color: #8f8475;
-  padding-bottom: 50px;
-  color: #ffffff;
-  height: 92px;
-  display: flex;
+    background-color: #8f8475;
+    padding-bottom: 50px;
+    color: #ffffff;
+    height: 92px;
+    display: flex;
 
-  /* overflow: hidden; */
+    /* overflow: hidden; */
 }
 
 header h4 {
-  margin-left: 60px;
+    margin-left: 60px;
 }
 header h1 {
-  padding-top: 0px;
+    padding-top: 0px;
 }
 
 .float {
-  float: left;
+    float: left;
 }
 
 li {
-  list-style-type: none;
+    list-style-type: none;
 }
 
 img {
-  margin-left: -15%;
+    margin-left: -15%;
 }
 
-#sidePanel {
-  padding: 10px;
-  width: 95%;
-  border: 1px white solid;
-  margin-top: 10px;
-  margin-left: 15px;
-  justify-content: center !important;
-  display: flex;
-  border-radius: 15px;
-  background-color:rgb(0,0,0,0.6);
-  color: white;
+.sidePanel {
+    padding: 10px;
+    width: 95%;
+    border: 1px white solid;
+    margin-top: 10px;
+    margin-left: 15px;
+    justify-content: center !important;
+    display: flex;
+    border-radius: 15px;
+    background-color: rgb(0, 0, 0, 0.6);
+    color: white;
 }
 
-#sidePanel h2 {
-  color:white;
-  margin-right: 15px;
-  padding-right: 90px;
-  padding-left: 3px;
-  position: initial;
-
-  
+.sidePanel h2 {
+    color: white;
+    margin-right: 15px;
+    padding-right: 90px;
+    padding-left: 3px;
+    position: initial;
 }
 
 body {
-  background-image: url(https://i.imgur.com/pS9sP47.jpg);
-  background-size: cover;
-  background-position: center;
-  font-family: sans-serif;
-  margin: 0%;
-  padding: 0%;
+    background-image: url(https://i.imgur.com/pS9sP47.jpg);
+    background-size: cover;
+    background-position: center;
+    font-family: sans-serif;
+    margin: 0%;
+    padding: 0%;
 }
 
 /*subjects*/
-#box {
-  padding: 10px;
-  width: 100%;
-  height: 13%;
-  margin: 10px;
-  /* background-color:rgb(0,0,0,0.6); */
+.box-container {
+    padding: 10px;
+    width: 100%;
+    height: 13%;
+    margin: 10px;
+    /* background-color:rgb(0,0,0,0.6); */
 }
 
 .container {
-  padding: 10px;
-  border-bottom: 1px white solid;
+    padding: 10px;
+    border-bottom: 1px white solid;
 }
 
-#sContainer {
-  text-align: right;
-  padding: 10px;
+.sContainer {
+    text-align: right;
+    padding: 10px;
 }
 
 .btn {
-  text-align: center;
-  border-radius: 3px;
+    text-align: center;
+    border-radius: 3px;
 }
 
 .btn :last-child {
-  margin-left: 10px;
+    margin-left: 10px;
 }
 
 button {
-  width: 150px;
-  font-size: 15px;
-  padding: 5px;
+    width: 150px;
+    font-size: 15px;
+    padding: 5px;
 }
 
-#termcontainer {
-  float: top;
-  padding: 10px;
+.termcontainer {
+    float: top;
+    padding: 10px;
 }
 
 /* button :hover{
@@ -104,19 +102,19 @@ button {
 } */
 
 p {
-  padding: 10px;
+    padding: 10px;
 }
 
-#Ssubjects {
-  background-color:rgb(0,0,0,0.6);
-  border-radius: 15px;
-  border: solid white 1px;
-  margin-top: 10px;
-  color: white !important;
+.Ssubjects {
+    background-color: rgb(0, 0, 0, 0.6);
+    border-radius: 15px;
+    border: solid white 1px;
+    margin-top: 10px;
+    color: white !important;
 }
 
 .row {
-  width: 100%;
+    width: 100%;
 }
 /* 
 .dabid {
@@ -124,47 +122,47 @@ p {
 } */
 
 button {
-  background-color: #3a3a3a !important;
-  color: white !important;
+    background-color: #3a3a3a !important;
+    color: white !important;
 }
-#navbarDropdownMenuLink {
-  float: right;
-}
+/* #navbarDropdownMenuLink {
+    float: right;
+} */
 
 p {
-  color: white;
+    color: white;
 }
 
 a:hover {
-  background-color: rgb(105, 88, 88);
+    background-color: rgb(105, 88, 88);
 }
 
 input {
-  border-radius: 5px;
-  padding-left: 5px;
+    border-radius: 5px;
+    padding-left: 5px;
 }
 
 .select-students {
-  cursor: pointer;
-  background-color: beige;
+    cursor: pointer;
+    background-color: beige;
 }
 
 .non-select {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 ::placeholder {
-  color: #8f8475;
-  opacity: 1;
-  font-style: italic;
+    color: #8f8475;
+    opacity: 1;
+    font-style: italic;
 }
 
 :-ms-input-placeholder {
-  color: #8f8475;
-  font-style: italic;
+    color: #8f8475;
+    font-style: italic;
 }
 
 ::-ms-input-placeholder {
-  color: #8f8475;
-  font-style: italic;
+    color: #8f8475;
+    font-style: italic;
 }

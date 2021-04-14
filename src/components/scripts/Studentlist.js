@@ -6,7 +6,7 @@ export default {
 
     computed: {
         subjectList() {
-            return this.$store.state.subjectList
+            return this.$store.state.calculator.listStudents
         },
     },
 
@@ -143,7 +143,7 @@ export default {
                         `${state.BASE_URL}/add/students`,
                         sendDispatch
                     )
-                    console.log(postResponse)
+
                     if (postResponse.status === 200) {
                         this.$store.dispatch('getEnrolledStudents')
                         this.resetModal()
