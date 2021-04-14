@@ -215,8 +215,9 @@
                                 {{ subj.subject_name }}
                             </option>
                         </b-form-select>
-                        
+
                         <b-list-group>
+                            
                             <b-list-group-item href="#" class="flex-column align-items-start">
                               <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">Subject1</h5>
