@@ -1,68 +1,35 @@
 <template>
-    <div>
-        <navbar />
-        <!--Import Question-->
-        <div>
-            <!-- <b-button v-b-modal.modal-xl variant="primary"
-                >Import Question</b-button
-            > -->
-            <!--Accordian-->
-            <b-modal id="modal-xl" size="xl" title="Extra Large Modal">
-                <div
-                    class="accordion"
-                    role="tablist"
-                    v-for="(subj, index) in selectSubj"
-                    :key="index"
-                >
-                    <b-card no-body class="mb-1">
-                        <b-card-header
-                            header-tag="header"
-                            class="p-1"
-                            role="tab"
-                        >
-                            <b-button
-                                block
-                                v-b-toggle="'accordion' + index"
-                                variant="info"
-                                class="clsbtn"
-                                @click="getSubjectCode(subj)"
-                            >
-                                {{ subj ? subj.subject_name : '' }}
-                            </b-button>
-                        </b-card-header>
-
-                        <b-collapse
-                            :id="'accordion' + index"
-                            accordion="my-accordion"
-                            role="tabpanel"
-                        >
-                            <b-card-body>
-                                <!--List of topic-->
-                                <div class="ctn">
-                                    <b-form-select
-                                        v-model="modalTopics"
-                                        size="sm"
-                                        class="mt-3"
-                                        @change="getTopicValue(modalTopics)"
-                                    >
-                                        <option value="">Select Term</option>
-                                        <option
-                                            v-for="(v, index) in topics"
-                                            :key="index"
-                                            :value="v"
-                                            >{{ v.topic }}</option
-                                        >
-                                    </b-form-select>
-                                </div>
-                                <b-card-body
-                                    class="grid"
-                                    v-for="(btn, index) in btnNames"
-                                    :key="index"
-                                    v-b-toggle="[btn + index]"
-                                >
-                                    <b-button class="btnss col">{{
-                                        btn
-                                    }}</b-button>
+     <div>
+          <navbar />
+          <!--Import Question-->
+          <div>
+               <b-button v-b-modal.modal-xl variant="primary"
+                    >Import Question</b-button
+               >
+               <!--Accordian-->
+               <b-modal id="modal-xl" size="xl" title="Extra Large Modal">
+                    <div
+                         class="accordion"
+                         role="tablist"
+                         v-for="(subj, index) in selectSubj"
+                         :key="index"
+                    >
+                         <b-card no-body class="mb-1">
+                              <b-card-header
+                                   header-tag="header"
+                                   class="p-1"
+                                   role="tab"
+                              >
+                                   <b-button
+                                        block
+                                        v-b-toggle="'accordion' + index"
+                                        variant="info"
+                                        class="clsbtn"
+                                        @click="getSubjectCode(subj)"
+                                   >
+                                        {{ subj ? subj.subject_name : '' }}
+                                   </b-button>
+                              </b-card-header>
 
                               <b-collapse
                                    :id="'accordion' + index"
