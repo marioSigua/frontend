@@ -11,11 +11,7 @@
                          class="is-rounded"
                          height="23"
                          width="23"
-                         :src="
-                              imgUrl
-                                   ? imgUrl
-                                   : 'https://i.imgur.com/bCOd9N0.jpg'
-                         "
+                         :src="imgUrl ? imgUrl : imgResponse"
                          alt="Placeholder image"
                          @click="$refs.file.click()"
                     />
@@ -54,18 +50,6 @@
           },
 
           methods: {
-               // addNewLine() {
-               //      let splitQuestion = this.identificationValues.question.split(
-               //           ' '
-               //      )
-               //      if (splitQuestion.length % 12 === 0) {
-               //           splitQuestion.push('\n')
-               //           this.identificationValues.question = splitQuestion.join(
-               //                ' '
-               //           )
-               //      }
-               // },
-
                encodeBase64(file) {
                     return new Promise((resolve, reject) => {
                          const reader = new FileReader()
@@ -105,6 +89,7 @@
 
           async mounted() {
                if (this.identificationValues.question_image) {
+                    console.log(typeof this.identificationValues.question_image)
                     this.imgResponse = new Buffer.from(
                          this.identificationValues.question_image,
                          'base64'

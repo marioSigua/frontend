@@ -28,7 +28,14 @@ export default {
           },
 
           topics() {
-               return this.questionsValues.filter((k) => k.type !== 'Essay')
+               console.log(
+                    this.questionsValues.filter((k) => k.type !== 'Essay'),
+                    'hahah'
+               )
+               return this.questionsValues.filter(
+                    (k) =>
+                         k.type !== 'Essay' && k.subject_code === this.subjCode
+               )
           },
      },
 
@@ -52,6 +59,8 @@ export default {
                btnNames: ['Multiple Choice', 'Identification', 'Essay'],
 
                selected: [], // Must be an array reference!
+
+               subjCode: '',
           }
      },
 
@@ -82,15 +91,18 @@ export default {
                          }
                     )
 
-                    console.log(formData)
                     if (saveQuestion.status === 200) {
                          this.content = []
 
                          this.resetModal
                     }
                } catch (error) {
-                    console.log(error.response)
+                    console.log(error.response.data.stack)
                }
+          },
+
+          getSubjectCode(code) {
+               this.subjCode = code
           },
 
           openStudentList(e) {
@@ -98,28 +110,38 @@ export default {
                     alert('Please Select a Subject')
                     e.preventDefault()
                } else {
-                    this.$bvModal.show('modal-tall')
+                    this.$store.dispatch('getEnrolledStudents')
+
+                    setTimeout(() => {
+                         this.$bvModal.show('modal-tall')
+                    }, 300)
                }
           },
 
-          async getSubjectCode(subj) {
+          async getQuestions() {
                const { state } = this.$store
                try {
                     const questions = await this.$axios.get(
-                         `${state.BASE_URL}/exam/question/${subj.subject_code}`
+                         `${state.BASE_URL}/exam/question`
                     )
 
                     if (questions.status === 200)
-                         this.questionsValues = questions.data.questionTopics
+                         this.questionsValues = questions.data
+
+                    setTimeout(() => {
+                         this.$bvModal.show('modal-xl')
+                    }, 300)
                } catch (error) {
                     console.log(error)
                }
           },
 
           getTopics(obj) {
+               console.log(obj)
                if (this.content.includes(obj)) {
                     alert('topic is already added')
                } else {
+                    delete obj.batch_number
                     this.content.push(obj)
                }
           },
@@ -194,7 +216,5 @@ export default {
 
      mounted() {
           this.$store.dispatch('profSubjects')
-
-          this.$store.dispatch('getEnrolledStudents')
      },
 }

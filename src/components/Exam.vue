@@ -3,7 +3,7 @@
           <navbar />
           <!--Import Question-->
           <div>
-               <b-button v-b-modal.modal-xl variant="primary"
+               <b-button variant="primary" @click="getQuestions"
                     >Import Question</b-button
                >
                <!--Accordian-->
@@ -25,7 +25,9 @@
                                         v-b-toggle="'accordion' + index"
                                         variant="info"
                                         class="clsbtn"
-                                        @click="getSubjectCode(subj)"
+                                        @click="
+                                             getSubjectCode(subj.subject_code)
+                                        "
                                    >
                                         {{ subj ? subj.subject_name : '' }}
                                    </b-button>
