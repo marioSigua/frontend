@@ -1,6 +1,6 @@
 <template>
      <div class="">
-          <div class="ExamType" id="Essay">
+          <div class="ExamType" id="Essay" style="margin: 20px;">
                <b-button-close></b-button-close>
                <h2>Essay</h2>
                <div class="textset">

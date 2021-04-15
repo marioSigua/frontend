@@ -1,25 +1,32 @@
 <template>
-     <div class="ExamType" id="Identification">
+     <div class="ExamType" id="Identification" style="margin: 20px;">
           <b-button-close></b-button-close>
           <h2>Identification</h2>
           <label for="Topic">Topic: </label>
           <input type="text" v-model="identificationValues.topic" />
           <div>
-               <p>Question</p>
+               <p>
+                    Question
+                    <img
+                         class="is-rounded"
+                         height="23"
+                         width="23"
+                         :src="
+                              imgUrl
+                                   ? imgUrl
+                                   : 'https://i.imgur.com/bCOd9N0.jpg'
+                         "
+                         alt="Placeholder image"
+                         @click="$refs.file.click()"
+                    />
+               </p>
                <input
                     ref="file"
                     @change="onFileChange"
                     type="file"
                     style="display:none"
                />
-               <img
-                    class="is-rounded"
-                    height="300"
-                    width="300"
-                    :src="imgUrl ? imgUrl : imgResponse"
-                    alt="Placeholder image"
-                    @click="$refs.file.click()"
-               />
+
                <!-- <textarea
                     v-model="identificationValues.question_text"
                     rows="4"

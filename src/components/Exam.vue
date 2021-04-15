@@ -50,7 +50,7 @@
                                                   "
                                              >
                                                   <option value=""
-                                                       >Select Term</option
+                                                       >Select Topic</option
                                                   >
                                                   <option
                                                        v-for="(v,
@@ -164,6 +164,58 @@
                          {{ subj.subject_name }}
                     </option>
                </b-form-select>
+
+               <!--sidebar-->
+               <b-button v-b-toggle.sidebar-right>History</b-button>
+
+               <b-sidebar id="sidebar-right" title="History" right shadow>
+                    <div class="px-3 py-2">
+                         <div>
+                              <b-form-select
+                                   v-model="choiceSubj"
+                                   size="sm"
+                                   class="mt-3"
+                              >
+                                   <option value="">Select Subject</option>
+                                   <option
+                                        v-for="(subj, index) in selectSubj"
+                                        :key="index"
+                                        :value="subj.subject_code"
+                                   >
+                                        {{ subj.subject_name }}
+                                   </option>
+                              </b-form-select>
+
+                              <b-list-group>
+                                   <b-list-group-item
+                                        href="#"
+                                        class="flex-column align-items-start"
+                                   >
+                                        <div
+                                             class="d-flex w-100 justify-content-between"
+                                        >
+                                             <h5 class="mb-1">Subject1</h5>
+                                             <small>Date</small>
+                                        </div>
+                                        <p class="mb-1">
+                                             Format
+                                        </p>
+                                        <p class="mb-1">
+                                             term
+                                        </p>
+                                        <p class="mb-1">
+                                             topic
+                                        </p>
+                                        <small>Description</small>
+                                   </b-list-group-item>
+                              </b-list-group>
+                         </div>
+                    </div>
+               </b-sidebar>
+
+               <b-button v-b-modal.modal-xl variant="primary"
+                    >Import Question</b-button
+               >
           </div>
           <!-- question body -->
 
@@ -195,44 +247,45 @@
           <b-button variant="primary" @click="openStudentList">
                <!-- <button @click="createForm()" v-b-modal.modal-tall style="margin-left: 10px"> -->
                Create Form
-               <div>
-                    <b-modal
-                         @show="resetModal"
-                         @hidden="resetModal"
-                         @ok="createForm"
-                         id="modal-tall"
-                         title="Student List"
-                    >
-                         <div>
-                              <b-form-group
-                                   @submit.stop.prevent="createForm"
-                                   label="Select Student"
-                                   v-slot="{ ariaDescribedby }"
-                              >
-                                   <b-form-checkbox-group
-                                        v-model="stdEmail"
-                                        :aria-describedby="ariaDescribedby"
-                                        name="flavour-2a"
-                                        stacked
-                                   >
-                                        <b-form-checkbox
-                                             v-for="student in listStudents"
-                                             :key="student.student_id"
-                                             :value="student.student_email"
-                                             >{{
-                                                  student.student_id +
-                                                       ' ' +
-                                                       student.firstname
-                                             }}</b-form-checkbox
-                                        ></b-form-checkbox-group
-                                   >
-                              </b-form-group>
-
-                              {{ stdEmail }}
-                         </div>
-                    </b-modal>
-               </div>
           </b-button>
+
+          <div>
+               <b-modal
+                    @show="resetModal"
+                    @hidden="resetModal"
+                    @ok="createForm"
+                    id="modal-tall"
+                    title="Student List"
+               >
+                    <div>
+                         <b-form-group
+                              @submit.stop.prevent="createForm"
+                              label="Select Student"
+                              v-slot="{ ariaDescribedby }"
+                         >
+                              <b-form-checkbox-group
+                                   v-model="stdEmail"
+                                   :aria-describedby="ariaDescribedby"
+                                   name="flavour-2a"
+                                   stacked
+                              >
+                                   <b-form-checkbox
+                                        v-for="student in listStudents"
+                                        :key="student.student_id"
+                                        :value="student.student_email"
+                                        >{{
+                                             student.student_id +
+                                                  ' ' +
+                                                  student.firstname
+                                        }}</b-form-checkbox
+                                   ></b-form-checkbox-group
+                              >
+                         </b-form-group>
+
+                         {{ stdEmail }}
+                    </div>
+               </b-modal>
+          </div>
      </div>
 </template>
 

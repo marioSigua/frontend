@@ -1,5 +1,5 @@
 <template>
-     <div class="ExamType" id="Multiple choice">
+     <div class="ExamType" id="Multiple choice" style="margin: 20px;">
           <b-button-close></b-button-close>
           <h2>Multiple Choice</h2>
           <label for="Topic">Topic: </label>

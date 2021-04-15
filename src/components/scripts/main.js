@@ -139,12 +139,12 @@ export default {
           },
      },
 
-     beforeDestroy() {
+     beforeRouteLeave(to, from, next) {
           this.$store.commit('getStudents', [])
+          next()
      },
 
      mounted() {
           this.$store.dispatch('profSubjects')
-          console.log(this.listStudents)
      },
 }

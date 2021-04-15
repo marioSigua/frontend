@@ -15,6 +15,12 @@ const logout = () => {
      }
 }
 
+const routeNames = {
+     calculator: 'calculator',
+     exam: 'usersExam',
+     studentList: 'studentList',
+}
+
 export default new Vuex.Store({
      // object
      state: {
@@ -29,6 +35,14 @@ export default new Vuex.Store({
                listStudents: [],
                listSubjects: [],
                listGrades: '',
+          },
+
+          exam: {
+               listStudents: [],
+          },
+
+          studentList: {
+               students: [],
           },
 
           subjectList: [],
@@ -68,16 +82,21 @@ export default new Vuex.Store({
                router.push({ name: 'usersLogin' })
           },
 
-          getProfile(state, payload) {
-               console.log(payload)
-          },
-
           getSubjects(state, payload) {
                state.calculator.listSubjects = payload.data
           },
 
           getStudents(state, payload) {
-               state.calculator.listStudents = payload
+               if (router.currentRoute.name === routeNames.exam) {
+                    //pag nsa route ng exam
+                    state.exam.listStudents = payload
+               } else if (router.currentRoute.name === routeNames.studentList) {
+                    //pag nsa route ng student list
+                    state.studentList.students = payload
+               } else {
+                    //pag nsa route ng calcu
+                    state.calculator.listStudents = payload
+               }
           },
 
           getQuestion(state, payload) {
@@ -143,14 +162,15 @@ export default new Vuex.Store({
 
           async getStudents({ commit, state }, subject_code) {
                try {
-                    const students = await axios.get(
-                         `${state.BASE_URL}/list/students/${subject_code}`
-                    )
-
-                    console.log(students)
-
-                    if (students.status === 200) {
-                         commit('getStudents', students.data)
+                    if (!subject_code) {
+                         commit('getStudents', [])
+                    } else {
+                         const students = await axios.get(
+                              `${state.BASE_URL}/list/students/${subject_code}`
+                         )
+                         if (students.status === 200) {
+                              commit('getStudents', students.data)
+                         }
                     }
                } catch (error) {
                     console.log(error.response)

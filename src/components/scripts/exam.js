@@ -22,7 +22,7 @@ export default {
           listStudents() {
                return !this.choiceSubj
                     ? []
-                    : this.$store.state.calculator.listStudents.filter(
+                    : this.$store.state.exam.listStudents.filter(
                            (v) => v.subject_code === this.choiceSubj
                       )[0].students
           },
@@ -195,8 +195,6 @@ export default {
      mounted() {
           this.$store.dispatch('profSubjects')
 
-          setTimeout(() => {
-               this.$store.dispatch('getEnrolledStudents')
-          }, 2000)
+          this.$store.dispatch('getEnrolledStudents')
      },
 }
