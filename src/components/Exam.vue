@@ -31,109 +31,127 @@
                             </b-button>
                         </b-card-header>
 
-                        <b-collapse
-                            :id="'accordion' + index"
-                            accordion="my-accordion"
-                            role="tabpanel"
-                        >
-                            <b-card-body>
-                                <!--List of topic-->
-                                <div class="ctn">
-                                    <b-form-select
-                                        v-model="modalTopics"
-                                        size="sm"
-                                        class="mt-3"
-                                        @change="getTopicValue(modalTopics)"
-                                    >
-                                        <option value="">Select Term</option>
-                                        <option
-                                            v-for="(v, index) in topics.filter(
-                                                (v) => v.type !== 'Essay'
-                                            )"
-                                            :key="v + index"
-                                            :value="v"
-                                            >{{ v.topic }}</option
+                              <b-collapse
+                                   :id="'accordion' + index"
+                                   accordion="my-accordion"
+                                   role="tabpanel"
+                              >
+                                   <b-card-body>
+                                        <!--List of topic-->
+                                        <div class="ctn">
+                                             <b-form-select
+                                                  v-model="modalTopics"
+                                                  size="sm"
+                                                  class="mt-3"
+                                                  @change="
+                                                       getTopicValue(
+                                                            modalTopics
+                                                       )
+                                                  "
+                                             >
+                                                  <option value=""
+                                                       >Select Topic</option
+                                                  >
+                                                  <option
+                                                       v-for="(v,
+                                                       index) in topics"
+                                                       :key="v + index"
+                                                       :value="v"
+                                                       >{{ v.topic }}</option
+                                                  >
+                                             </b-form-select>
+                                        </div>
+                                        <b-card-body
+                                             class="grid"
+                                             v-for="(btn, index) in btnNames"
+                                             :key="index"
+                                             v-b-toggle="[btn + index]"
                                         >
-                                    </b-form-select>
-                                </div>
-                                <b-card-body
-                                    class="grid"
-                                    v-for="(btn, index) in btnNames"
-                                    :key="index"
-                                    v-b-toggle="[btn + index]"
-                                >
-                                    <b-button class="btnss col">{{
-                                        btn
-                                    }}</b-button>
+                                             <b-button class="btnss col">{{
+                                                  btn
+                                             }}</b-button>
 
-                                    <!-- Elements to collapse -->
-                                    <b-collapse
-                                        :visible="topicValue.type === btn"
-                                        class="mt-2 btnss col"
-                                    >
-                                        <b-card
-                                            v-if="
-                                                Object.values(topicValue)
-                                                    .length > 0
-                                            "
-                                            @click="getTopics(topicValue)"
-                                        >
-                                            <component
-                                                class="highlight-card"
-                                                v-if="
-                                                    topicValue.type ===
-                                                        'Identification'
-                                                "
-                                                :is="topicValue.format"
-                                                :identificationValues="
-                                                    topicValue
-                                                "
-                                            >
-                                            </component>
+                                             <!-- Elements to collapse -->
+                                             <b-collapse
+                                                  :visible="
+                                                       topicValue.type === btn
+                                                  "
+                                                  class="mt-2 btnss col"
+                                             >
+                                                  <b-card
+                                                       v-if="
+                                                            Object.values(
+                                                                 topicValue
+                                                            ).length > 0
+                                                       "
+                                                       @click="
+                                                            getTopics(
+                                                                 topicValue
+                                                            )
+                                                       "
+                                                  >
+                                                       <component
+                                                            class="highlight-card"
+                                                            v-if="
+                                                                 topicValue.type ===
+                                                                      'Identification'
+                                                            "
+                                                            :is="
+                                                                 topicValue.format
+                                                            "
+                                                            :identificationValues="
+                                                                 topicValue
+                                                            "
+                                                       >
+                                                       </component>
 
-                                            <component
-                                                v-if="
-                                                    topicValue.type ===
-                                                        'Multiple Choice'
-                                                "
-                                                :is="topicValue.format"
-                                                :mcqValues="topicValue"
-                                            >
-                                            </component>
-                                        </b-card>
-                                    </b-collapse>
-                                </b-card-body>
-                            </b-card-body>
-                        </b-collapse>
-                    </b-card>
-                </div>
-                <!--Accordian-->
-            </b-modal>
-        </div>
-        <!--Import Question-->
-        <div>
-            <!--Type-->
-            <b-form-select
-                v-model="choiceFilter"
-                size="sm"
-                class="mt-3"
-                @change="letsGo"
-            >
-                <!-- <select v-model="choiceFilter" @change="letsGo"> -->
-                <option value="">Select a Format</option>
-                <option>Essay</option>
-                <option>Identification</option>
-                <option>Multiple Choice</option>
-                <!-- </select> -->
-            </b-form-select>
+                                                       <component
+                                                            v-if="
+                                                                 topicValue.type ===
+                                                                      'Multiple Choice'
+                                                            "
+                                                            :is="
+                                                                 topicValue.format
+                                                            "
+                                                            :mcqValues="
+                                                                 topicValue
+                                                            "
+                                                       >
+                                                       </component>
+                                                  </b-card>
+                                             </b-collapse>
+                                        </b-card-body>
+                                   </b-card-body>
+                              </b-collapse>
+                         </b-card>
+                    </div>
+                    <!--Accordian-->
+               </b-modal>
+          </div>
+          <!--Import Question-->
+          <div>
+               <!--Type-->
+               <b-form-select
+                    v-model="choiceFilter"
+                    size="sm"
+                    class="mt-3"
+                    @change="letsGo"
+               >
+                    <!-- <select v-model="choiceFilter" @change="letsGo"> -->
+                    <option value="">Select a Format</option>
+                    <option>Essay</option>
+                    <option>Identification</option>
+                    <option>Multiple Choice</option>
+                    <!-- </select> -->
+               </b-form-select>
 
-            <!--Term-->
-            <b-form-select v-model="choiceTerm" size="sm" class="mt-3">
-                <option value="">Select Term</option>
-                <option>Preliminary</option>
-                <option>Midterm</option>
-                <option>Final</option>
-            </b-form-select>
+               <!--Term-->
+               <b-form-select v-model="choiceTerm" size="sm" class="mt-3">
+                    <option value="">Select Term</option>
+                    <option>Preliminary</option>
+                    <option>Midterm</option>
+                    <option>Final</option>
+               </b-form-select>
 
             <!--Subject-->
             <b-form-select v-model="choiceSubj" size="sm" class="mt-3">
@@ -195,82 +213,82 @@
         </div>
         <!-- question body -->
 
-        <div
-            class=""
-            v-for="(essay, index) in listEssay"
-            :key="`${index}-${essay.batch_number}`"
-        >
-            <component :is="essay.format" :essayValues="essay"> </component>
-        </div>
+          <div
+               class=""
+               v-for="(essay, index) in listEssay"
+               :key="`${index}-${essay.form_number}`"
+          >
+               <component :is="essay.format" :essayValues="essay"> </component>
+          </div>
 
-        <div
-            v-for="(identi, index) in listIdentification"
-            :key="`${index}-${identi.batch_number}`"
-        >
-            <component :is="identi.format" :identificationValues="identi">
-            </component>
-        </div>
+          <div
+               v-for="(identi, index) in listIdentification"
+               :key="`${index}-${identi.form_number}`"
+          >
+               <component :is="identi.format" :identificationValues="identi">
+               </component>
+          </div>
 
-        <div
-            class=""
-            v-for="(mcq, index) in listMCQ"
-            :key="`${index}-${mcq.batch_number}`"
-        >
-            <component :is="mcq.format" :mcqValues="mcq"> </component>
-        </div>
+          <div
+               class=""
+               v-for="(mcq, index) in listMCQ"
+               :key="`${index}-${mcq.form_number}`"
+          >
+               <component :is="mcq.format" :mcqValues="mcq"> </component>
+          </div>
 
-        <br />
-        <b-button variant="primary" @click="openStudentList">
-            <!-- <button @click="createForm()" v-b-modal.modal-tall style="margin-left: 10px"> -->
-            Create Form
-            <div>
-                <b-modal
-                    @show="resetModal"
-                    @hidden="resetModal"
-                    @ok="createForm"
-                    id="modal-tall"
-                    title="Student List"
-                >
-                    <div>
-                        <b-form-group
-                            @submit.stop.prevent="createForm"
-                            label="Select Student"
-                            v-slot="{ ariaDescribedby }"
-                        >
-                            <b-form-checkbox-group
-                                v-model="stdEmail"
-                                :aria-describedby="ariaDescribedby"
-                                name="flavour-2a"
-                                stacked
-                            >
-                                <b-form-checkbox
-                                    v-for="student in listStudents"
-                                    :key="student.student_id"
-                                    :value="student.student_email"
-                                    >{{
-                                        student.student_id +
-                                            ' ' +
-                                            student.firstname
-                                    }}</b-form-checkbox
-                                ></b-form-checkbox-group
-                            >
-                        </b-form-group>
+          <br />
+          <b-button variant="primary" @click="openStudentList">
+               <!-- <button @click="createForm()" v-b-modal.modal-tall style="margin-left: 10px"> -->
+               Create Form
+               <div>
+                    <b-modal
+                         @show="resetModal"
+                         @hidden="resetModal"
+                         @ok="createForm"
+                         id="modal-tall"
+                         title="Student List"
+                    >
+                         <div>
+                              <b-form-group
+                                   @submit.stop.prevent="createForm"
+                                   label="Select Student"
+                                   v-slot="{ ariaDescribedby }"
+                              >
+                                   <b-form-checkbox-group
+                                        v-model="stdEmail"
+                                        :aria-describedby="ariaDescribedby"
+                                        name="flavour-2a"
+                                        stacked
+                                   >
+                                        <b-form-checkbox
+                                             v-for="student in listStudents"
+                                             :key="student.student_id"
+                                             :value="student.student_email"
+                                             >{{
+                                                  student.student_id +
+                                                       ' ' +
+                                                       student.firstname
+                                             }}</b-form-checkbox
+                                        ></b-form-checkbox-group
+                                   >
+                              </b-form-group>
 
-                        {{ stdEmail }}
-                    </div>
-                </b-modal>
-            </div>
-        </b-button>
-    </div>
+                              {{ stdEmail }}
+                         </div>
+                    </b-modal>
+               </div>
+          </b-button>
+     </div>
 </template>
 
 <script>
-    import app from './scripts/exam'
-    export default app
+     import app from './scripts/exam'
+     export default app
 </script>
 
 <style scoped>
-    @import './styles/Exam.css';
+     @import './styles/Exam.css';
 </style>
 
 <!-- <script>

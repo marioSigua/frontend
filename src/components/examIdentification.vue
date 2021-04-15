@@ -1,25 +1,27 @@
 <template>
-     <div class="ExamType" id="Identification">
+     <div class="ExamType" id="Identification" style="margin: 20px;">
           <b-button-close></b-button-close>
           <h2>Identification</h2>
           <label for="Topic">Topic: </label>
           <input type="text" v-model="identificationValues.topic" />
           <div>
-               <p>Question</p>
+               <p>Question  <img
+                    class="is-rounded"
+                    height="23"
+                    width="23"
+                    :src="imgUrl ? imgUrl : 'https://i.imgur.com/bCOd9N0.jpg'"
+                    alt="Placeholder image"
+                    @click="$refs.file.click()"
+               /></p>
                <input
                     ref="file"
                     @change="onFileChange"
                     type="file"
                     style="display:none"
                />
-               <img
-                    class="is-rounded"
-                    :src="imgUrl ? imgUrl : 'https://i.imgur.com/bCOd9N0.jpg'"
-                    alt="Placeholder image"
-                    @click="$refs.file.click()"
-               />
+
                <!-- <textarea
-                    v-model="identificationValues.question"
+                    v-model="identificationValues.question_text"
                     rows="4"
                     cols="50"
                ></textarea> -->
@@ -40,6 +42,7 @@
           data() {
                return {
                     imgUrl: null,
+                    imgResponse: null,
                }
           },
 
@@ -85,20 +88,21 @@
                          return
                     }
 
-                    // let obj = {
-                    //      lastModified: file.lastModified,
-                    //      lastModifiedDate: file.lastModifiedDate,
-                    //      name: file.name,
-                    //      size: file.size,
-                    //      type: file.type,
-                    // }
                     this.imgUrl = URL.createObjectURL(file)
-                    // let blob = new Blob([file], { type: 'image/png' })
-                    // let base64 = await this.encodeBase64(blob)
-                    this.identificationValues.question = await this.encodeBase64(
+
+                    this.identificationValues.question_image = await this.encodeBase64(
                          file
                     )
                },
+          },
+
+          async mounted() {
+               if (this.identificationValues.question_image) {
+                    this.imgResponse = new Buffer.from(
+                         this.identificationValues.question_image,
+                         'base64'
+                    )
+               }
           },
      }
 </script>
