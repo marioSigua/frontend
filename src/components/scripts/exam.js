@@ -33,6 +33,12 @@ export default {
                          k.type !== 'Essay' && k.subject_code === this.subjCode
                )
           },
+
+          questionsHistory() {
+               return this.questHistory.filter(
+                    (k) => k.subject_code === this.choiceSubj.subject_code
+               )
+          },
      },
 
      data() {
@@ -40,6 +46,7 @@ export default {
                choiceFilter: '',
                choiceTerm: '',
                choiceSubj: '',
+               historySubj: '',
 
                topicValue: {},
 
@@ -57,6 +64,10 @@ export default {
                selected: [], // Must be an array reference!
 
                subjCode: '',
+
+               questHistory: [],
+
+               toggleHistory: '',
           }
      },
 
@@ -114,14 +125,35 @@ export default {
                }
           },
 
+          async getHistory() {
+               const { state } = this.$store
+               try {
+                    const { data, status } = await this.$axios.get(
+                         `${state.BASE_URL}/exam/history`
+                    )
+
+                    console.log(data)
+
+                    if (status === 200) this.questHistory = data
+
+                    setTimeout(() => {
+                         this.toggleHistory = 'sidebar-history'
+                         this.$root.$emit(
+                              'bv::toggle::collapse',
+                              this.toggleHistory
+                         )
+                    }, 300)
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
+
           async getQuestions() {
                const { state } = this.$store
                try {
                     const questions = await this.$axios.get(
                          `${state.BASE_URL}/exam/question`
                     )
-
-                    console.log(questions)
 
                     if (questions.status === 200)
                          this.questionsValues = questions.data

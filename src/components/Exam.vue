@@ -174,9 +174,9 @@
                </b-form-select>
 
                <!--sidebar-->
-               <b-button v-b-toggle.sidebar-right>History</b-button>
+               <b-button @click="getHistory">History</b-button>
 
-               <b-sidebar id="sidebar-right" title="History" right shadow>
+               <b-sidebar id="sidebar-history" title="History" right shadow>
                     <div class="px-3 py-2">
                          <div>
                               <b-form-select
@@ -188,7 +188,7 @@
                                    <option
                                         v-for="(subj, index) in selectSubj"
                                         :key="index"
-                                        :value="subj.subject_code"
+                                        :value="subj"
                                    >
                                         {{ subj.subject_name }}
                                    </option>
@@ -196,25 +196,37 @@
 
                               <b-list-group>
                                    <b-list-group-item
+                                        v-for="(quest,
+                                        index) in questionsHistory"
+                                        :key="index"
                                         href="#"
                                         class="flex-column align-items-start"
                                    >
-                                        <div
-                                             class="d-flex w-100 justify-content-between"
+                                        <router-link
+                                             :to="
+                                                  '/student/question/form/' +
+                                                       quest.url
+                                             "
                                         >
-                                             <h5 class="mb-1">Subject1</h5>
-                                             <small>Date</small>
-                                        </div>
-                                        <p class="mb-1">
-                                             Format
-                                        </p>
-                                        <p class="mb-1">
-                                             term
-                                        </p>
-                                        <p class="mb-1">
-                                             topic
-                                        </p>
-                                        <small>Description</small>
+                                             <div
+                                                  class="d-flex w-100 justify-content-between"
+                                             >
+                                                  <h5 class="mb-1">
+                                                       {{
+                                                            choiceSubj.subject_name
+                                                       }}
+                                                  </h5>
+                                                  <small>{{
+                                                       quest.created_at
+                                                  }}</small>
+                                             </div>
+
+                                             <p class="mb-1">
+                                                  {{ quest.term }}
+                                             </p>
+
+                                             <small>Description</small>
+                                        </router-link>
                                    </b-list-group-item>
                               </b-list-group>
                          </div>

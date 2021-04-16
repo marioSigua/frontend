@@ -65,10 +65,7 @@
 
           mounted() {
                if (this.mcq.question_image) {
-                    this.imgUrl = new Buffer.from(
-                         this.mcq.question_image,
-                         'base64'
-                    )
+                    this.imgUrl = this.mcq.question_image
                }
           },
      }

@@ -34,10 +34,7 @@ xam<template>
 
           async mounted() {
                if (this.identi.question_image) {
-                    this.imgUrl = new Buffer.from(
-                         this.identi.question_image,
-                         'base64'
-                    )
+                    this.imgUrl = this.identi.question_image
                }
           },
      }

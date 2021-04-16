@@ -35,10 +35,7 @@
 
           mounted() {
                if (this.essay.question_image) {
-                    this.imgurl = new Buffer.from(
-                         this.essay.question_image,
-                         'base64'
-                    )
+                    this.imgurl = this.essay.question_image
                }
           },
      }
