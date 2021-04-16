@@ -166,7 +166,7 @@
             </b-form-select>
 
             <!--sidebar-->
-                <b-button v-b-toggle.sidebar-right>History</b-button>
+                <b-button v-b-toggle.sidebar-right class="histbtn">History</b-button>
                 <b-sidebar id="sidebar-right" title="History" right shadow>
                   <div class="px-3 py-2">
                     <div>

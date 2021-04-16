@@ -5,26 +5,42 @@
           <label for="Topic">Topic: </label>
           <input type="text" v-model="identificationValues.topic" />
           <div>
-               <p>Question  <img
-                    class="is-rounded"
-                    height="23"
-                    width="23"
-                    :src="imgUrl ? imgUrl : 'https://i.imgur.com/bCOd9N0.jpg'"
-                    alt="Placeholder image"
-                    @click="$refs.file.click()"
-               /></p>
-               <input
-                    ref="file"
-                    @change="onFileChange"
-                    type="file"
-                    style="display:none"
-               />
-
-               <!-- <textarea
-                    v-model="identificationValues.question_text"
-                    rows="4"
-                    cols="50"
-               ></textarea> -->
+               <div>
+                    <b-card no-body>
+                      <b-tabs card>
+                        <b-tab title="Upload Image" active>
+                          <b-card-text>
+                              <p class="tabt">Question:</p>
+                                   <img
+                                   class="is-rounded"
+                                   height="300"
+                                   width="300"
+                                   :src="imgUrl ? imgUrl : 'https://i.imgur.com/bCOd9N0.jpg'"
+                                   alt="Placeholder image"
+                                   @click="$refs.file.click()"
+                              />
+                              <input
+                                   ref="file"
+                                   @change="onFileChange"
+                                   type="file"
+                                   style="display:none"
+                              />
+               
+                          </b-card-text>
+                        </b-tab>
+                        <b-tab title="Text">
+                          <b-card-text>
+                              <p class="tabt">Question:</p>
+                       <textarea
+                      v-model="identificationValues.question_text"
+                       rows="4"
+                      cols="50"
+                      ></textarea>
+                          </b-card-text>
+                        </b-tab>
+                      </b-tabs>
+                    </b-card>
+                  </div>
                <br />
                <label for="Answer">Answer </label>
                <input
