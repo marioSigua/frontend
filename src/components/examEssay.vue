@@ -80,9 +80,7 @@
 
           async mounted() {
                if (this.essayValues.question_image) {
-                    this.imgResponse = await this.encodeBase64(
-                         this.essayValues.question_image
-                    )
+                    this.imgResponse = this.essayValues.question_image
                } else {
                     this.imgResponse = 'https://i.imgur.com/SbAMcxP.png'
                }

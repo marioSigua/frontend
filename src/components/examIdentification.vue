@@ -89,11 +89,7 @@
 
           async mounted() {
                if (this.identificationValues.question_image) {
-                    console.log(typeof this.identificationValues.question_image)
-                    this.imgResponse = new Buffer.from(
-                         this.identificationValues.question_image,
-                         'base64'
-                    )
+                    this.imgResponse = this.identificationValues.question_image
                } else {
                     this.imgResponse = 'https://i.imgur.com/SbAMcxP.png'
                }

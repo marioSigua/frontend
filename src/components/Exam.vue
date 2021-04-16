@@ -7,7 +7,13 @@
                     >Import Question</b-button
                >
                <!--Accordian-->
-               <b-modal id="modal-xl" size="xl" title="Extra Large Modal">
+               <b-modal
+                    @show="resetModal"
+                    @hidden="resetModal"
+                    id="modal-xl"
+                    size="xl"
+                    title="Extra Large Modal"
+               >
                     <div
                          class="accordion"
                          role="tablist"

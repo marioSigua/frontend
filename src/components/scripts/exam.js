@@ -28,10 +28,6 @@ export default {
           },
 
           topics() {
-               console.log(
-                    this.questionsValues.filter((k) => k.type !== 'Essay'),
-                    'hahah'
-               )
                return this.questionsValues.filter(
                     (k) =>
                          k.type !== 'Essay' && k.subject_code === this.subjCode
@@ -125,6 +121,8 @@ export default {
                          `${state.BASE_URL}/exam/question`
                     )
 
+                    console.log(questions)
+
                     if (questions.status === 200)
                          this.questionsValues = questions.data
 
@@ -132,7 +130,7 @@ export default {
                          this.$bvModal.show('modal-xl')
                     }, 300)
                } catch (error) {
-                    console.log(error)
+                    console.log(error.response)
                }
           },
 
@@ -211,6 +209,8 @@ export default {
                this.$nextTick(() => {
                     this.$bvModal.hide('modal-prevent-closing')
                })
+               this.modalTopics = ''
+               this.topicValue = {}
           },
      },
 

@@ -123,10 +123,7 @@
 
           async mounted() {
                if (this.mcqValues.question_image) {
-                    this.imgResponse = new Buffer.from(
-                         this.mcqValues.question_image,
-                         'base64'
-                    )
+                    this.imgResponse = this.mcqValues.question_image
                } else {
                     this.imgResponse = 'https://i.imgur.com/SbAMcxP.png'
                }
