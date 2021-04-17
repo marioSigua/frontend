@@ -174,7 +174,7 @@
                </b-form-select>
 
                <!--sidebar-->
-               <b-button @click="getHistory">History</b-button>
+               <b-button @click="getHistory" class="histbtn">History</b-button>
 
                <b-sidebar id="sidebar-history" title="History" right shadow>
                     <div class="px-3 py-2">

@@ -145,20 +145,16 @@
                         v-for="subj in listSubjs"
                         :key="subj.subject_code"
                     >
-
                         <router-link to="/auth/professor/studentlist">
                             <div
                                 class="subjectbox"
                                 @click="sendToStudentList(subj.subject_code)"
                             >
-                       
                                 <h3>{{ subj.subject_name }}</h3>
                                 <p>{{ subj.subject_code }}</p>
                                 <p>{{ subj.subject_desc }}</p>
-                        </div>
+                            </div>
                         </router-link>
-                
-                    
                     </div>
                 </div>
             </div>

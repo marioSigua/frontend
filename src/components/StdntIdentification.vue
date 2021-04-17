@@ -1,4 +1,4 @@
-xam<template>
+<template>
      <div>
           <b-button-close></b-button-close>
           <div class="Identification">
