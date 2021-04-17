@@ -244,14 +244,23 @@
                v-for="(essay, index) in listEssay"
                :key="`${index}-${essay.form_number}`"
           >
-               <component :is="essay.format" :essayValues="essay"> </component>
+               <component
+                    :is="essay.format"
+                    :parent="content"
+                    :essayValues="essay"
+               >
+               </component>
           </div>
 
           <div
                v-for="(identi, index) in listIdentification"
                :key="`${index}-${identi.form_number}`"
           >
-               <component :is="identi.format" :identificationValues="identi">
+               <component
+                    :is="identi.format"
+                    :parent="content"
+                    :identificationValues="identi"
+               >
                </component>
           </div>
 
@@ -260,7 +269,8 @@
                v-for="(mcq, index) in listMCQ"
                :key="`${index}-${mcq.form_number}`"
           >
-               <component :is="mcq.format" :mcqValues="mcq"> </component>
+               <component :is="mcq.format" :parent="content" :mcqValues="mcq">
+               </component>
           </div>
 
           <br />
