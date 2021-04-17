@@ -11,6 +11,7 @@
                     @paste.prevent
                     type="text"
                     class="idn"
+                    :disabled="!isDisabled"
                />
           </div>
      </div>
@@ -18,7 +19,7 @@
 
 <script>
      export default {
-          props: ['identi'],
+          props: ['identi', 'isDisabled'],
 
           data() {
                return {

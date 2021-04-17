@@ -13,13 +13,14 @@
                     id=""
                     cols="94"
                     rows="1"
+                    :disabled="!isDisabled"
                ></textarea>
           </div>
      </div>
 </template>
 <script>
      export default {
-          props: ['essay'],
+          props: ['essay', 'isDisabled'],
 
           data() {
                return {

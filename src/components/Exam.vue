@@ -204,7 +204,7 @@
                                    >
                                         <router-link
                                              :to="
-                                                  '/student/question/form/' +
+                                                  '/professor/viewing/form/' +
                                                        quest.url
                                              "
                                         >
