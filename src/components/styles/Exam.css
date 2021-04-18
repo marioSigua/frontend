@@ -1,168 +1,172 @@
 header {
-     padding-bottom: 50px;
-     color: white !important;
-     height: 92px;
-     display: flex;
-     justify-content: left;
-     /* overflow: hidden; */
+  padding-bottom: 50px;
+  color: white !important;
+  height: 92px;
+  display: flex;
+  justify-content: left;
+  /* overflow: hidden; */
 }
 
 header h4 {
-     margin-left: 60px;
+  margin-left: 60px;
 }
 header h1 {
-     padding-top: 0px;
+  padding-top: 0px;
 }
 
 select {
-     margin: 10px;
-     margin-right: 0px;
+  margin: 10px;
+  margin-right: 0px;
 }
 
 .qBody {
-     margin: 10px;
-     padding: 20px;
+  margin: 10px;
+  padding: 20px;
 }
 
 li {
-     list-style-type: none;
+  list-style-type: none;
 }
 
 .ExamType {
-     border: 2px solid black;
-     border-radius: 10px;
-     background-color: rgb(0, 0, 0, 0.6);
-     padding: 20px;
-     padding-right: 20px;
-     margin: 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: rgb(0, 0, 0, 0.6);
+  padding: 20px;
+  padding-right: 20px;
+  margin: 20px;
 }
 
 body {
-     background-image: url(https://i.imgur.com/pS9sP47.jpg);
-     background-size: cover !important;
-     /* background-position: center center; */
-     font-family: sans-serif;
-     margin: 0%;
-     padding: 0%;
+  background-image: url(https://i.imgur.com/pS9sP47.jpg);
+  background-size: cover !important;
+  /* background-position: center center; */
+  font-family: sans-serif;
+  margin: 0%;
+  padding: 0%;
 }
 
 .textset {
-     color: white;
+  color: white;
 }
 
 input textarea {
-     margin-left: 20px;
+  margin-left: 20px;
 }
 
 textarea {
-     border-radius: 5px;
-     width: 100%;
+  border-radius: 5px;
+  width: 100%;
 }
 
 h2,
 p,
 label {
-     color: rgb(255, 255, 255);
-     font-style: italic;
-     margin-right: 3px;
+  color: rgb(255, 255, 255);
+  font-style: italic;
+  margin-right: 3px;
 }
 
 h2 {
-     border-bottom: 1px solid white;
-     padding-bottom: 5px;
-     font-weight: bold;
+  border-bottom: 1px solid white;
+  padding-bottom: 5px;
+  font-weight: bold;
 }
 
 input {
-     border-radius: 3px;
-     border: none;
+  border-radius: 3px;
+  border: none;
 }
 
 .card-text {
-     color: black;
+  color: black;
 }
 
 .modal-header,
 .modal-body {
-     color: black !important;
+  color: black !important;
 }
 
 .clsbtn,
 .p-1 {
-     height: fit-content !important;
+  height: fit-content !important;
 }
 
 .ctn {
-     margin-top: -20px;
+  margin-top: -20px;
 }
 
 .btnss {
-     margin-left: 20px;
+  margin-left: 20px;
 }
 
 .circle {
-     margin-right: 10px;
+  margin-right: 10px;
 }
 
 .highlight-card:hover {
-     -webkit-box-shadow: 3px 3px 5px 6px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-     -moz-box-shadow: 3px 3px 5px 6px #ccc; /* Firefox 3.5 - 3.6 */
-     box-shadow: 4px 4px 5px 6px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 3px 3px 5px 6px #ccc; /* Firefox 3.5 - 3.6 */
+  box-shadow: 4px 4px 5px 6px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 
 .custom-select {
-     width: auto;
+  width: auto;
 }
 
 .modbtn {
-     margin-left: 10px;
-     padding-top: -10px;
+  margin-left: 10px;
+  padding-top: -10px;
 }
 
 .dtn {
-     width: 100%;
+  width: 100%;
 }
 
 span {
-     color: black !important;
+  color: black !important;
 }
 
 .history {
-     color: black !important;
+  color: black !important;
 }
 
 strong {
-     color: black !important;
+  color: black !important;
 }
 
 .mb-1 {
-     color: black;
+  color: black;
 }
 
 .form-group {
-     color: black;
+  color: black;
 }
 
 .histbtn {
-     margin-left: 10px;
-     margin-right: 10px;
-     background-color: rgb(0, 123, 255);
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: rgb(0, 123, 255);
 }
 
 .histbtn:hover {
-     background-color: rgb(26, 108, 196);
+  background-color: rgb(26, 108, 196);
 }
 
 .tabs {
-     background-color: transparent !important;
-     border: transparent;
+  background-color: transparent !important;
+  border: transparent;
 }
 
 .tabt {
-     color: black;
+  color: black;
 }
 
 img {
-     max-width: 100%;
-     max-height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+img:hover {
+  cursor: pointer;
 }

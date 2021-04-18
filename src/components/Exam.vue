@@ -3,10 +3,6 @@
     <navbar />
     <!--Import Question-->
     <div>
-      <!-- add get @click="getQuestions" -->
-      <b-button v-b-modal.modal-xl variant="primary" @click="getQuestions"
-        >Import Question</b-button
-      >
       <!--Accordian-->
       <b-modal id="modal-xl" size="xl" title="Import Questions">
         <div
@@ -173,7 +169,9 @@
         </div>
       </b-sidebar>
 
-      <b-button v-b-modal.modal-xl variant="primary">Import Question</b-button>
+      <b-button v-b-modal.modal-xl variant="primary" @click="getQuestions"
+        >Import Question</b-button
+      >
     </div>
     <!-- question body -->
 
@@ -259,36 +257,3 @@ export default app;
 <style scoped>
 @import "./styles/Exam.css";
 </style>
-
-<!-- <script>
-  export default {
-  data() {
-    return {
-      selected: null,
-      options: [
-        { value: null, text: 'Please select an option' },
-        { value: 'a', text: 'This is First option' },
-        { value: 'b', text: 'Selected Option' },
-        { value: { C: '3PO' }, text: 'This is an option with object value' },
-        { value: 'd', text: 'This one is disabled', disabled: true }
-      ]
-    }
-  }
-}
-</script> -->
-
-<!-- <script>
-      export default {
-        data() {
-          return {
-            selected: [], // Must be an array reference!
-            options: [
-              { text: 'Argarin David', value: 'orange' },
-              { text: 'Sigua Mario', value: 'apple' },
-              { text: 'Gorospe Vincent', value: 'pineapple' },
-              { text: 'Calil San', value: 'grape' }
-            ]
-          }
-        }
-      }
-    </script> -->
