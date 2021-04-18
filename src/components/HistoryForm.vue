@@ -22,6 +22,29 @@
                      <input class="idn"
                      />
                 </div>
+
+                                          <!--Student Lisst 2-->
+                          <div>
+                              <b-button v-b-modal.modal-lg variant="primary">Student List</b-button>
+                              <b-modal id="modal-lg" size="md" title="Student List">
+                                   <div>
+                                    
+                                        <b-form-group
+                                          label="Select Student"
+                                          v-slot="{ ariaDescribedby }"
+                                        >
+                                          <b-form-checkbox-group
+                                            v-model="selected"
+                                            :options="options"
+                                            :aria-describedby="ariaDescribedby"
+                                            name="flavour-2a"
+                                            stacked
+                                          ></b-form-checkbox-group>
+                                        </b-form-group>
+                                      </div>
+                              </b-modal>
+
+                            </div>
            </div>
          
              
