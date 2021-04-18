@@ -97,7 +97,7 @@ export default {
                               },
                          }
                     )
-
+                    console.log(saveQuestion)
                     if (saveQuestion.status === 200) {
                          this.content = []
 

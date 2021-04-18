@@ -18,6 +18,7 @@
                                    v-model="mcq.student_answer"
                                    name="radio-options"
                                    stacked
+                                   :disabled="!isDisabled"
                               >
                                    <b-form-radio
                                         class="mb-2 unselected"
@@ -49,7 +50,7 @@
 
 <script>
      export default {
-          props: ['mcq'],
+          props: ['mcq', 'isDisabled'],
 
           computed: {
                choice() {

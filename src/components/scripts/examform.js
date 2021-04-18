@@ -3,6 +3,10 @@ export default {
           questionList() {
                return this.$store.state.questionList
           },
+
+          checkRoute() {
+               return this.$route.name !== 'HistoryForm' ? true : false
+          },
      },
 
      data() {
