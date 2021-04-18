@@ -33,7 +33,11 @@ export default new Vuex.Store({
 
     subjectList: [],
 
+    //sa examform to
+    questionList: [],
+
     listEnrolled: [],
+
     openModal: false,
 
     openAccordion: "",
@@ -75,7 +79,12 @@ export default new Vuex.Store({
     },
 
     getStudents(state, payload) {
+      //eto naging prob kasi isaa lang sila ginagamit ng exam at calcu
       state.calculator.listStudents = payload;
+    },
+
+    getQuestion(state, payload) {
+      state.questionList = payload;
     },
 
     profSubjects(state, payload) {
@@ -104,6 +113,22 @@ export default new Vuex.Store({
   // mga functions
   // this.$store.dispatch(nameofact, payload=={})
   actions: {
+    async getQuestion({ commit, state }, payload) {
+      try {
+        const { status, data } = await axios.get(
+          `${state.BASE_URL}/student/question/${payload}`
+        );
+
+        if (status === 200) {
+          commit("getQuestion", data);
+        }
+
+        console.log(data);
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+
     //payload = object
     async getSubjects({ commit, state }) {
       try {
@@ -124,7 +149,7 @@ export default new Vuex.Store({
         );
 
         if (students.status === 200) {
-          commit("getStudents", students.data);
+          commit("listEnrolled", students.data);
         }
       } catch (error) {
         console.log(error.response);
@@ -176,7 +201,9 @@ export default new Vuex.Store({
           },
         });
 
-        if (subjs.status === 200) commit("listEnrolled", subjs.data);
+        console.log(subjs);
+
+        if (subjs.status === 200) commit("getStudents", subjs.data);
       } catch (error) {
         console.log(error.response);
       }

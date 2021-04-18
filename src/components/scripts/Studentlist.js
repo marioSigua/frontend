@@ -6,7 +6,7 @@ export default {
 
   computed: {
     subjectList() {
-      return this.$store.state.listEnrolled;
+      return this.$store.state.calculator.listStudents;
     },
   },
 
@@ -141,7 +141,7 @@ export default {
             `${state.BASE_URL}/add/students`,
             sendDispatch
           );
-
+          console.log(postResponse);
           if (postResponse.status === 200) {
             this.$store.dispatch("getEnrolledStudents");
             this.resetModal();
@@ -150,7 +150,7 @@ export default {
         // Trigger submit handler
         this.handleSubmit();
       } catch (error) {
-        console.log(error);
+        console.log(error.response);
       }
     },
 

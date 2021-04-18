@@ -5,7 +5,7 @@
     <div>
       <b-button v-b-modal.modal-xl variant="primary">Import Question</b-button>
       <!--Accordian-->
-      <b-modal id="modal-xl" size="xl" title="Extra Large Modal">
+      <b-modal id="modal-xl" size="xl" title="Import Questions">
         <div
           class="accordion"
           role="tablist"
@@ -41,9 +41,7 @@
                   >
                     <option value="">Select Topic</option>
                     <option
-                      v-for="(v, index) in topics.filter(
-                        (v) => v.type !== 'Essay'
-                      )"
+                      v-for="(v, index) in topics"
                       :key="v + index"
                       :value="v"
                       >{{ v.topic }}</option
@@ -133,14 +131,14 @@
     <div
       class=""
       v-for="(essay, index) in listEssay"
-      :key="`${index}-${essay.batch_number}`"
+      :key="`${index}-${essay.form_number}`"
     >
       <component :is="essay.format" :essayValues="essay"> </component>
     </div>
 
     <div
       v-for="(identi, index) in listIdentification"
-      :key="`${index}-${identi.batch_number}`"
+      :key="`${index}-${identi.form_number}`"
     >
       <component :is="identi.format" :identificationValues="identi">
       </component>
@@ -149,7 +147,7 @@
     <div
       class=""
       v-for="(mcq, index) in listMCQ"
-      :key="`${index}-${mcq.batch_number}`"
+      :key="`${index}-${mcq.form_number}`"
     >
       <component :is="mcq.format" :mcqValues="mcq"> </component>
     </div>

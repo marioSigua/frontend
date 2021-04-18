@@ -1,4 +1,3 @@
-import { setTimeout } from "core-js";
 import Navbar from "../navbar.vue";
 export default {
   components: { Navbar },
@@ -23,21 +22,18 @@ export default {
     listStudents() {
       return !this.choiceSubj
         ? []
-        : this.$store.state.listEnrolled.filter(
+        : this.$store.state.calculator.listStudents.filter(
             (v) => v.subject_code === this.choiceSubj
           )[0].students;
     },
 
     topics() {
       const list = [];
-
-      this.questionsValues.length >= 1
-        ? this.questionsValues[0].questionTopics.map((v) =>
-            JSON.parse(v.question_form).map((col) => {
-              list.push(col);
-            })
-          )
-        : [];
+      this.questionsValues.map((k) =>
+        k.questionTopics.map((t) => {
+          list.push(t);
+        })
+      );
 
       return list;
     },
@@ -69,20 +65,31 @@ export default {
   methods: {
     async createForm() {
       const { state } = this.$store;
-      const formBody = {
-        term: this.choiceTerm,
-        subject_code: this.choiceSubj,
-        question_form: JSON.stringify(this.content),
-        stdEmail: this.stdEmail,
-      };
-
+      // const formBody = {
+      //      term: this.choiceTerm,
+      //      subject_code: this.choiceSubj,
+      //      question_form: this.content,
+      //      stdEmail: this.stdEmail,
+      // }
+      let batch = Date.now();
+      let formData = new FormData();
+      formData.append("batch_number", batch);
+      formData.append("term", this.choiceTerm);
+      formData.append("subject_code", this.choiceSubj);
+      formData.append("question_form", JSON.stringify(this.content));
+      formData.append("stdEmail", JSON.stringify(this.stdEmail));
       try {
         const saveQuestion = await this.$axios.post(
           `${state.BASE_URL}/create/form/questions`,
-          formBody
+          formData,
+          {
+            headers: {
+              "content-type": "multipart/form-data",
+            },
+          }
         );
 
-        console.log(saveQuestion);
+        console.log(formData);
         if (saveQuestion.status === 200) {
           this.content = [];
 
@@ -110,31 +117,36 @@ export default {
         );
 
         if (questions.status === 200) this.questionsValues = questions.data;
+        console.log(this.questionsValues);
       } catch (error) {
         console.log(error);
       }
     },
 
     getTopics(obj) {
-      let d = new Date().getTime();
-      obj["batch_number"] = d;
       if (this.content.includes(obj)) {
         alert("topic is already added");
       } else {
+        delete obj.batch_number;
         this.content.push(obj);
+
+        console.log(obj);
       }
     },
 
     letsGo() {
-      let d = new Date().getTime();
+      let d = Date.now();
       switch (this.choiceFilter) {
         case "Essay":
           this.content.push({
             format: "exam-essay",
             type: this.choiceFilter,
-            question: "",
+            response_name: "student-essay",
+            question_text: "",
+            question_image: "",
             student_answer: "",
-            batch_number: d,
+
+            form_number: d,
           });
           break;
 
@@ -142,19 +154,23 @@ export default {
           this.content.push({
             format: "exam-identification",
             type: this.choiceFilter,
-            question: "",
+            question_text: "",
+            question_image: "",
+            response_name: "student-identification",
             student_answer: "",
             form_answer: "",
+            form_number: d,
             topic: "",
-            batch_number: d,
           });
           break;
 
         case "Multiple Choice":
           this.content.push({
             format: "exam-mcq",
+            response_name: "student-mcq",
             type: this.choiceFilter,
-            question: "",
+            question_text: "",
+            question_image: "",
             student_answer: "",
             form_answer: "",
             topic: "",
@@ -164,7 +180,7 @@ export default {
               c: "",
               d: "",
             },
-            batch_number: d,
+            form_number: d,
           });
           break;
 
@@ -186,15 +202,11 @@ export default {
     },
   },
 
-  beforeDestroy() {
-    this.$store.state.calculator.listStudents = [];
-  },
-
   mounted() {
     this.$store.dispatch("profSubjects");
 
     setTimeout(() => {
       this.$store.dispatch("getEnrolledStudents");
-    }, 2000);
+    }, 1000);
   },
 };

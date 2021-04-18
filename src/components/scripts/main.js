@@ -24,7 +24,7 @@ export default {
     },
 
     listStudents() {
-      return this.$store.state.calculator.listStudents;
+      return this.$store.state.listEnrolled;
     },
 
     calculateGrade() {
@@ -137,12 +137,11 @@ export default {
   },
 
   beforeDestroy() {
-    this.selectedSubject = [];
-    this.$store.state.calculator.listStudents = [];
+    this.$store.commit("listEnrolled", []);
+    console.log(this.$store.state.listEnrolled);
   },
 
   mounted() {
     this.$store.dispatch("profSubjects");
-    console.log(this.listStudents);
   },
 };

@@ -1,13 +1,48 @@
-<template>
-    <div>
-     <b-button-close></b-button-close>
-        <div class="Identification">
-            <label>Question for Identification</label><br>
-            <input type="text" class="idn">
-        </div> 
-    </div>
+xam<template>
+     <div>
+          <b-button-close></b-button-close>
+          <div class="Identification">
+               <img height="300" width="300" :src="imgUrl" alt="" />
+               <br />
+               <input
+                    v-model="identi.student_answer"
+                    @keydown="preventCopy"
+                    @copy.prevent
+                    @paste.prevent
+                    type="text"
+                    class="idn"
+               />
+          </div>
+     </div>
 </template>
 
+<script>
+     export default {
+          props: ['identi'],
+
+          data() {
+               return {
+                    imgUrl: null,
+               }
+          },
+
+          methods: {
+               preventCopy(e) {
+                    return e
+               },
+          },
+
+          async mounted() {
+               if (this.identi.question_image) {
+                    this.imgUrl = new Buffer.from(
+                         this.identi.question_image,
+                         'base64'
+                    )
+               }
+          },
+     }
+</script>
+
 <style scoped>
-    @import './styles/ExamForm.css';
+     @import './styles/ExamForm.css';
 </style>

@@ -1,14 +1,48 @@
 <template>
-    <div>
-     <b-button-close></b-button-close>
-        <div class="Essay">
-            <label>Question for essay</label><br>
-            <textarea name="" id="" cols="94" rows="1"></textarea>
-            
-        </div>  
-    </div>
+     <div>
+          <b-button-close></b-button-close>
+          <div class="Essay unselected">
+               <img :src="imgurl" height="300" width="300" alt="" />
+               <br />
+               <textarea
+                    @keydown="preventCopy"
+                    @copy.prevent
+                    @paste.prevent
+                    v-model="essay.student_answer"
+                    name=""
+                    id=""
+                    cols="94"
+                    rows="1"
+               ></textarea>
+          </div>
+     </div>
 </template>
+<script>
+     export default {
+          props: ['essay'],
 
+          data() {
+               return {
+                    imgurl: '',
+               }
+          },
+
+          methods: {
+               preventCopy(e) {
+                    return e
+               },
+          },
+
+          mounted() {
+               if (this.essay.question_image) {
+                    this.imgurl = new Buffer.from(
+                         this.essay.question_image,
+                         'base64'
+                    )
+               }
+          },
+     }
+</script>
 <style scoped>
-    @import './styles/ExamForm.css';
+     @import './styles/ExamForm.css';
 </style>
