@@ -44,23 +44,42 @@
 
           <!--Student Lisst 2-->
           <div>
-               <b-button v-b-modal.modal-lg variant="primary"
+               <b-button @click="openStudentList" variant="primary"
                     >Student List</b-button
                >
-               <b-modal id="modal-lg" size="md" title="Student List">
+               <b-modal
+                    @show="resetModal"
+                    @hidden="resetModal"
+                    @ok="sendForm"
+                    id="modal-lg"
+                    title="Student List"
+               >
                     <div>
                          <b-form-group
+                              @submit.stop.prevent="sendForm"
                               label="Select Student"
                               v-slot="{ ariaDescribedby }"
                          >
                               <b-form-checkbox-group
-                                   v-model="selected"
-                                   :options="options"
+                                   v-model="stdEmail"
                                    :aria-describedby="ariaDescribedby"
                                    name="flavour-2a"
                                    stacked
-                              ></b-form-checkbox-group>
+                              >
+                                   <b-form-checkbox
+                                        v-for="student in listStudents"
+                                        :key="student.student_id"
+                                        :value="student.student_email"
+                                        >{{
+                                             student.student_id +
+                                                  ' ' +
+                                                  student.firstname
+                                        }}</b-form-checkbox
+                                   ></b-form-checkbox-group
+                              >
                          </b-form-group>
+
+                         {{ stdEmail }}
                     </div>
                </b-modal>
           </div>

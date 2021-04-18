@@ -203,10 +203,16 @@
                                         class="flex-column align-items-start"
                                    >
                                         <router-link
-                                             :to="
-                                                  '/professor/viewing/form/' +
-                                                       quest.url
-                                             "
+                                             :to="{
+                                                  name: 'HistoryForm',
+                                                  params: {
+                                                       token: quest.url,
+                                                       batch:
+                                                            quest.batch_number,
+                                                       subject_code:
+                                                            quest.subject_code,
+                                                  },
+                                             }"
                                         >
                                              <div
                                                   class="d-flex w-100 justify-content-between"
