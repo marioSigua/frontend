@@ -13,11 +13,33 @@
                <input />
           </div>
 
-          <div class="Identification">
-               <b-button-close></b-button-close>
-               <img height="20" width="20" :src="imgUrl" alt="" />
-               <br />
-               <input class="idn" />
+          <div class="" v-for="(quest, index) in questionList" :key="index">
+               <component
+                    v-if="quest.type === 'Identification'"
+                    :key="`${index}-${quest.batch_number}`"
+                    :is="quest.format.replace('exam', 'student')"
+                    :identi="quest"
+                    :isDisabled="checkRoute"
+               >
+               </component>
+
+               <component
+                    v-if="quest.type === 'Essay'"
+                    :key="`${index}-${quest.batch_number}`"
+                    :is="quest.format.replace('exam', 'student')"
+                    :essay="quest"
+                    :isDisabled="checkRoute"
+               >
+               </component>
+
+               <component
+                    v-if="quest.type === 'Multiple Choice'"
+                    :key="`${index}-${quest.batch_number}`"
+                    :is="quest.format.replace('exam', 'student')"
+                    :mcq="quest"
+                    :isDisabled="checkRoute"
+               >
+               </component>
           </div>
 
           <!--Student Lisst 2-->
@@ -44,6 +66,11 @@
           </div>
      </div>
 </template>
+
+<script>
+     import app from './scripts/historyform'
+     export default app
+</script>
 
 <style scoped>
      @import './styles/HistoryForm.css';

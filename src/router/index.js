@@ -26,7 +26,7 @@ const routes = [
           name: 'HistoryForm',
           component: () =>
                import(
-                    /* webpackChunkName: "usersExam" */ '../components/ExamForm.vue'
+                    /* webpackChunkName: "usersExam" */ '../components/HistoryForm.vue'
                ),
      },
 

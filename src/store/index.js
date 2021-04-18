@@ -19,6 +19,8 @@ const routeNames = {
      calculator: 'calculator',
      exam: 'usersExam',
      studentList: 'studentList',
+     HistoryForm: 'HistoryForm',
+     examform: 'examform',
 }
 
 export default new Vuex.Store({
@@ -138,8 +140,20 @@ export default new Vuex.Store({
                     if (status === 200) {
                          commit('getQuestion', data)
                     }
+               } catch (error) {
+                    console.log(error.response)
+               }
+          },
 
-                    console.log(data)
+          async getResponse({ commit, state }, payload) {
+               try {
+                    const { status, data } = await axios.get(
+                         `${state.BASE_URL}/student/question/${payload}`
+                    )
+
+                    if (status === 200) {
+                         commit('getQuestion', data)
+                    }
                } catch (error) {
                     console.log(error.response)
                }
