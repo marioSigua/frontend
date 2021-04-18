@@ -167,7 +167,6 @@ export default {
           },
 
           getTopics(obj) {
-               console.log(obj)
                if (this.content.includes(obj)) {
                     alert('topic is already added')
                } else {
