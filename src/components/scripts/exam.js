@@ -22,20 +22,21 @@ export default {
     listStudents() {
       return !this.choiceSubj
         ? []
-        : this.$store.state.calculator.listStudents.filter(
+        : this.$store.state.exam.listStudents.filter(
             (v) => v.subject_code === this.choiceSubj
           )[0].students;
     },
 
     topics() {
-      const list = [];
-      this.questionsValues.map((k) =>
-        k.questionTopics.map((t) => {
-          list.push(t);
-        })
+      return this.questionsValues.filter(
+        (k) => k.type !== "Essay" && k.subject_code === this.subjCode
       );
+    },
 
-      return list;
+    questionsHistory() {
+      return this.questHistory.filter(
+        (k) => k.subject_code === this.choiceSubj.subject_code
+      );
     },
   },
 
@@ -44,6 +45,7 @@ export default {
       choiceFilter: "",
       choiceTerm: "",
       choiceSubj: "",
+      historySubj: "",
 
       topicValue: {},
 
@@ -59,6 +61,12 @@ export default {
       btnNames: ["Multiple Choice", "Identification", "Essay"],
 
       selected: [], // Must be an array reference!
+
+      subjCode: "",
+
+      questHistory: [],
+
+      toggleHistory: "",
     };
   },
 
@@ -88,16 +96,19 @@ export default {
             },
           }
         );
-
-        console.log(formData);
+        console.log(saveQuestion);
         if (saveQuestion.status === 200) {
           this.content = [];
 
           this.resetModal;
         }
       } catch (error) {
-        console.log(error.response);
+        console.log(error.response.data.stack);
       }
+    },
+
+    getSubjectCode(code) {
+      this.subjCode = code;
     },
 
     openStudentList(e) {
@@ -105,32 +116,58 @@ export default {
         alert("Please Select a Subject");
         e.preventDefault();
       } else {
-        this.$bvModal.show("modal-tall");
+        this.$store.dispatch("getEnrolledStudents");
+
+        setTimeout(() => {
+          this.$bvModal.show("modal-tall");
+        }, 300);
       }
     },
 
-    async getSubjectCode(subj) {
+    async getHistory() {
+      const { state } = this.$store;
+      try {
+        const { data, status } = await this.$axios.get(
+          `${state.BASE_URL}/exam/history`
+        );
+
+        console.log(data);
+
+        if (status === 200) this.questHistory = data;
+
+        setTimeout(() => {
+          this.toggleHistory = "sidebar-history";
+          this.$root.$emit("bv::toggle::collapse", this.toggleHistory);
+        }, 300);
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+
+    async getQuestions() {
       const { state } = this.$store;
       try {
         const questions = await this.$axios.get(
-          `${state.BASE_URL}/exam/question/${subj.subject_code}`
+          `${state.BASE_URL}/exam/question`
         );
 
         if (questions.status === 200) this.questionsValues = questions.data;
-        console.log(this.questionsValues);
+
+        setTimeout(() => {
+          this.$bvModal.show("modal-xl");
+        }, 300);
       } catch (error) {
-        console.log(error);
+        console.log(error.response);
       }
     },
 
     getTopics(obj) {
+      console.log(obj);
       if (this.content.includes(obj)) {
         alert("topic is already added");
       } else {
         delete obj.batch_number;
         this.content.push(obj);
-
-        console.log(obj);
       }
     },
 
@@ -199,14 +236,12 @@ export default {
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
       });
+      this.modalTopics = "";
+      this.topicValue = {};
     },
   },
 
   mounted() {
     this.$store.dispatch("profSubjects");
-
-    setTimeout(() => {
-      this.$store.dispatch("getEnrolledStudents");
-    }, 1000);
   },
 };

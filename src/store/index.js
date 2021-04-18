@@ -15,6 +15,12 @@ const logout = () => {
   };
 };
 
+const routeNames = {
+  calculator: "calculator",
+  exam: "usersExam",
+  studentList: "studentList",
+};
+
 export default new Vuex.Store({
   // object
   state: {
@@ -31,12 +37,18 @@ export default new Vuex.Store({
       listGrades: "",
     },
 
+    exam: {
+      listStudents: [],
+    },
+
+    studentList: {
+      students: [],
+    },
+
     subjectList: [],
 
     //sa examform to
     questionList: [],
-
-    listEnrolled: [],
 
     openModal: false,
 
@@ -70,17 +82,21 @@ export default new Vuex.Store({
       router.push({ name: "usersLogin" });
     },
 
-    listEnrolled(state, payload) {
-      state.listEnrolled = payload;
-    },
-
     getSubjects(state, payload) {
       state.calculator.listSubjects = payload.data;
     },
 
     getStudents(state, payload) {
-      //eto naging prob kasi isaa lang sila ginagamit ng exam at calcu
-      state.calculator.listStudents = payload;
+      if (router.currentRoute.name === routeNames.exam) {
+        //pag nsa route ng exam
+        state.exam.listStudents = payload;
+      } else if (router.currentRoute.name === routeNames.studentList) {
+        //pag nsa route ng student list
+        state.studentList.students = payload;
+      } else {
+        //pag nsa route ng calcu
+        state.calculator.listStudents = payload;
+      }
     },
 
     getQuestion(state, payload) {
@@ -144,12 +160,15 @@ export default new Vuex.Store({
 
     async getStudents({ commit, state }, subject_code) {
       try {
-        const students = await axios.get(
-          `${state.BASE_URL}/list/students/${subject_code}`
-        );
-
-        if (students.status === 200) {
-          commit("listEnrolled", students.data);
+        if (!subject_code) {
+          commit("getStudents", []);
+        } else {
+          const students = await axios.get(
+            `${state.BASE_URL}/list/students/${subject_code}`
+          );
+          if (students.status === 200) {
+            commit("getStudents", students.data);
+          }
         }
       } catch (error) {
         console.log(error.response);
@@ -200,8 +219,6 @@ export default new Vuex.Store({
             Authorization: this.getters.isLoggedIn,
           },
         });
-
-        console.log(subjs);
 
         if (subjs.status === 200) commit("getStudents", subjs.data);
       } catch (error) {

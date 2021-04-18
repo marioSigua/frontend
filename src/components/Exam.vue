@@ -3,7 +3,10 @@
     <navbar />
     <!--Import Question-->
     <div>
-      <b-button v-b-modal.modal-xl variant="primary">Import Question</b-button>
+      <!-- add get @click="getQuestions" -->
+      <b-button v-b-modal.modal-xl variant="primary" @click="getQuestions"
+        >Import Question</b-button
+      >
       <!--Accordian-->
       <b-modal id="modal-xl" size="xl" title="Import Questions">
         <div
@@ -125,6 +128,52 @@
           {{ subj.subject_name }}
         </option>
       </b-form-select>
+
+      <!--sidebar-->
+      <b-button @click="getHistory" class="histbtn">History</b-button>
+
+      <b-sidebar id="sidebar-history" title="History" right shadow>
+        <div class="px-3 py-2">
+          <div>
+            <b-form-select v-model="choiceSubj" size="sm" class="mt-3">
+              <option value="">Select Subject</option>
+              <option
+                v-for="(subj, index) in selectSubj"
+                :key="index"
+                :value="subj"
+              >
+                {{ subj.subject_name }}
+              </option>
+            </b-form-select>
+
+            <b-list-group>
+              <b-list-group-item
+                v-for="(quest, index) in questionsHistory"
+                :key="index"
+                href="#"
+                class="flex-column align-items-start"
+              >
+                <router-link :to="'/professor/viewing/form/' + quest.url">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                      {{ choiceSubj.subject_name }}
+                    </h5>
+                    <small>{{ quest.created_at }}</small>
+                  </div>
+
+                  <p class="mb-1">
+                    {{ quest.term }}
+                  </p>
+
+                  <small>Description</small>
+                </router-link>
+              </b-list-group-item>
+            </b-list-group>
+          </div>
+        </div>
+      </b-sidebar>
+
+      <b-button v-b-modal.modal-xl variant="primary">Import Question</b-button>
     </div>
     <!-- question body -->
 
@@ -133,14 +182,19 @@
       v-for="(essay, index) in listEssay"
       :key="`${index}-${essay.form_number}`"
     >
-      <component :is="essay.format" :essayValues="essay"> </component>
+      <component :is="essay.format" :parent="content" :essayValues="essay">
+      </component>
     </div>
 
     <div
       v-for="(identi, index) in listIdentification"
       :key="`${index}-${identi.form_number}`"
     >
-      <component :is="identi.format" :identificationValues="identi">
+      <component
+        :is="identi.format"
+        :parent="content"
+        :identificationValues="identi"
+      >
       </component>
     </div>
 
@@ -149,49 +203,51 @@
       v-for="(mcq, index) in listMCQ"
       :key="`${index}-${mcq.form_number}`"
     >
-      <component :is="mcq.format" :mcqValues="mcq"> </component>
+      <component :is="mcq.format" :parent="content" :mcqValues="mcq">
+      </component>
     </div>
 
     <br />
     <b-button variant="primary" @click="openStudentList">
       <!-- <button @click="createForm()" v-b-modal.modal-tall style="margin-left: 10px"> -->
       Create Form
-      <div>
-        <b-modal
-          @show="resetModal"
-          @hidden="resetModal"
-          @ok="createForm"
-          id="modal-tall"
-          title="Student List"
-        >
-          <div>
-            <b-form-group
-              @submit.stop.prevent="createForm"
-              label="Select Student"
-              v-slot="{ ariaDescribedby }"
-            >
-              <b-form-checkbox-group
-                v-model="stdEmail"
-                :aria-describedby="ariaDescribedby"
-                name="flavour-2a"
-                stacked
-              >
-                <b-form-checkbox
-                  v-for="student in listStudents"
-                  :key="student.student_id"
-                  :value="student.student_email"
-                  >{{
-                    student.student_id + " " + student.firstname
-                  }}</b-form-checkbox
-                ></b-form-checkbox-group
-              >
-            </b-form-group>
-
-            {{ stdEmail }}
-          </div>
-        </b-modal>
-      </div>
     </b-button>
+
+    <div>
+      <b-modal
+        @show="resetModal"
+        @hidden="resetModal"
+        @ok="createForm"
+        id="modal-tall"
+        title="Student List"
+      >
+        <div>
+          <b-form-group
+            @submit.stop.prevent="createForm"
+            label="Select Student"
+            v-slot="{ ariaDescribedby }"
+          >
+            <b-form-checkbox-group
+              v-model="stdEmail"
+              :aria-describedby="ariaDescribedby"
+              name="flavour-2a"
+              stacked
+            >
+              <b-form-checkbox
+                v-for="student in listStudents"
+                :key="student.student_id"
+                :value="student.student_email"
+                >{{
+                  student.student_id + " " + student.firstname
+                }}</b-form-checkbox
+              ></b-form-checkbox-group
+            >
+          </b-form-group>
+
+          {{ stdEmail }}
+        </div>
+      </b-modal>
+    </div>
   </div>
 </template>
 

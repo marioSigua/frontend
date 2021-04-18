@@ -13,13 +13,14 @@
                     id=""
                     cols="94"
                     rows="1"
+                    :disabled="!isDisabled"
                ></textarea>
           </div>
      </div>
 </template>
 <script>
      export default {
-          props: ['essay'],
+          props: ['essay', 'isDisabled'],
 
           data() {
                return {
@@ -35,10 +36,7 @@
 
           mounted() {
                if (this.essay.question_image) {
-                    this.imgurl = new Buffer.from(
-                         this.essay.question_image,
-                         'base64'
-                    )
+                    this.imgurl = this.essay.question_image
                }
           },
      }

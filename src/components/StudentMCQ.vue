@@ -18,6 +18,7 @@
                                    v-model="mcq.student_answer"
                                    name="radio-options"
                                    stacked
+                                   :disabled="!isDisabled"
                               >
                                    <b-form-radio
                                         class="mb-2 unselected"
@@ -49,7 +50,7 @@
 
 <script>
      export default {
-          props: ['mcq'],
+          props: ['mcq', 'isDisabled'],
 
           computed: {
                choice() {
@@ -65,10 +66,7 @@
 
           mounted() {
                if (this.mcq.question_image) {
-                    this.imgUrl = new Buffer.from(
-                         this.mcq.question_image,
-                         'base64'
-                    )
+                    this.imgUrl = this.mcq.question_image
                }
           },
      }

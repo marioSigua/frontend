@@ -21,6 +21,15 @@ const routes = [
           },
      },
 
+     {
+          path: '/professor/viewing/form/:token',
+          name: 'HistoryForm',
+          component: () =>
+               import(
+                    /* webpackChunkName: "usersExam" */ '../components/ExamForm.vue'
+               ),
+     },
+
      //student question form route
      {
           path: '/student/question/form/:token',

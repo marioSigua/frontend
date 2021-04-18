@@ -23,6 +23,7 @@
                     :key="`${index}-${quest.batch_number}`"
                     :is="quest.format.replace('exam', 'student')"
                     :identi="quest"
+                    :isDisabled="checkRoute"
                >
                </component>
 
@@ -31,6 +32,7 @@
                     :key="`${index}-${quest.batch_number}`"
                     :is="quest.format.replace('exam', 'student')"
                     :essay="quest"
+                    :isDisabled="checkRoute"
                >
                </component>
 
@@ -39,11 +41,12 @@
                     :key="`${index}-${quest.batch_number}`"
                     :is="quest.format.replace('exam', 'student')"
                     :mcq="quest"
+                    :isDisabled="checkRoute"
                >
                </component>
           </div>
 
-          <div class="btnx">
+          <div class="btnx" v-if="checkRoute">
                <b-button
                     @click="createStudentForm"
                     variant="primary"

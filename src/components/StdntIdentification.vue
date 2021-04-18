@@ -1,4 +1,4 @@
-xam<template>
+<template>
      <div>
           <b-button-close></b-button-close>
           <div class="Identification">
@@ -11,6 +11,7 @@ xam<template>
                     @paste.prevent
                     type="text"
                     class="idn"
+                    :disabled="!isDisabled"
                />
           </div>
      </div>
@@ -18,7 +19,7 @@ xam<template>
 
 <script>
      export default {
-          props: ['identi'],
+          props: ['identi', 'isDisabled'],
 
           data() {
                return {
@@ -34,10 +35,7 @@ xam<template>
 
           async mounted() {
                if (this.identi.question_image) {
-                    this.imgUrl = new Buffer.from(
-                         this.identi.question_image,
-                         'base64'
-                    )
+                    this.imgUrl = this.identi.question_image
                }
           },
      }
