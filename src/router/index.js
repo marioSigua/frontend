@@ -22,11 +22,11 @@ const routes = [
      },
 
      {
-          path: '/professor/viewing/form/:token',
+          path: '/professor/viewing/form/:token/:batch/:subject_code',
           name: 'HistoryForm',
           component: () =>
                import(
-                    /* webpackChunkName: "usersExam" */ '../components/ExamForm.vue'
+                    /* webpackChunkName: "usersExam" */ '../components/HistoryForm.vue'
                ),
      },
 

@@ -33,7 +33,7 @@
                },
           },
 
-          async mounted() {
+          mounted() {
                if (this.identi.question_image) {
                     this.imgUrl = this.identi.question_image
                }

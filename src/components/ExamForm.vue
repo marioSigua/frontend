@@ -16,7 +16,6 @@
                <input v-model="lname" />
           </div>
 
-          ,
           <div class="" v-for="(quest, index) in questionList" :key="index">
                <component
                     v-if="quest.type === 'Identification'"

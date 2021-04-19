@@ -60,10 +60,6 @@ export default {
      mounted() {
           this.$store.dispatch('getQuestion', this.$route.params.token)
 
-          setTimeout(() => {
-               console.log(this.questionList)
-          }, 2000)
-
           // document.addEventListener('contextmenu', function(e) {
           //      e.preventDefault()
           // })
