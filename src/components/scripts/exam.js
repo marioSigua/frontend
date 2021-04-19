@@ -47,7 +47,44 @@ export default {
                choiceTerm: '',
                choiceSubj: '',
                historySubj: '',
-
+               fields: [
+                    {
+                         key: 'Stundent ID',
+                         label:'Stundent ID',
+                         sortable: false
+                       },
+                    {
+                      key: 'last_name',
+                      sortable: true
+                    },
+                    {
+                      key: 'first_name',
+                      sortable: false
+                    },
+                    {
+                      key: 'score',
+                      label: 'Score',
+                      sortable: true,
+                      // Variant applies to the whole column, including the header and footer
+                      variant: 'danger'
+                    },
+                    {
+                         key: 'Status',
+                         label:'Status',
+                         sortable: false
+                       },
+                       {
+                         key: 'View',
+                         label:'View',
+                         sortable: false
+                       },
+                  ],
+                  items: [
+                    { isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
+                    { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' },
+                    { isActive: false, age: 89, first_name: 'Geneva', last_name: 'Wilson' },
+                    { isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney' }
+                  ],
                topicValue: {},
 
                modalTopics: '',
