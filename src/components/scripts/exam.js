@@ -42,6 +42,8 @@ export default {
 
   data() {
     return {
+      show: false,
+
       choiceFilter: "",
       choiceTerm: "",
       choiceSubj: "",
