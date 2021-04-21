@@ -61,7 +61,7 @@
                     </b-card>
                </div>
                <br />
-               <label for="Answer">Answer </label>
+               <label for="Answer">Answer:</label>
                <input
                     v-model="identificationValues.form_answer"
                     type="text"
