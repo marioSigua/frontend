@@ -49,7 +49,7 @@ export default {
                          { questionList: dispatch }
                     )
 
-                    if (isSuccess.status === 200) console.log(1)
+                    if (isSuccess.status === 200) window.location.reload()
                } catch (error) {
                     console.log(error.response)
                }

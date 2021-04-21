@@ -148,6 +148,21 @@ export default new Vuex.Store({
      // mga functions
      // this.$store.dispatch(nameofact, payload=={})
      actions: {
+          // async getHistory({ commit, state }, token) {
+          //      try {
+          //           const { status, data } = await axios.get(
+          //                `${state.BASE_URL}/form/history/${payload.token}`
+          //           )
+
+          //           if (status === 200) {
+          //                commit('getError', '')
+          //                commit('getQuestion', data)
+          //           }
+          //      } catch (error) {
+          //           console.log(error)
+          //      }
+          // },
+
           async getQuestion({ commit, state }, payload) {
                try {
                     const { status, data } = await axios.get(
@@ -176,7 +191,7 @@ export default new Vuex.Store({
                          } else if (
                               router.currentRoute.name !== routeNames.examform
                          ) {
-                              commit('resetState')
+                              console.log(error.response)
                          }
                     }
                }
@@ -189,6 +204,7 @@ export default new Vuex.Store({
                     )
 
                     if (status === 200) {
+                         console.log(data)
                          commit('getQuestion', data)
                     }
                } catch (error) {
