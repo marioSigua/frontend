@@ -32,7 +32,7 @@ const routes = [
 
      //student question form route
      {
-          path: '/student/question/form/:token',
+          path: '/student/question/form/:token/:student_id',
           name: 'examform',
           component: () =>
                import(

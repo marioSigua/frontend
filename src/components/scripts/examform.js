@@ -7,6 +7,10 @@ export default {
           checkRoute() {
                return this.$route.name !== 'HistoryForm' ? true : false
           },
+
+          hasError() {
+               return this.$store.state.errorMessage
+          },
      },
 
      data() {
@@ -14,25 +18,29 @@ export default {
                student_id: '',
                fname: '',
                lname: '',
+
+               deleteProp: {
+                    question_image: '',
+                    question_text: '',
+                    choices: '',
+                    form_answer: '',
+                    created_at: '',
+                    updated_at: '',
+                    topic: '',
+                    term: '',
+                    format: '',
+                    type: '',
+                    question_id: '',
+               },
           }
      },
 
      methods: {
           async createStudentForm() {
                const { state } = this.$store
+
                const dispatch = this.questionList.map((k) => {
-                    //aayusin ko pa
-                    delete k.question_image
-                    delete k.question_text
-                    delete k.choices
-                    delete k.form_answer
-                    delete k.created_at
-                    delete k.updated_at
-                    delete k.topic
-                    delete k.term
-                    delete k.format
-                    delete k.type
-                    delete k.question_id
+                    Object.keys(this.deleteProp).forEach((ky) => delete k[ky])
 
                     return {
                          student_answer: k.student_answer,
@@ -58,7 +66,13 @@ export default {
      },
 
      mounted() {
-          this.$store.dispatch('getQuestion', this.$route.params.token)
+          const payload = {
+               token: this.$route.params.token,
+               student_id: this.$route.params.student_id,
+          }
+          console.log(payload)
+
+          this.$store.dispatch('getQuestion', payload)
 
           // document.addEventListener('contextmenu', function(e) {
           //      e.preventDefault()

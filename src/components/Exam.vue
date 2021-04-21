@@ -4,10 +4,14 @@
           <!--Import Question-->
           <div>
                <div>
-                    <b-button v-b-modal.modal-xl variant="primary"
+                    <b-button v-b-modal.historyModal variant="primary"
                          >xl modal</b-button
                     >
-                    <b-modal id="modal-xl" size="xl" title="Extra Large Modal">
+                    <b-modal
+                         id="historyModal"
+                         size="xl"
+                         title="Extra Large Modal"
+                    >
                          <template #modal-header="{ close }">
                               <!-- Emulate built in modal header close button action -->
                               <b-button
