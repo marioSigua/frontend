@@ -20,11 +20,13 @@ export default {
           },
 
           listStudents() {
-               return !this.choiceSubj
-                    ? []
-                    : this.$store.state.exam.listStudents.filter(
-                           (v) => v.subject_code === this.choiceSubj
-                      )[0].students
+               const [
+                    studentsList,
+               ] = this.$store.state.exam.listStudents.map((v) =>
+                    v.subject_code === this.choiceSubj ? v.students : []
+               )
+
+               return !this.choiceSubj ? [] : studentsList
           },
 
           topics() {
@@ -36,8 +38,36 @@ export default {
 
           questionsHistory() {
                return this.questHistory.filter(
-                    (k) => k.subject_code === this.choiceSubj.subject_code
+                    (k) => k.subject_code === this.sidebarSubj.subject_code
                )
+          },
+
+          studentResponses() {
+               const [
+                    studentsList,
+               ] = this.$store.state.exam.listStudents.map((v) =>
+                    v.subject_code === this.sidebarSubj.subject_code
+                         ? v.students
+                         : []
+               )
+
+               return !this.sidebarSubj.subject_code
+                    ? []
+                    : studentsList.map((k) => {
+                           let data = this.studentRes.find(
+                                (el) =>
+                                     el.student_id === k.student_id &&
+                                     el.batch_number ===
+                                          this.objHistory.batch_number
+                           )
+
+                           return {
+                                firstname: k.firstname,
+                                lastname: k.lastname,
+                                student_id: k.student_id,
+                                score: data ? data.score : '',
+                           }
+                      })
           },
      },
 
@@ -46,19 +76,19 @@ export default {
                choiceFilter: '',
                choiceTerm: '',
                choiceSubj: '',
-               historySubj: '',
+               sidebarSubj: '',
                fields: [
                     {
-                         key: 'Stundent ID',
+                         key: 'student_id',
                          label: 'Stundent ID',
                          sortable: false,
                     },
                     {
-                         key: 'last_name',
+                         key: 'lastname',
                          sortable: true,
                     },
                     {
-                         key: 'first_name',
+                         key: 'firstname',
                          sortable: false,
                     },
                     {
@@ -66,10 +96,9 @@ export default {
                          label: 'Score',
                          sortable: true,
                          // Variant applies to the whole column, including the header and footer
-                         variant: 'danger',
                     },
                     {
-                         key: 'Status',
+                         key: 'status',
                          label: 'Status',
                          sortable: false,
                     },
@@ -79,32 +108,7 @@ export default {
                          sortable: false,
                     },
                ],
-               items: [
-                    {
-                         isActive: true,
-                         age: 40,
-                         first_name: 'Dickerson',
-                         last_name: 'Macdonald',
-                    },
-                    {
-                         isActive: false,
-                         age: 21,
-                         first_name: 'Larsen',
-                         last_name: 'Shaw',
-                    },
-                    {
-                         isActive: false,
-                         age: 89,
-                         first_name: 'Geneva',
-                         last_name: 'Wilson',
-                    },
-                    {
-                         isActive: true,
-                         age: 38,
-                         first_name: 'Jami',
-                         last_name: 'Carney',
-                    },
-               ],
+
                topicValue: {},
 
                modalTopics: '',
@@ -123,6 +127,9 @@ export default {
                subjCode: '',
 
                questHistory: [],
+               studentRes: [],
+
+               objHistory: {},
 
                toggleHistory: '',
           }
@@ -178,8 +185,11 @@ export default {
 
                     setTimeout(() => {
                          this.$bvModal.show('modal-tall')
-                    }, 300)
+                    }, 1000)
                }
+          },
+          trylang() {
+               console.log(this.studentResponses)
           },
 
           async getHistory() {
@@ -189,18 +199,30 @@ export default {
                          `${state.BASE_URL}/exam/history`
                     )
 
-                    if (status === 200) this.questHistory = data
+                    if (status === 200) {
+                         this.$store.dispatch('getEnrolledStudents')
 
-                    setTimeout(() => {
-                         this.toggleHistory = 'sidebar-history'
-                         this.$root.$emit(
-                              'bv::toggle::collapse',
-                              this.toggleHistory
-                         )
-                    }, 300)
+                         this.questHistory = data.history
+                         console.log(this.questHistory)
+                         this.studentRes = data.studentResponse
+                         console.log(this.studentRes)
+                         setTimeout(() => {
+                              this.toggleHistory = 'sidebar-history'
+                              this.$root.$emit(
+                                   'bv::toggle::collapse',
+                                   this.toggleHistory
+                              )
+                         }, 1000)
+                    }
                } catch (error) {
                     console.log(error.response)
                }
+          },
+
+          openHistory(obj) {
+               this.objHistory = { ...obj }
+
+               this.$bvModal.show('historyModal')
           },
 
           async getQuestions() {

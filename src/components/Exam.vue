@@ -4,9 +4,6 @@
           <!--Import Question-->
           <div>
                <div>
-                    <b-button v-b-modal.historyModal variant="primary"
-                         >xl modal</b-button
-                    >
                     <b-modal
                          id="historyModal"
                          size="xl"
@@ -27,11 +24,19 @@
                               <b-table
                                    striped
                                    hover
-                                   :items="items"
+                                   :items="studentResponses"
                                    :fields="fields"
                               >
                                    <template #cell(View)>
                                         <b-button variant="info">Info</b-button>
+                                   </template>
+
+                                   <template #cell(status)="row">
+                                        <b-col>{{
+                                             row.item.score
+                                                  ? 'Submitted'
+                                                  : 'Not Taken'
+                                        }}</b-col>
                                    </template>
                               </b-table>
                          </div>
@@ -215,7 +220,8 @@
                     <div class="px-3 py-2">
                          <div>
                               <b-form-select
-                                   v-model="choiceSubj"
+                                   v-model="sidebarSubj"
+                                   @change="trylang"
                                    size="sm"
                                    class="mt-3"
                               >
@@ -234,40 +240,26 @@
                                         v-for="(quest,
                                         index) in questionsHistory"
                                         :key="index"
+                                        @click="openHistory(quest)"
                                         href="#"
                                         class="flex-column align-items-start"
                                    >
-                                        <router-link
-                                             :to="{
-                                                  name: 'HistoryForm',
-                                                  params: {
-                                                       token: quest.url,
-                                                       batch:
-                                                            quest.batch_number,
-                                                       subject_code:
-                                                            quest.subject_code,
-                                                  },
-                                             }"
+                                        <div
+                                             class="d-flex w-100 justify-content-between"
                                         >
-                                             <div
-                                                  class="d-flex w-100 justify-content-between"
-                                             >
-                                                  <h5 class="mb-1">
-                                                       {{
-                                                            choiceSubj.subject_name
-                                                       }}
-                                                  </h5>
-                                                  <small>{{
-                                                       quest.created_at
-                                                  }}</small>
-                                             </div>
+                                             <h5 class="mb-1">
+                                                  {{ sidebarSubj.subject_name }}
+                                             </h5>
+                                             <small>{{
+                                                  quest.created_at
+                                             }}</small>
+                                        </div>
 
-                                             <p class="mb-1">
-                                                  {{ quest.term }}
-                                             </p>
+                                        <p class="mb-1">
+                                             {{ quest.term }}
+                                        </p>
 
-                                             <small>Description</small>
-                                        </router-link>
+                                        <small>Description</small>
                                    </b-list-group-item>
                               </b-list-group>
                          </div>

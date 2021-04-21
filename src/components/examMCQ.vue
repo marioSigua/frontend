@@ -102,7 +102,7 @@
                     <input v-model="mcqValues.choices.d" type="text" /><br />
                </div>
                <label for="Answer">Answer:</label>
-               <input type="text"/>
+               <input v-model="mcqValues.form_answer" type="text" />
           </div>
      </div>
 </template>
