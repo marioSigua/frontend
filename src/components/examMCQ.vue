@@ -101,6 +101,8 @@
                     <label for="D">D) {{ mcqValues.choices.d }} </label>
                     <input v-model="mcqValues.choices.d" type="text" /><br />
                </div>
+               <label for="Answer">Answer:</label>
+               <input type="text"/>
           </div>
      </div>
 </template>
