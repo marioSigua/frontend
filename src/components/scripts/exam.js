@@ -50,41 +50,61 @@ export default {
                fields: [
                     {
                          key: 'Stundent ID',
-                         label:'Stundent ID',
-                         sortable: false
-                       },
-                    {
-                      key: 'last_name',
-                      sortable: true
+                         label: 'Stundent ID',
+                         sortable: false,
                     },
                     {
-                      key: 'first_name',
-                      sortable: false
+                         key: 'last_name',
+                         sortable: true,
                     },
                     {
-                      key: 'score',
-                      label: 'Score',
-                      sortable: true,
-                      // Variant applies to the whole column, including the header and footer
-                      variant: 'danger'
+                         key: 'first_name',
+                         sortable: false,
+                    },
+                    {
+                         key: 'score',
+                         label: 'Score',
+                         sortable: true,
+                         // Variant applies to the whole column, including the header and footer
+                         variant: 'danger',
                     },
                     {
                          key: 'Status',
-                         label:'Status',
-                         sortable: false
-                       },
-                       {
+                         label: 'Status',
+                         sortable: false,
+                    },
+                    {
                          key: 'View',
-                         label:'View',
-                         sortable: false
-                       },
-                  ],
-                  items: [
-                    { isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-                    { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-                    { isActive: false, age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-                    { isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney' }
-                  ],
+                         label: 'View',
+                         sortable: false,
+                    },
+               ],
+               items: [
+                    {
+                         isActive: true,
+                         age: 40,
+                         first_name: 'Dickerson',
+                         last_name: 'Macdonald',
+                    },
+                    {
+                         isActive: false,
+                         age: 21,
+                         first_name: 'Larsen',
+                         last_name: 'Shaw',
+                    },
+                    {
+                         isActive: false,
+                         age: 89,
+                         first_name: 'Geneva',
+                         last_name: 'Wilson',
+                    },
+                    {
+                         isActive: true,
+                         age: 38,
+                         first_name: 'Jami',
+                         last_name: 'Carney',
+                    },
+               ],
                topicValue: {},
 
                modalTopics: '',
@@ -134,7 +154,7 @@ export default {
                               },
                          }
                     )
-                    console.log(saveQuestion)
+
                     if (saveQuestion.status === 200) {
                          this.content = []
 
@@ -168,8 +188,6 @@ export default {
                     const { data, status } = await this.$axios.get(
                          `${state.BASE_URL}/exam/history`
                     )
-
-                    console.log(data)
 
                     if (status === 200) this.questHistory = data
 
@@ -234,6 +252,7 @@ export default {
                               type: this.choiceFilter,
                               question_text: '',
                               question_image: '',
+                              question_score: '',
                               response_name: 'student-identification',
                               student_answer: '',
                               form_answer: '',
@@ -249,6 +268,7 @@ export default {
                               type: this.choiceFilter,
                               question_text: '',
                               question_image: '',
+                              question_score: '',
                               student_answer: '',
                               form_answer: '',
                               topic: '',

@@ -158,7 +158,6 @@ export default new Vuex.Store({
                          commit('getQuestion', data)
                     }
                } catch (error) {
-                    console.log(error.response)
                     if (error.response !== undefined) {
                          if (
                               error.response.data.message === 'jwt expired' &&

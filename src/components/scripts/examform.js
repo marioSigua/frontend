@@ -18,20 +18,6 @@ export default {
                student_id: '',
                fname: '',
                lname: '',
-
-               deleteProp: {
-                    question_image: '',
-                    question_text: '',
-                    choices: '',
-                    form_answer: '',
-                    created_at: '',
-                    updated_at: '',
-                    topic: '',
-                    term: '',
-                    format: '',
-                    type: '',
-                    question_id: '',
-               },
           }
      },
 
@@ -40,13 +26,18 @@ export default {
                const { state } = this.$store
 
                const dispatch = this.questionList.map((k) => {
-                    Object.keys(this.deleteProp).forEach((ky) => delete k[ky])
+                    const isCorrect =
+                         k.form_answer.toLowerCase() ===
+                              k.student_answer.toLowerCase() ||
+                         k.form_answer.toUpperCase() ===
+                              k.student_answer.toUpperCase()
+                              ? true
+                              : false
 
                     return {
                          student_answer: k.student_answer,
-                         firstname: this.fname,
-                         lastname: this.lname,
-                         student_id: this.student_id,
+                         student_score: isCorrect ? k.question_score : 0,
+                         student_id: this.$route.params.student_id,
                          batch_number: k.batch_number,
                          form_number: k.form_number,
                          subject_code: k.subject_code,
@@ -63,6 +54,15 @@ export default {
                     console.log(error.response)
                }
           },
+
+          isMatch(key) {
+               return (
+                    key.form_answer.toLowerCase() ===
+                         key.student_answer.toLowerCase() ||
+                    key.form_answer.toUpperCase() ===
+                         key.student_answer.toUpperCase()
+               )
+          },
      },
 
      mounted() {
@@ -70,10 +70,12 @@ export default {
                token: this.$route.params.token,
                student_id: this.$route.params.student_id,
           }
-          console.log(payload)
 
           this.$store.dispatch('getQuestion', payload)
 
+          setTimeout(() => {
+               console.log(this.questionList)
+          }, 2000)
           // document.addEventListener('contextmenu', function(e) {
           //      e.preventDefault()
           // })

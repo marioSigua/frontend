@@ -5,18 +5,20 @@
           ></b-button-close>
           <h2>Identification</h2>
 
-       
           <label for="Topic">Topic:</label>
-          <input type="text" v-model="identificationValues.topic" />                     
-               <!--pts-->
-               <b-input-group class="mt-3 pts">
-                    <template #append>
-                      <b-input-group-text><strong>pts.</strong></b-input-group-text>
-                    </template>
-                    <b-form-input></b-form-input>
-                  </b-input-group>
-               <!--pts-->
-         
+          <input type="text" v-model="identificationValues.topic" />
+          <!--pts-->
+          <b-input-group class="mt-3 pts">
+               <template #append>
+                    <b-input-group-text
+                         ><strong>pts.</strong></b-input-group-text
+                    >
+               </template>
+               <b-form-input
+                    v-model="identificationValues.question_score"
+               ></b-form-input>
+          </b-input-group>
+          <!--pts-->
 
           <div>
                <div>
