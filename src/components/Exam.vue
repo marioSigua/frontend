@@ -27,7 +27,7 @@
                                    :items="studentResponses"
                                    :fields="fields"
                               >
-                                   <template #cell(View)>
+                                   <template #cell(view)>
                                         <b-button variant="info">Info</b-button>
                                    </template>
 
@@ -221,7 +221,6 @@
                          <div>
                               <b-form-select
                                    v-model="sidebarSubj"
-                                   @change="trylang"
                                    size="sm"
                                    class="mt-3"
                               >

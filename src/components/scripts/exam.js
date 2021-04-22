@@ -51,21 +51,21 @@ export default {
                          : []
                )
 
-               return !this.sidebarSubj.subject_code
+               return !this.sidebarSubj
                     ? []
                     : studentsList.map((k) => {
-                           let data = this.studentRes.find(
+                           let temp = this.studentRes.find(
                                 (el) =>
-                                     el.student_id === k.student_id &&
+                                     k.student_id === el.student_id &&
                                      el.batch_number ===
                                           this.objHistory.batch_number
                            )
 
                            return {
+                                student_id: k.student_id,
                                 firstname: k.firstname,
                                 lastname: k.lastname,
-                                student_id: k.student_id,
-                                score: data ? data.score : '',
+                                score: temp ? temp.score : '',
                            }
                       })
           },
@@ -95,15 +95,15 @@ export default {
                          key: 'score',
                          label: 'Score',
                          sortable: true,
-                         // Variant applies to the whole column, including the header and footer
                     },
                     {
                          key: 'status',
                          label: 'Status',
                          sortable: false,
                     },
+
                     {
-                         key: 'View',
+                         key: 'view',
                          label: 'View',
                          sortable: false,
                     },
@@ -188,9 +188,6 @@ export default {
                     }, 1000)
                }
           },
-          trylang() {
-               console.log(this.studentResponses)
-          },
 
           async getHistory() {
                const { state } = this.$store
@@ -203,9 +200,7 @@ export default {
                          this.$store.dispatch('getEnrolledStudents')
 
                          this.questHistory = data.history
-                         console.log(this.questHistory)
                          this.studentRes = data.studentResponse
-                         console.log(this.studentRes)
                          setTimeout(() => {
                               this.toggleHistory = 'sidebar-history'
                               this.$root.$emit(
