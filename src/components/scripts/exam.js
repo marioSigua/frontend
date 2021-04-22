@@ -92,6 +92,10 @@ export default {
 
                return !this.sidebarSubj ? [] : list
           },
+
+          historyQuestion() {
+               return this.objHistory
+          },
      },
 
      data() {
@@ -152,7 +156,11 @@ export default {
                questHistory: [],
                studentRes: [],
 
-               objHistory: {},
+               objHistory: {
+                    url: '',
+                    subject_code: '',
+                    batch_number: '',
+               },
 
                listResponses: [],
                toggleHistory: '',
@@ -240,6 +248,10 @@ export default {
 
           openHistory(obj) {
                this.listResponses = []
+               for (var k in this.objHistory) this.objHistory[k] = obj[k]
+
+               console.log(this.objHistory)
+
                const [
                     studentsList,
                ] = this.$store.state.exam.listStudents.map((v) =>
@@ -247,7 +259,6 @@ export default {
                          ? v.students
                          : []
                )
-               this.objHistory = { ...obj }
 
                studentsList.map((k) => {
                     let foundData = this.studentRes.find(

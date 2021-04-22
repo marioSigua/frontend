@@ -9,16 +9,26 @@
                          size="xl"
                          title="Extra Large Modal"
                     >
-                         <template #modal-header="{ close }">
+                         <template #modal-header="">
                               <!-- Emulate built in modal header close button action -->
-                              <b-button
-                                   size="sm"
-                                   variant="primary"
-                                   @click="close()"
+                              <router-link
+                                   :to="{
+                                        name: 'HistoryForm',
+                                        params: {
+                                             token: objHistory.url,
+                                             batch: objHistory.batch_number,
+                                             subject_code:
+                                                  objHistory.subject_code,
+                                        },
+                                   }"
                               >
-                                   View Form
-                              </b-button>
-                              <h5>Subject Name</h5>
+                                   <b-button size="sm" variant="primary">
+                                        View Form
+                                   </b-button>
+                              </router-link>
+                              <h5>
+                                   {{ sidebarSubj.subject_name }}
+                              </h5>
                          </template>
                          <div>
                               <b-table
