@@ -24,7 +24,7 @@
                               <b-table
                                    striped
                                    hover
-                                   :items="studentResponses"
+                                   :items="listResponses"
                                    :fields="fields"
                               >
                                    <template #cell(view)>

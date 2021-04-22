@@ -51,23 +51,46 @@ export default {
                          : []
                )
 
-               return !this.sidebarSubj
+               // return !this.sidebarSubj
+               //      ? []
+               //      : studentsList.map((k) => {
+               //             let temp = this.studentRes.find(
+               //                  (el) =>
+               //                       k.student_id === el.student_id &&
+               //                       el.batch_number ===
+               //                            this.objHistory.batch_number
+               //             )
+
+               //             return {
+               //                  student_id: k.student_id,
+               //                  firstname: k.firstname,
+               //                  lastname: k.lastname,
+               //                  score: temp ? temp.score : '',
+               //             }
+               //        })
+
+               let list = []
+
+               !this.sidebarSubj
                     ? []
                     : studentsList.map((k) => {
-                           let temp = this.studentRes.find(
-                                (el) =>
-                                     k.student_id === el.student_id &&
-                                     el.batch_number ===
+                           this.studentRes.map((y) => {
+                                if (
+                                     k.student_id === y.student_id &&
+                                     y.batch_number ===
                                           this.objHistory.batch_number
-                           )
-
-                           return {
-                                student_id: k.student_id,
-                                firstname: k.firstname,
-                                lastname: k.lastname,
-                                score: temp ? temp.score : '',
-                           }
+                                ) {
+                                     list.push({
+                                          firstname: k.firstname,
+                                          lastname: k.lastname,
+                                          score: y.score,
+                                          student_id: k.student_id,
+                                     })
+                                }
+                           })
                       })
+
+               return !this.sidebarSubj ? [] : list
           },
      },
 
@@ -131,6 +154,7 @@ export default {
 
                objHistory: {},
 
+               listResponses: [],
                toggleHistory: '',
           }
      },
@@ -215,7 +239,33 @@ export default {
           },
 
           openHistory(obj) {
+               this.listResponses = []
+               const [
+                    studentsList,
+               ] = this.$store.state.exam.listStudents.map((v) =>
+                    v.subject_code === this.sidebarSubj.subject_code
+                         ? v.students
+                         : []
+               )
                this.objHistory = { ...obj }
+
+               studentsList.map((k) => {
+                    let foundData = this.studentRes.find(
+                         (el) =>
+                              el.student_id === k.student_id &&
+                              el.batch_number === obj.batch_number
+                    )
+
+                    this.listResponses.push({
+                         student_id: k.student_id,
+                         firstname: k.firstname,
+                         lastname: k.lastname,
+                         score: foundData ? foundData.score : '',
+                         student_token: foundData
+                              ? foundData.student_token
+                              : '',
+                    })
+               })
 
                this.$bvModal.show('historyModal')
           },
