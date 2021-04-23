@@ -1,23 +1,61 @@
 <template>
-     <div class="Eform">
-          <div class="Term">
-               <div class="clr"></div>
-               <h1>Identification</h1>
-               <h5>Desciption</h5>
+     <div>
+          <b-button-close></b-button-close>
+          <div
+               class="Identification"
+               :class="{
+                    'is-correct': isCorrect,
+                    'is-wrong': !isCorrect,
+               }"
+          >
+               <img height="300" width="300" :src="imgUrl" alt="" />
+               <br />
+               <input
+                    v-model="identi.student_answer"
+                    @keydown="preventCopy"
+                    @copy.prevent
+                    @paste.prevent
+                    type="text"
+                    class="idn"
+               />
           </div>
-          <div class="btnx" v-if="checkRoute">
-               <b-button
-                    @click="createStudentForm"
-                    variant="primary"
-                    class="submit"
-                    >Submit</b-button
-               >
-          </div>
-          
      </div>
 </template>
 
 <script>
-     import app from './scripts/examform'
-     export default app
+     export default {
+          props: ['identi'],
+
+          computed: {
+               isCorrect() {
+                    return this.identi.student_answer ===
+                         this.identi.form_answer
+                         ? true
+                         : false
+               },
+          },
+
+          data() {
+               return {
+                    imgUrl: null,
+               }
+          },
+
+          methods: {
+               preventCopy(e) {
+                    return e
+               },
+          },
+
+          mounted() {
+               console.log(this.identi.student_answer)
+               if (this.identi.question_image) {
+                    this.imgUrl = JSON.parse(this.identi.question_image)
+               }
+          },
+     }
 </script>
+
+<style scoped>
+     @import './styles/ExamForm.css';
+</style>

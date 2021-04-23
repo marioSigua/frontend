@@ -8,15 +8,47 @@
           <div class="Term">
                <div class="Info"></div>
                <label for="text">First Name:</label>
-               <input />
+               <input
+                    :value="student ? student.firstname : ''"
+                    :disabled="student"
+               />
                <label for="text">Last Name:</label>
-               <input />
+               <input
+                    :value="student ? student.lastname : ''"
+                    :disabled="student"
+               />
+          </div>
+
+          <div class="" v-for="(quest, index) in responseList" :key="index">
+               <component
+                    v-if="quest.type === 'Identification'"
+                    :key="`${index}-${quest.batch_number}`"
+                    :is="quest.format.replace('exam', 'viewing')"
+                    :identi="quest"
+               >
+               </component>
+
+               <component
+                    v-if="quest.type === 'Essay'"
+                    :key="`${index}-${quest.batch_number}`"
+                    :is="quest.format.replace('exam', 'viewing')"
+                    :essay="quest"
+               >
+               </component>
+
+               <component
+                    v-if="quest.type === 'Multiple Choice'"
+                    :key="`${index}-${quest.batch_number}`"
+                    :is="quest.format.replace('exam', 'viewing')"
+                    :mcq="quest"
+               >
+               </component>
           </div>
      </div>
 </template>
 
 <script>
-     import app from './scripts/historyform'
+     import app from './scripts/responseviewing'
      export default app
 </script>
 

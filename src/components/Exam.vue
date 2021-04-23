@@ -12,6 +12,7 @@
                          <template #modal-header="">
                               <!-- Emulate built in modal header close button action -->
                               <router-link
+                                   target="_blank"
                                    :to="{
                                         name: 'HistoryForm',
                                         params: {
@@ -38,8 +39,26 @@
                                    :fields="fields"
                               >
                                    <template #cell(view)="row">
-                                        {{ row.item }}
-                                        <b-button variant="info">Info</b-button>
+                                        <router-link
+                                             target="_blank"
+                                             :to="{
+                                                  name: 'ResponseViewing',
+                                                  params: {
+                                                       token: objHistory.url,
+
+                                                       student_id:
+                                                            row.item
+                                                                 .student_token,
+                                                  },
+                                             }"
+                                             :disabled="!row.item.score"
+                                        >
+                                             <b-button
+                                                  variant="info"
+                                                  :disabled="!row.item.score"
+                                                  >Info</b-button
+                                             >
+                                        </router-link>
                                    </template>
 
                                    <template #cell(status)="row">

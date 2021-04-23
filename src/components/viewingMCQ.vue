@@ -1,23 +1,90 @@
 <template>
-     <div class="Eform">
-          <div class="Term">
-               <div class="clr"></div>
-               <h1>Multiple Choice</h1>
-               <h5>Desciption</h5>
+     <div
+          class="MCQ"
+          :class="{
+               'is-correct': isCorrect,
+               'is-wrong': !isCorrect,
+          }"
+     >
+          <b-button-close></b-button-close>
+          <div class="ui form">
+               <div class="grouped fields">
+                    <!-- <textarea
+                         name=""
+                         :value="mcq.question"
+                         id=""
+                         cols="30"
+                         rows="10"
+                    ></textarea> -->
+                    <img :src="imgUrl" height="300" width="300" alt="" />
+                    <div class="field">
+                         <div class="ui radio checkbox">
+                              <b-form-radio-group
+                                   id="radio-group-1"
+                                   v-model="mcq.student_answer"
+                                   name="radio-options"
+                                   stacked
+                                   :disabled="!isDisabled"
+                              >
+                                   <b-form-radio
+                                        class="mb-2 unselected"
+                                        :value="choice.a"
+                                        >{{ choice.a }}</b-form-radio
+                                   >
+                                   <b-form-radio
+                                        class="mb-2 unselected"
+                                        :value="choice.b"
+                                        >{{ choice.b }}</b-form-radio
+                                   >
+                                   <b-form-radio
+                                        class="mb-2 unselected"
+                                        :value="choice.c"
+                                        >{{ choice.c }}</b-form-radio
+                                   >
+                                   <b-form-radio
+                                        class="mb-2 unselected"
+                                        :value="choice.d"
+                                        >{{ choice.d }}</b-form-radio
+                                   >
+                              </b-form-radio-group>
+                         </div>
+                    </div>
+               </div>
           </div>
-          <div class="btnx" v-if="checkRoute">
-               <b-button
-                    @click="createStudentForm"
-                    variant="primary"
-                    class="submit"
-                    >Submit</b-button
-               >
-          </div>
-          
      </div>
 </template>
 
 <script>
-     import app from './scripts/examform'
-     export default app
+     export default {
+          props: ['mcq', 'isDisabled'],
+
+          computed: {
+               choice() {
+                    return JSON.parse(this.mcq.choices)
+               },
+
+               isCorrect() {
+                    return this.mcq.student_answer === this.mcq.form_answer
+                         ? true
+                         : false
+               },
+          },
+
+          data() {
+               return {
+                    imgUrl: null,
+               }
+          },
+
+          mounted() {
+               console.log(this.mcq.student_answer)
+               if (this.mcq.question_image) {
+                    this.imgUrl = JSON.parse(this.mcq.question_image)
+               }
+          },
+     }
 </script>
+
+<style scoped>
+     @import './styles/ExamForm.css';
+</style>

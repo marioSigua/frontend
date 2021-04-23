@@ -1,24 +1,52 @@
 <template>
-     <div class="Eform">
-          <div class="Term">
-               <div class="clr"></div>
-               <h1>Essay</h1>
-               <h5>Desciption</h5>
+     <div>
+          <b-button-close></b-button-close>
+          <div
+               class="Essay unselected"
+               :class="{
+                    'is-correct': essay.student_score,
+                    'is-wrong': !essay.student_score,
+               }"
+          >
+               <img :src="imgurl" height="300" width="300" alt="" />
+               <br />
+               <textarea
+                    @keydown="preventCopy"
+                    @copy.prevent
+                    @paste.prevent
+                    v-model="essay.student_answer"
+                    name=""
+                    id=""
+                    cols="94"
+                    rows="1"
+                    :disabled="!isDisabled"
+               ></textarea>
           </div>
-
-          <div class="btnx" v-if="checkRoute">
-               <b-button
-                    @click="createStudentForm"
-                    variant="primary"
-                    class="submit"
-                    >Submit</b-button
-               >
-          </div>
-          
      </div>
 </template>
-
 <script>
-     import app from './scripts/examform'
-     export default app
+     export default {
+          props: ['essay', 'isDisabled'],
+
+          data() {
+               return {
+                    imgurl: '',
+               }
+          },
+
+          methods: {
+               preventCopy(e) {
+                    return e
+               },
+          },
+
+          mounted() {
+               if (this.essay.question_image) {
+                    this.imgurl = JSON.parse(this.essay.question_image)
+               }
+          },
+     }
 </script>
+<style scoped>
+     @import './styles/ExamForm.css';
+</style>
