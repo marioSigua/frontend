@@ -250,8 +250,6 @@ export default {
                this.listResponses = []
                for (var k in this.objHistory) this.objHistory[k] = obj[k]
 
-               console.log(this.objHistory)
-
                const [
                     studentsList,
                ] = this.$store.state.exam.listStudents.map((v) =>
