@@ -37,7 +37,8 @@
                                    :items="listResponses"
                                    :fields="fields"
                               >
-                                   <template #cell(view)>
+                                   <template #cell(view)="row">
+                                        {{ row.item }}
                                         <b-button variant="info">Info</b-button>
                                    </template>
 
