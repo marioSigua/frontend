@@ -95,7 +95,9 @@
                                         v-b-toggle="'accordion' + index"
                                         variant="info"
                                         class="clsbtn"
-                                        @click="getSubjectCode(subj)"
+                                        @click="
+                                             getSubjectCode(subj.subject_code)
+                                        "
                                    >
                                         {{ subj ? subj.subject_name : '' }}
                                    </b-button>

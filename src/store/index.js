@@ -50,7 +50,6 @@ export default new Vuex.Store({
           //sa examform to
           questionList: [],
 
-<<<<<<< HEAD
           historyForm: {
                historyList: [],
                listStudents: [],
@@ -58,8 +57,6 @@ export default new Vuex.Store({
 
           errorMessage: '',
 
-=======
->>>>>>> mario_test
           openModal: false,
 
           openAccordion: '',
@@ -152,7 +149,6 @@ export default new Vuex.Store({
                          commit('getError', '')
                          commit('getQuestion', data)
                     }
-<<<<<<< HEAD
                } catch (error) {
                     if (error.response !== undefined) {
                          if (
@@ -173,20 +169,6 @@ export default new Vuex.Store({
                               router.currentRoute.name !== routeNames.examform
                          ) {
                               console.log(error.response)
-                         }
-                    }
-               }
-          },
-=======
->>>>>>> mario_test
-
-                    console.log(data)
-               } catch (error) {
-                    console.log(error.response)
-
-                    if (error.response !== undefined) {
-                         if (error.response.data.message === 'jwt expired') {
-                              commit('resetState')
                          }
                     }
                }
