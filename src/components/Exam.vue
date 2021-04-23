@@ -337,7 +337,6 @@
 
           <br />
           <b-button variant="primary" @click="openStudentList">
-               <!-- <button @click="createForm()" v-b-modal.modal-tall style="margin-left: 10px"> -->
                Create Form
           </b-button>
 
