@@ -167,8 +167,11 @@ img {
      max-height: 100%;
 }
 
-.pts{
-width: 100px;
-text-align: right;
+img:hover {
+     cursor: pointer;
+}
 
+.pts {
+     width: 100px;
+     text-align: right;
 }

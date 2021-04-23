@@ -77,13 +77,7 @@
                     >Import Question</b-button
                >
                <!--Accordian-->
-               <b-modal
-                    @show="resetModal"
-                    @hidden="resetModal"
-                    id="modal-xl"
-                    size="xl"
-                    title="Extra Large Modal"
-               >
+               <b-modal id="modal-xl" size="xl" title="Import Questions">
                     <div
                          class="accordion"
                          role="tablist"
@@ -101,9 +95,7 @@
                                         v-b-toggle="'accordion' + index"
                                         variant="info"
                                         class="clsbtn"
-                                        @click="
-                                             getSubjectCode(subj.subject_code)
-                                        "
+                                        @click="getSubjectCode(subj)"
                                    >
                                         {{ subj ? subj.subject_name : '' }}
                                    </b-button>
@@ -295,7 +287,10 @@
                     </div>
                </b-sidebar>
 
-               <b-button v-b-modal.modal-xl variant="primary"
+               <b-button
+                    v-b-modal.modal-xl
+                    variant="primary"
+                    @click="getQuestions"
                     >Import Question</b-button
                >
           </div>
@@ -388,36 +383,3 @@
 <style scoped>
      @import './styles/Exam.css';
 </style>
-
-<!-- <script>
-  export default {
-  data() {
-    return {
-      selected: null,
-      options: [
-        { value: null, text: 'Please select an option' },
-        { value: 'a', text: 'This is First option' },
-        { value: 'b', text: 'Selected Option' },
-        { value: { C: '3PO' }, text: 'This is an option with object value' },
-        { value: 'd', text: 'This one is disabled', disabled: true }
-      ]
-    }
-  }
-}
-</script> -->
-
-<!-- <script>
-      export default {
-        data() {
-          return {
-            selected: [], // Must be an array reference!
-            options: [
-              { text: 'Argarin David', value: 'orange' },
-              { text: 'Sigua Mario', value: 'apple' },
-              { text: 'Gorospe Vincent', value: 'pineapple' },
-              { text: 'Calil San', value: 'grape' }
-            ]
-          }
-        }
-      }
-    </script> -->

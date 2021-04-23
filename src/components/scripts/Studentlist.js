@@ -33,37 +33,32 @@ export default {
                          // variant: 'danger'
                     },
 
-                    'grades',
+                    {
+                         key: 'prelim_grade',
+                         label: 'Prelim',
+                    },
+
+                    {
+                         key: 'midterm_grade',
+                         label: 'Midterm',
+                    },
+
+                    {
+                         key: 'finals_grade',
+                         label: 'Finals',
+                    },
+
+                    {
+                         key: 'GWA',
+                         label: 'GWA',
+                    },
+
+                    'Remarks',
 
                     'drop_students',
                ],
 
-               items: [
-                    {
-                         Course: 'BSEE',
-                         first_name: 'Dickerson',
-                         last_name: 'Macdonald',
-                         Student_ID: '2015020055',
-                    },
-                    {
-                         Course: 'BSCOE',
-                         first_name: 'Larsen',
-                         last_name: 'Shaw',
-                         Student_ID: '2015020055',
-                    },
-                    {
-                         Course: 'BSECE',
-                         first_name: 'Geneva',
-                         last_name: 'Wilson',
-                         Student_ID: '2015020055',
-                    },
-                    {
-                         Course: 'BSEEE',
-                         first_name: 'Jami',
-                         last_name: 'Carney',
-                         Student_ID: '2015020055',
-                    },
-               ],
+               items: [],
 
                engrCourse: [
                     'BSCpE',

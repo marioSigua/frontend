@@ -56,11 +56,25 @@
                               </b-tab>
                          </b-tabs>
 
-                         <span class="danger"> {{ error }}</span>
-                    </b-card>
-               </div>
+            <b-tab title="Upload Image">
+              <p class="tabt">Question:</p>
+              <input
+                ref="file"
+                @change="onFileChange"
+                type="file"
+                style="display:none"
+              />
+              <img
+                class="is-rounded"
+                height="300"
+                width="300"
+                :src="imgUrl ? imgUrl : 'https://i.imgur.com/bCOd9N0.jpg'"
+                alt="Placeholder image"
+                @click="$refs.file.click()"
+              />
+            </b-tab>
 
-               ><br />
+               <br />
                <div>
                     <input
                          type="radio"
@@ -108,67 +122,64 @@
 </template>
 
 <script>
-     export default {
-          props: ['mcqValues', 'parent'],
+export default {
+  props: ["mcqValues", "parent"],
 
-          data() {
-               return {
-                    imgUrl: null,
-                    imgResponse: null,
+  data() {
+    return {
+      imgUrl: null,
+      imgResponse: null,
 
-                    error: '',
-               }
-          },
+      error: "",
+    };
+  },
 
-          methods: {
-               encodeBase64(file) {
-                    return new Promise((resolve, reject) => {
-                         const reader = new FileReader()
-                         reader.readAsDataURL(file)
-                         reader.onload = () => resolve(reader.result)
-                         reader.onerror = (error) => reject(error)
-                    })
-               },
+  methods: {
+    encodeBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    },
 
-               async onFileChange(e) {
-                    let imgFormats = ['jpg', 'jpeg', 'png', 'PNG']
-                    const file = e.target.files[0]
-                    let fileFormat = file.name.split('.')[1]
+    async onFileChange(e) {
+      let imgFormats = ["jpg", "jpeg", "png", "PNG"];
+      const file = e.target.files[0];
+      let fileFormat = file.name.split(".")[1];
 
-                    if (!file) {
-                         e.preventDefault()
-                         return
-                    }
+      if (!file) {
+        e.preventDefault();
+        return;
+      }
 
-                    if (!imgFormats.includes(fileFormat)) {
-                         e.preventDefault()
-                         this.error =
-                              'jpg, jpeg and png are the only file supported'
-                         return
-                    }
+      if (!imgFormats.includes(fileFormat)) {
+        e.preventDefault();
+        this.error = "jpg, jpeg and png are the only file supported";
+        return;
+      }
 
-                    if (file.size > 1000 * 1000) {
-                         e.preventDefault()
-                         this.error = 'Image must be less than 1mb'
-                         return
-                    }
+      if (file.size > 1000 * 1000) {
+        e.preventDefault();
+        this.error = "Image must be less than 1mb";
+        return;
+      }
 
-                    this.error = ''
+      this.error = "";
 
-                    this.imgUrl = URL.createObjectURL(file)
+      this.imgUrl = URL.createObjectURL(file);
 
-                    this.mcqValues.question_image = await this.encodeBase64(
-                         file
-                    )
-               },
-          },
+      this.mcqValues.question_image = await this.encodeBase64(file);
+    },
+  },
 
-          async mounted() {
-               if (this.mcqValues.question_image) {
-                    this.imgResponse = this.mcqValues.question_image
-               } else {
-                    this.imgUrl = 'https://i.imgur.com/SbAMcxP.png'
-               }
-          },
-     }
+  async mounted() {
+    if (this.mcqValues.question_image) {
+      this.imgResponse = this.mcqValues.question_image;
+    } else {
+      this.imgUrl = "https://i.imgur.com/SbAMcxP.png";
+    }
+  },
+};
 </script>

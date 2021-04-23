@@ -19,8 +19,6 @@ const routeNames = {
      calculator: 'calculator',
      exam: 'usersExam',
      studentList: 'studentList',
-     HistoryForm: 'HistoryForm',
-     examform: 'examform',
 }
 
 export default new Vuex.Store({
@@ -52,6 +50,7 @@ export default new Vuex.Store({
           //sa examform to
           questionList: [],
 
+<<<<<<< HEAD
           historyForm: {
                historyList: [],
                listStudents: [],
@@ -59,6 +58,8 @@ export default new Vuex.Store({
 
           errorMessage: '',
 
+=======
+>>>>>>> mario_test
           openModal: false,
 
           openAccordion: '',
@@ -106,20 +107,14 @@ export default new Vuex.Store({
                } else if (router.currentRoute.name === routeNames.studentList) {
                     //pag nsa route ng student list
                     state.studentList.students = payload
-               } else if (router.currentRoute.name === routeNames.HistoryForm) {
-                    //pag nsa route ng history form
-                    state.historyForm.listStudents = payload
                } else {
+                    //pag nsa route ng calcu
                     state.calculator.listStudents = payload
                }
           },
 
           getQuestion(state, payload) {
-               if (router.currentRoute.name === routeNames.examform) {
-                    state.questionList = payload
-               } else if (router.currentRoute.name === routeNames.HistoryForm) {
-                    state.historyForm.historyList = payload
-               }
+               state.questionList = payload
           },
 
           profSubjects(state, payload) {
@@ -157,6 +152,7 @@ export default new Vuex.Store({
                          commit('getError', '')
                          commit('getQuestion', data)
                     }
+<<<<<<< HEAD
                } catch (error) {
                     if (error.response !== undefined) {
                          if (
@@ -181,16 +177,10 @@ export default new Vuex.Store({
                     }
                }
           },
+=======
+>>>>>>> mario_test
 
-          async getResponse({ commit, state }, payload) {
-               try {
-                    const { status, data } = await axios.get(
-                         `${state.BASE_URL}/student/response/${payload}`
-                    )
-
-                    if (status === 200) {
-                         commit('getQuestion', data)
-                    }
+                    console.log(data)
                } catch (error) {
                     console.log(error.response)
 

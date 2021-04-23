@@ -42,57 +42,6 @@ export default {
                )
           },
 
-          studentResponses() {
-               const [
-                    studentsList,
-               ] = this.$store.state.exam.listStudents.map((v) =>
-                    v.subject_code === this.sidebarSubj.subject_code
-                         ? v.students
-                         : []
-               )
-
-               // return !this.sidebarSubj
-               //      ? []
-               //      : studentsList.map((k) => {
-               //             let temp = this.studentRes.find(
-               //                  (el) =>
-               //                       k.student_id === el.student_id &&
-               //                       el.batch_number ===
-               //                            this.objHistory.batch_number
-               //             )
-
-               //             return {
-               //                  student_id: k.student_id,
-               //                  firstname: k.firstname,
-               //                  lastname: k.lastname,
-               //                  score: temp ? temp.score : '',
-               //             }
-               //        })
-
-               let list = []
-
-               !this.sidebarSubj
-                    ? []
-                    : studentsList.map((k) => {
-                           this.studentRes.map((y) => {
-                                if (
-                                     k.student_id === y.student_id &&
-                                     y.batch_number ===
-                                          this.objHistory.batch_number
-                                ) {
-                                     list.push({
-                                          firstname: k.firstname,
-                                          lastname: k.lastname,
-                                          score: y.score,
-                                          student_id: k.student_id,
-                                     })
-                                }
-                           })
-                      })
-
-               return !this.sidebarSubj ? [] : list
-          },
-
           historyQuestion() {
                return this.objHistory
           },
@@ -170,12 +119,7 @@ export default {
      methods: {
           async createForm() {
                const { state } = this.$store
-               // const formBody = {
-               //      term: this.choiceTerm,
-               //      subject_code: this.choiceSubj,
-               //      question_form: this.content,
-               //      stdEmail: this.stdEmail,
-               // }
+
                let batch = Date.now()
                let formData = new FormData()
                formData.append('batch_number', batch)
@@ -298,6 +242,7 @@ export default {
           },
 
           getTopics(obj) {
+               console.log(obj)
                if (this.content.includes(obj)) {
                     alert('topic is already added')
                } else {

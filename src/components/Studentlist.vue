@@ -74,20 +74,64 @@
                                                   hover
                                                   responsive="sm"
                                              >
-                                                  <template #cell(grades)="row">
-                                                       <b-button
-                                                            size="sm"
-                                                            class="mr-2 mr2btn"
-                                                            @click="
-                                                                 row.toggleDetails
-                                                            "
-                                                       >
-                                                            {{
-                                                                 row.detailsShowing
-                                                                      ? 'Hide'
-                                                                      : 'Show'
-                                                            }}
-                                                       </b-button>
+                                                  <template #cell(GWA)="row">
+                                                       <b-row class="mb-2">
+                                                            <b-col
+                                                                 v-if="
+                                                                      row.item
+                                                                           .finals_grade ===
+                                                                           null
+                                                                 "
+                                                            >
+                                                                 {{ null }}
+                                                            </b-col>
+                                                            <b-col v-else>{{
+                                                                 (
+                                                                      row.item
+                                                                           .prelim_grade *
+                                                                           0.3 +
+                                                                      row.item
+                                                                           .midterm_grade *
+                                                                           0.3 +
+                                                                      row.item
+                                                                           .finals_grade *
+                                                                           0.4
+                                                                 ).toFixed(2)
+                                                            }}</b-col>
+                                                       </b-row>
+                                                  </template>
+
+                                                  <template
+                                                       #cell(Remarks)="grade"
+                                                  >
+                                                       <b-row class="mb-2">
+                                                            <b-col
+                                                                 v-if="
+                                                                      (
+                                                                           grade
+                                                                                .item
+                                                                                .prelim_grade *
+                                                                                0.3 +
+                                                                           grade
+                                                                                .item
+                                                                                .midterm_grade *
+                                                                                0.3 +
+                                                                           grade
+                                                                                .item
+                                                                                .finals_grade *
+                                                                                0.4
+                                                                      ).toFixed(
+                                                                           2
+                                                                      ) >= 75
+                                                                 "
+                                                            >
+                                                                 passed
+                                                            </b-col>
+                                                            <b-col v-else>
+                                                            </b-col>
+
+                                                            <b-col> </b-col>
+                                                       </b-row>
                                                   </template>
 
                                                   <template
@@ -114,80 +158,6 @@
                                                                  />
                                                             </svg>
                                                        </button>
-                                                  </template>
-
-                                                  <template #row-details="row">
-                                                       <b-card>
-                                                            <b-row class="mb-2">
-                                                                 <b-col
-                                                                      sm="3"
-                                                                      class="text-sm-right"
-                                                                      ><b
-                                                                           >Prelim:</b
-                                                                      ></b-col
-                                                                 >
-                                                                 <b-col>{{
-                                                                      row.item
-                                                                           .prelim_grade
-                                                                 }}</b-col>
-                                                            </b-row>
-
-                                                            <b-row class="mb-2">
-                                                                 <b-col
-                                                                      sm="3"
-                                                                      class="text-sm-right"
-                                                                      ><b
-                                                                           >Midterm:</b
-                                                                      ></b-col
-                                                                 >
-                                                                 <b-col>{{
-                                                                      row.item
-                                                                           .midterm_grade
-                                                                 }}</b-col>
-                                                            </b-row>
-
-                                                            <b-row class="mb-2">
-                                                                 <b-col
-                                                                      sm="3"
-                                                                      class="text-sm-right"
-                                                                      ><b
-                                                                           >Finals:</b
-                                                                      ></b-col
-                                                                 >
-                                                                 <b-col>{{
-                                                                      row.item
-                                                                           .finals_grade
-                                                                 }}</b-col>
-                                                            </b-row>
-
-                                                            <b-row class="mb-2">
-                                                                 <b-col
-                                                                      sm="3"
-                                                                      class="text-sm-right"
-                                                                      ><b
-                                                                           >GWA:</b
-                                                                      ></b-col
-                                                                 >
-                                                                 <b-col>{{
-                                                                      (
-                                                                           row
-                                                                                .item
-                                                                                .prelim_grade *
-                                                                                0.3 +
-                                                                           row
-                                                                                .item
-                                                                                .midterm_grade *
-                                                                                0.3 +
-                                                                           row
-                                                                                .item
-                                                                                .finals_grade *
-                                                                                0.4
-                                                                      ).toFixed(
-                                                                           2
-                                                                      )
-                                                                 }}</b-col>
-                                                            </b-row>
-                                                       </b-card>
                                                   </template>
                                              </b-table>
                                         </div>

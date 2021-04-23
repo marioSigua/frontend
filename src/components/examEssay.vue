@@ -11,7 +11,22 @@
                     <div>
                          <b-card no-body>
                               <b-tabs card class="ExamType">
-                                   <b-tab title="Upload Image" active>
+                                   <b-tab title="Text" active>
+                                        <b-card-text>
+                                             <p class="tabt">Question:</p>
+                                             <textarea
+                                                  v-model="
+                                                       essayValues.question_text
+                                                  "
+                                                  id="EssAnswer"
+                                                  name="EssAnswer"
+                                                  rows="4"
+                                                  cols="50"
+                                             ></textarea>
+                                        </b-card-text>
+                                   </b-tab>
+
+                                   <b-tab title="Upload Image">
                                         <b-card-text>
                                              <p class="tabt">Question:</p>
                                              <input
@@ -32,32 +47,10 @@
                                                   alt="Placeholder image"
                                                   @click="$refs.file.click()"
                                              />
-                                             <!-- <img
-                                        class="is-rounded"
-                                        height="300"
-                                        width="300"
-                                        :src="imgUrl ? imgUrl : imgResponse"
-                                        alt="Placeholder image"
-                                        @click="$refs.file.click()"
-                                   /> -->
 
                                              <span class="danger">
                                                   {{ error }}
                                              </span>
-                                        </b-card-text>
-                                   </b-tab>
-                                   <b-tab title="Text">
-                                        <b-card-text>
-                                             <p class="tabt">Question:</p>
-                                             <textarea
-                                                  v-model="
-                                                       essayValues.question_text
-                                                  "
-                                                  id="EssAnswer"
-                                                  name="EssAnswer"
-                                                  rows="4"
-                                                  cols="50"
-                                             ></textarea>
                                         </b-card-text>
                                    </b-tab>
                               </b-tabs>
