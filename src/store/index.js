@@ -19,6 +19,8 @@ const routeNames = {
      calculator: 'calculator',
      exam: 'usersExam',
      studentList: 'studentList',
+     HistoryForm: 'HistoryForm',
+     examform: 'examform',
 }
 
 export default new Vuex.Store({
@@ -104,14 +106,20 @@ export default new Vuex.Store({
                } else if (router.currentRoute.name === routeNames.studentList) {
                     //pag nsa route ng student list
                     state.studentList.students = payload
+               } else if (router.currentRoute.name === routeNames.HistoryForm) {
+                    //pag nsa route ng history form
+                    state.historyForm.listStudents = payload
                } else {
-                    //pag nsa route ng calcu
                     state.calculator.listStudents = payload
                }
           },
 
           getQuestion(state, payload) {
-               state.questionList = payload
+               if (router.currentRoute.name === routeNames.examform) {
+                    state.questionList = payload
+               } else if (router.currentRoute.name === routeNames.HistoryForm) {
+                    state.historyForm.historyList = payload
+               }
           },
 
           profSubjects(state, payload) {
@@ -169,6 +177,26 @@ export default new Vuex.Store({
                               router.currentRoute.name !== routeNames.examform
                          ) {
                               console.log(error.response)
+                         }
+                    }
+               }
+          },
+
+          async getResponse({ commit, state }, payload) {
+               try {
+                    const { status, data } = await axios.get(
+                         `${state.BASE_URL}/student/response/${payload}`
+                    )
+
+                    if (status === 200) {
+                         commit('getQuestion', data)
+                    }
+               } catch (error) {
+                    console.log(error.response)
+
+                    if (error.response !== undefined) {
+                         if (error.response.data.message === 'jwt expired') {
+                              commit('resetState')
                          }
                     }
                }

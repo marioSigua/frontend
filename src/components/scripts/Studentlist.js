@@ -79,6 +79,12 @@ export default {
                subjectInfo: {},
 
                nameState: null,
+
+               error: {
+                    id: '',
+                    email: '',
+                    all: '',
+               },
           }
      },
 
@@ -128,6 +134,10 @@ export default {
                this.$bvModal.hide('modal-prevent-closing')
           },
 
+          resetErrors() {
+               Object.keys(this.error).forEach((k) => (this.error[k] = ''))
+          },
+
           async handleOk(bvModalEvt) {
                const { state } = this.$store,
                     sendDispatch = { ...this.payload, ...this.subjectInfo }
@@ -139,7 +149,13 @@ export default {
                          (v) => v !== ''
                     )
 
-                    if (checkifEmpty) {
+                    const hasErrors = Object.values(this.error).every(
+                         (v) => v === ''
+                    )
+
+                    console.log(checkifEmpty, hasErrors)
+
+                    if (checkifEmpty && hasErrors) {
                          const postResponse = await this.$axios.post(
                               `${state.BASE_URL}/add/students`,
                               sendDispatch
@@ -149,11 +165,28 @@ export default {
                               this.$store.dispatch('getEnrolledStudents')
                               this.resetModal()
                          }
+                    } else {
+                         this.error.all = 'Please fill up all the fields'
                     }
                     // Trigger submit handler
                     this.handleSubmit()
                } catch (error) {
-                    console.log(error)
+                    console.log(error.response)
+                    if (error.response !== undefined) {
+                         if (
+                              error.response.data.message.includes('Student ID')
+                         ) {
+                              this.error.id = error.response.data.message
+                         } else if (
+                              error.response.data.message.includes(
+                                   'Student Email'
+                              )
+                         ) {
+                              this.error.email = error.response.data.message
+                         } else {
+                              console.log(error.response)
+                         }
+                    }
                }
           },
 

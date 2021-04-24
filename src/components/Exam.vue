@@ -40,12 +40,12 @@
                               >
                                    <template #cell(view)="row">
                                         <router-link
+                                             v-if="row.item.student_token"
                                              target="_blank"
                                              :to="{
                                                   name: 'ResponseViewing',
                                                   params: {
                                                        token: objHistory.url,
-
                                                        student_id:
                                                             row.item
                                                                  .student_token,

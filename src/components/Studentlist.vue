@@ -187,8 +187,13 @@
                          <b-form-input
                               id="SID-input"
                               v-model="payload.student_id"
+                              @click="resetErrors"
                               required
                          ></b-form-input>
+
+                         <span v-if="error.id" class="danger">
+                              {{ error.id }}</span
+                         >
                     </b-form-group>
                     <!------------------------->
 
@@ -202,9 +207,14 @@
                          <b-form-input
                               type="email"
                               id="SID-input"
+                              @click="resetErrors"
                               v-model="payload.student_email"
                               required
                          ></b-form-input>
+
+                         <span v-if="error.email" class="danger">
+                              {{ error.email }}</span
+                         >
                     </b-form-group>
                     <!------------------------->
 
@@ -254,6 +264,10 @@
                               >
                          </b-form-select>
                     </b-form-group>
+
+                    <span v-if="error.all" class="danger">
+                         {{ error.all }}</span
+                    >
                     <!------------------------->
                </form>
           </b-modal>
