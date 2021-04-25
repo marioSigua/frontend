@@ -191,7 +191,7 @@
                               required
                          ></b-form-input>
 
-                         <span v-if="error.id" class="danger">
+                         <span v-if="error.id" class="text-danger">
                               {{ error.id }}</span
                          >
                     </b-form-group>
@@ -212,7 +212,7 @@
                               required
                          ></b-form-input>
 
-                         <span v-if="error.email" class="danger">
+                         <span v-if="error.email" class="text-danger">
                               {{ error.email }}</span
                          >
                     </b-form-group>
@@ -265,7 +265,7 @@
                          </b-form-select>
                     </b-form-group>
 
-                    <span v-if="error.all" class="danger">
+                    <span v-if="error.all" class="text-danger">
                          {{ error.all }}</span
                     >
                     <!------------------------->
