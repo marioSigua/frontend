@@ -24,7 +24,11 @@
                <div>
                     <b-card no-body>
                          <b-tabs card>
-                              <b-tab title="Upload Image" active>
+                              <b-tab
+                                   @click="openTab"
+                                   title="Upload Image"
+                                   :active="tabIndex === 0"
+                              >
                                    <b-card-text>
                                         <p class="tabt">Question:</p>
                                         <img
@@ -45,7 +49,11 @@
                                         />
                                    </b-card-text>
                               </b-tab>
-                              <b-tab title="Text">
+                              <b-tab
+                                   @click="openTab"
+                                   :active="tabIndex === 1"
+                                   title="Text"
+                              >
                                    <b-card-text>
                                         <p class="tabt">Question:</p>
                                         <textarea
@@ -83,11 +91,20 @@
 
                     error: '',
 
-                    hidden: true,
+                    tabIndex: 0,
                }
           },
 
           methods: {
+               openTab() {
+                    if (this.tabIndex === 0) {
+                         this.identificationValues.question_text = ''
+                    } else {
+                         this.identificationValues.question_image = ''
+                         this.imgUrl = 'https://i.imgur.com/SbAMcxP.png'
+                    }
+               },
+
                encodeBase64(file) {
                     return new Promise((resolve, reject) => {
                          const reader = new FileReader()

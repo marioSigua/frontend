@@ -107,10 +107,7 @@
 
                               <div class="container termcontainer">
                                    <label for="name">Select Term:</label>
-                                   <select
-                                        v-model="selectedTerm"
-                                        @change="getGrades"
-                                   >
+                                   <select v-model="selectedTerm">
                                         <option value="">Select Term</option>
                                         <option
                                              v-for="(category,
@@ -225,7 +222,7 @@
                                    </p>
 
                                    <p v-else>
-                                        TOTAL GRADE:
+                                        TOTAL GRADE: haah
                                         <input :value="calculateGrade" />
                                    </p>
                                    <p>

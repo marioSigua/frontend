@@ -11,32 +11,25 @@
                <!--pts-->
                <b-input-group class="mt-3 pts">
                     <template #append>
-                      <b-input-group-text><strong>pts.</strong></b-input-group-text>
+                         <b-input-group-text
+                              ><strong>pts.</strong></b-input-group-text
+                         >
                     </template>
-                    <b-form-input></b-form-input>
-                  </b-input-group>
+                    <b-form-input
+                         v-model="essayValues.question_score"
+                    ></b-form-input>
+               </b-input-group>
                <!--pts-->
-               
+
                <div class="textset">
                     <div>
                          <b-card no-body>
-                              <b-tabs card class="ExamType">
-                                   <b-tab title="Text" active>
-                                        <b-card-text>
-                                             <p class="tabt">Question:</p>
-                                             <textarea
-                                                  v-model="
-                                                       essayValues.question_text
-                                                  "
-                                                  id="EssAnswer"
-                                                  name="EssAnswer"
-                                                  rows="4"
-                                                  cols="50"
-                                             ></textarea>
-                                        </b-card-text>
-                                   </b-tab>
-
-                                   <b-tab title="Upload Image">
+                              <b-tabs v-model="tabIndex" card class="ExamType">
+                                   <b-tab
+                                        @click="openTab"
+                                        title="Upload Image"
+                                        :active="tabIndex === 0"
+                                   >
                                         <b-card-text>
                                              <p class="tabt">Question:</p>
                                              <input
@@ -52,7 +45,7 @@
                                                   :src="
                                                        imgUrl
                                                             ? imgUrl
-                                                            : 'https://i.imgur.com/bCOd9N0.jpg'
+                                                            : 'https://i.imgur.com/SbAMcxP.png'
                                                   "
                                                   alt="Placeholder image"
                                                   @click="$refs.file.click()"
@@ -61,6 +54,25 @@
                                              <span class="danger">
                                                   {{ error }}
                                              </span>
+                                        </b-card-text>
+                                   </b-tab>
+
+                                   <b-tab
+                                        @click="openTab"
+                                        :active="tabIndex === 1"
+                                        title="Text"
+                                   >
+                                        <b-card-text>
+                                             <p class="tabt">Question:</p>
+                                             <textarea
+                                                  v-model="
+                                                       essayValues.question_text
+                                                  "
+                                                  id="EssAnswer"
+                                                  name="EssAnswer"
+                                                  rows="4"
+                                                  cols="50"
+                                             ></textarea>
                                         </b-card-text>
                                    </b-tab>
                               </b-tabs>
@@ -78,10 +90,24 @@
           props: ['essayValues', 'parent'],
 
           data() {
-               return { imgUrl: null, imgResponse: null, error: '' }
+               return {
+                    imgUrl: null,
+                    imgResponse: null,
+                    error: '',
+                    tabIndex: 0,
+               }
           },
 
           methods: {
+               openTab() {
+                    if (this.tabIndex === 0) {
+                         this.essayValues.question_text = ''
+                    } else {
+                         this.essayValues.question_image = ''
+                         this.imgUrl = 'https://i.imgur.com/SbAMcxP.png'
+                    }
+               },
+
                encodeBase64(file) {
                     return new Promise((resolve, reject) => {
                          const reader = new FileReader()

@@ -111,6 +111,8 @@ export default {
                this.currentIndex = this.listStudents.indexOf(info)
                this.payload.student_id = info.student_id
                this.payload.date_created = info.created_at
+
+               this.getGrades()
           },
 
           getSubjectCode(code) {
@@ -132,8 +134,12 @@ export default {
                const needs = {
                     ...this.payload,
                     term: this.selectedTerm,
-                    totalGrade: this.calculateGrade,
+                    totalGrade: this.calculateGrade
+                         ? this.calculateGrade
+                         : this.$store.state.calculator.listGrades,
                }
+
+               console.log(this.$store.state.calculator.listGrades)
 
                this.$store.dispatch('updateGrade', needs)
           },

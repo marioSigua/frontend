@@ -20,8 +20,12 @@
           <div>
                <div>
                     <b-card no-body>
-                         <b-tabs card>
-                              <b-tab title="Upload Image" active>
+                         <b-tabs card v-model="tabIndex">
+                              <b-tab
+                                   @click="openTab"
+                                   title="Upload Image"
+                                   :active="tabIndex === 0"
+                              >
                                    <p class="tabt">Question:</p>
                                    <input
                                         ref="file"
@@ -33,16 +37,17 @@
                                         class="is-rounded"
                                         height="300"
                                         width="300"
-                                        :src="
-                                             imgUrl
-                                                  ? imgUrl
-                                                  : 'https://i.imgur.com/bCOd9N0.jpg'
-                                        "
+                                        :src="imgUrl ? imgUrl : imgResponse"
                                         alt="Placeholder image"
                                         @click="$refs.file.click()"
                                    />
                               </b-tab>
-                              <b-tab title="Text">
+
+                              <b-tab
+                                   @click="openTab"
+                                   :active="tabIndex === 1"
+                                   title="Text"
+                              >
                                    <b-card-text>
                                         <p class="tabt">Question:</p>
                                         <textarea
@@ -115,9 +120,20 @@
                     imgUrl: null,
                     imgResponse: null,
                     error: '',
+
+                    tabIndex: 0,
                }
           },
           methods: {
+               openTab() {
+                    if (this.tabIndex === 0) {
+                         this.mcqValues.question_text = ''
+                    } else {
+                         this.mcqValues.question_image = ''
+                         this.imgUrl = 'https://i.imgur.com/SbAMcxP.png'
+                    }
+               },
+
                encodeBase64(file) {
                     return new Promise((resolve, reject) => {
                          const reader = new FileReader()
