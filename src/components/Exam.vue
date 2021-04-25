@@ -3,37 +3,6 @@
           <navbar />
           <!--Import Question-->
           <div>
-               <div>
-                    <b-button v-b-modal.modal-xl variant="primary"
-                         >xl modal</b-button
-                    >
-                    <b-modal id="modal-xl" size="xl" title="Extra Large Modal">
-                         <template #modal-header="{ close }">
-                              <!-- Emulate built in modal header close button action -->
-                              <b-button
-                                   size="sm"
-                                   variant="primary"
-                                   @click="close()"
-                              >
-                                   View Form
-                              </b-button>
-                              <h5>Subject Name</h5>
-                         </template>
-                         <div>
-                              <b-table
-                                   striped
-                                   hover
-                                   :items="items"
-                                   :fields="fields"
-                              >
-                                   <template #cell(View)>
-                                        <b-button variant="info">Info</b-button>
-                                   </template>
-                              </b-table>
-                         </div>
-                    </b-modal>
-               </div>
-
                <b-button variant="primary" @click="getQuestions"
                     >Import Question</b-button
                >

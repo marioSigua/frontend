@@ -2,26 +2,6 @@
      <div>
           <b-button-close></b-button-close>
           <div class="Essay unselected">
-               <img :src="imgurl" height="300" width="300" alt="" />
-               <br />
-               <textarea
-                    @keydown="preventCopy"
-                    @copy.prevent
-                    @paste.prevent
-                    v-model="essay.student_answer"
-                    name=""
-                    id=""
-                    cols="94"
-                    rows="1"
-                    :disabled="!isDisabled"
-               ></textarea>
-          </div>
-     </div>
-
-
-     <div>
-          <b-button-close></b-button-close>
-          <div class="Essay unselected">
                <p>Question goes here</p>
                <br />
                <textarea
