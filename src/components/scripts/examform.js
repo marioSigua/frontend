@@ -26,17 +26,27 @@ export default {
                const { state } = this.$store
 
                const dispatch = this.questionList.map((k) => {
-                    const isCorrect =
-                         k.form_answer.toLowerCase() ===
-                              k.student_answer.toLowerCase() ||
-                         k.form_answer.toUpperCase() ===
-                              k.student_answer.toUpperCase()
-                              ? true
-                              : false
+                    let isCorrect = ''
+
+                    if (k.type === 'Essay') {
+                         isCorrect = ''
+                    } else {
+                         isCorrect =
+                              k.form_answer.toLowerCase() ===
+                                   k.student_answer.toLowerCase() ||
+                              k.form_answer.toUpperCase() ===
+                                   k.student_answer.toUpperCase()
+                                   ? true
+                                   : false
+                    }
 
                     return {
                          student_answer: k.student_answer,
-                         student_score: isCorrect ? k.question_score : 0,
+                         student_score: isCorrect
+                              ? k.question_score
+                              : k.type === 'Essay'
+                              ? null
+                              : 0,
                          student_id: this.$route.params.student_id,
                          batch_number: k.batch_number,
                          form_number: k.form_number,
@@ -53,15 +63,6 @@ export default {
                } catch (error) {
                     console.log(error.response)
                }
-          },
-
-          isMatch(key) {
-               return (
-                    key.form_answer.toLowerCase() ===
-                         key.student_answer.toLowerCase() ||
-                    key.form_answer.toUpperCase() ===
-                         key.student_answer.toUpperCase()
-               )
           },
      },
 

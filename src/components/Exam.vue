@@ -51,11 +51,11 @@
                                                                  .student_token,
                                                   },
                                              }"
-                                             :disabled="!row.item.score"
+                                             :disabled="!row.item.isTaken"
                                         >
                                              <b-button
                                                   variant="info"
-                                                  :disabled="!row.item.score"
+                                                  :disabled="!row.item.isTaken"
                                                   >Info</b-button
                                              >
                                         </router-link>

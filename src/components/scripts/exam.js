@@ -208,7 +208,6 @@ export default {
                               el.student_id === k.student_id &&
                               el.batch_number === obj.batch_number
                     )
-
                     this.listResponses.push({
                          student_id: k.student_id,
                          firstname: k.firstname,
@@ -217,6 +216,7 @@ export default {
                          student_token: foundData
                               ? foundData.student_token
                               : '',
+                         isTaken: foundData ? foundData.isTaken : false,
                     })
                })
 

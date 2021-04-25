@@ -32,7 +32,7 @@
 
           data() {
                return {
-                    imgurl: '',
+                    imgUrl: '',
                }
           },
 
@@ -44,7 +44,7 @@
 
           mounted() {
                if (this.essay.question_image) {
-                    this.imgurl = this.essay.question_image
+                    this.imgUrl = this.essay.question_image
                }
           },
      }

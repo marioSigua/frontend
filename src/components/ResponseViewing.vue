@@ -44,6 +44,10 @@
                >
                </component>
           </div>
+
+          <b-button @click="submitScore" variant="primary">
+               Update Score
+          </b-button>
      </div>
 </template>
 

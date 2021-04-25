@@ -37,7 +37,7 @@
                          ><strong>pts.</strong></b-input-group-text
                     >
                </template>
-               <b-form-input></b-form-input>
+               <b-form-input v-model="essay.student_score"></b-form-input>
           </b-input-group>
           <!--pts-->
      </div>
