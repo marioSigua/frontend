@@ -73,9 +73,6 @@
                     </b-modal>
                </div>
 
-               <b-button variant="primary" @click="getQuestions"
-                    >Import Question</b-button
-               >
                <!--Accordian-->
                <b-modal id="modal-xl" size="xl" title="Import Questions">
                     <div

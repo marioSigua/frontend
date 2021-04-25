@@ -2,7 +2,7 @@
      <div>
           <b-button-close></b-button-close>
           <div class="Identification">
-               <img height="300" width="300" :src="imgUrl" alt="" />
+               <p>Question goes here</p>
                <br />
                <input
                     v-model="identi.student_answer"

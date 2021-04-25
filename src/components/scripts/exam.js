@@ -262,7 +262,7 @@ export default {
                               question_text: '',
                               question_image: '',
                               student_answer: '',
-
+                              question_score: '',
                               form_number: d,
                          })
                          break

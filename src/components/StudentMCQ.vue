@@ -10,7 +10,7 @@
                          cols="30"
                          rows="10"
                     ></textarea> -->
-                    <img :src="imgUrl" height="300" width="300" alt="" />
+                    <p>Question goes here</p>
                     <div class="field">
                          <div class="ui radio checkbox">
                               <b-form-radio-group

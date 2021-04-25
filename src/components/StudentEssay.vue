@@ -2,7 +2,7 @@
      <div>
           <b-button-close></b-button-close>
           <div class="Essay unselected">
-               <img :src="imgurl" height="300" width="300" alt="" />
+               <p>Question goes here</p>
                <br />
                <textarea
                     @keydown="preventCopy"
