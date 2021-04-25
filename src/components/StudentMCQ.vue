@@ -9,8 +9,18 @@
                          id=""
                          cols="30"
                          rows="10"
+                  
                     ></textarea> -->
-                    <p>Question goes here</p>
+                    <img
+                         v-if="mcq.question_image"
+                         :src="imgUrl"
+                         height="300"
+                         width="300"
+                         alt=""
+                    />
+
+                    <p v-else>{{ mcq.question_text }}</p>
+
                     <div class="field">
                          <div class="ui radio checkbox">
                               <b-form-radio-group

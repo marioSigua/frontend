@@ -2,7 +2,15 @@
      <div>
           <b-button-close></b-button-close>
           <div class="Identification">
-               <p>Question goes here</p>
+               <img
+                    v-if="identi.question_image"
+                    :src="imgUrl"
+                    height="300"
+                    width="300"
+                    alt=""
+               />
+
+               <p v-else>{{ identi.question_text }}</p>
                <br />
                <input
                     v-model="identi.student_answer"

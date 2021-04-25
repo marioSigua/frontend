@@ -8,7 +8,15 @@
                     'is-wrong': !essay.student_score,
                }"
           >
-               <img :src="imgurl" height="300" width="300" alt="" />
+               <img
+                    v-if="essay.question_image"
+                    :src="imgurl"
+                    height="300"
+                    width="300"
+                    alt=""
+               />
+
+               <p v-else>{{ essay.question_text }}</p>
                <br />
                <textarea
                     @keydown="preventCopy"

@@ -8,7 +8,16 @@
                     'is-wrong': !isCorrect,
                }"
           >
-               <img height="300" width="300" :src="imgUrl" alt="" />
+               <img
+                    v-if="identi.question_image"
+                    :src="imgurl"
+                    height="300"
+                    width="300"
+                    alt=""
+               />
+
+               <p v-else>{{ identi.question_text }}</p>
+
                <br />
                <input
                     v-model="identi.student_answer"

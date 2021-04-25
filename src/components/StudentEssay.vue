@@ -2,7 +2,15 @@
      <div>
           <b-button-close></b-button-close>
           <div class="Essay unselected">
-               <p>Question goes here</p>
+               <img
+                    v-if="essay.question_image"
+                    :src="imgUrl"
+                    height="300"
+                    width="300"
+                    alt=""
+               />
+
+               <p v-else>{{ essay.question_text }}</p>
                <br />
                <textarea
                     @keydown="preventCopy"
