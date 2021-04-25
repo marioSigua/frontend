@@ -17,6 +17,26 @@
                ></textarea>
           </div>
      </div>
+
+
+     <div>
+          <b-button-close></b-button-close>
+          <div class="Essay unselected">
+               <p>Question goes here</p>
+               <br />
+               <textarea
+                    @keydown="preventCopy"
+                    @copy.prevent
+                    @paste.prevent
+                    v-model="essay.student_answer"
+                    name=""
+                    id=""
+                    cols="94"
+                    rows="1"
+                    :disabled="!isDisabled"
+               ></textarea>
+          </div>
+     </div>
 </template>
 <script>
      export default {
