@@ -1,0 +1,71 @@
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  color: white;
+}
+
+body{
+  background: url('../../assets/bg.jpg');
+}
+
+button{
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  border: none;
+}
+
+
+input[type=text], input[type=password]{
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: inherit;
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  border: none;
+}
+
+
+select{
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: inherit;
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  border: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+
+section {
+  margin: 20px auto;
+  max-width: 1140px;
+  width: 90%;
+}
+
+
+hr{
+  color: white;
+  border-color: white;
+}
+
+
+ /* Classes */
+.right{
+  text-align: right;
+}
+
+.right > button{
+  display: inline-block;
+}
+
+
+.backdrop{
+  backdrop-filter: blur(3px);
+}
