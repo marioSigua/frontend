@@ -230,7 +230,7 @@ export default new Vuex.Store({
             Authorization: this.getters.isLoggedIn,
           },
         });
-
+        console.log(subjs);
         if (subjs.status === 200) commit("profSubjects", subjs.data);
       } catch (error) {
         console.log(error.response);

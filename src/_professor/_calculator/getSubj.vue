@@ -1,8 +1,14 @@
 <template>
   <div class="getSubj">
-    <select>
-      <option value="">
-        {{ subject_name }}
+    <label for="name">Select Subject:</label>
+    <select v-model="select" @change="getSubjectCode(select)">
+      <option value="">Select Subject</option>
+      <option
+        v-for="(category, index) in subjectList"
+        :key="index"
+        :value="category.subject_code"
+      >
+        {{ category.subject_name }}
       </option>
     </select>
   </div>
@@ -11,10 +17,19 @@
 <script>
 export default {
   props: {
-    subject_name: {
-      default() {
-        return "Thesis";
-      },
+    subjectList: Array,
+    selected: String,
+  },
+
+  data() {
+    return {
+      select: this.selected,
+    };
+  },
+
+  methods: {
+    getSubjectCode(code) {
+      this.$store.dispatch("getStudents", code);
     },
   },
 };

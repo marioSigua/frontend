@@ -8,68 +8,115 @@
 
     <section id="form" class="backdrop">
       <h1>Login</h1>
-      <p v-show="error!=''">{{error}}</p>
+      <p v-show="error != ''">{{ error }}</p>
       <label for="username">Username</label>
-      <input type="text" name="" placeholder="username" v-model="username">
+      <input
+        type="text"
+        name=""
+        placeholder="username"
+        v-model="email"
+        @input="loginValidate('email')"
+      />
       <label for="password">Password</label>
-      <input type="password" name="password" placeholder="password" v-model="password">
+      <input
+        @input="loginValidate('password')"
+        type="password"
+        name="password"
+        placeholder="password"
+        v-model="password"
+      />
       <div class="right">
-        <button type="button" name="button" @click="login">Login</button>
+        <button
+          :disabled="!email && !password"
+          type="button"
+          name="button"
+          @click="login"
+        >
+          Login
+        </button>
       </div>
     </section>
-
   </main>
 </template>
 
 <script>
-export default {
-  data(){
-    return {
-      username:'',
-      password:'',
+import validate from "../validations/validate";
 
-      error:'',
+export default {
+  data() {
+    return {
+      yupOptions: { abortEarly: false, strict: false },
+
+      email: "",
+      password: "",
+
+      error: "",
+
+      formValidation: validate,
     };
   },
-  methods:{
-    login(){
-      console.log('login');
-      this.$router.push({name:'home'}).catch(e=>{
-        console.log(e);
-      })
-    }
-  },
-  watch:{
-    username(val){
-        if(val==''){
-          this.error="Username is required"
-        }
-        else {
-          this.error=""
-        }
+  methods: {
+    loginValidate: async function(field) {
+      let { validateLogin } = this.formValidation;
+      try {
+        await validateLogin.validateAt(
+          field,
+          { email: this.email, password: this.password },
+          this.yupOptions
+        );
+
+        this.error = "";
+      } catch (err) {
+        err.inner.forEach((error) => {
+          this.error = error.message;
+        });
+      }
     },
-    password(val){
-      if(val==''){
-        this.error="Password is required"
-      }
-      else {
-        this.error=""
-      }
-    }
-  }
 
+    async login() {
+      try {
+        const res = await this.$axios.post(
+          `${this.$store.state.BASE_URL}/accounts/login`,
+          { email: this.email, password: this.password }
+        );
 
-}
+        if (res.status === 200) {
+          this.$store.commit("set_cookie", res.data);
+        }
+      } catch (error) {
+        if (error.response !== undefined) {
+          this.error = error.response.data.message;
+        }
+      }
+    },
+  },
+  watch: {
+    email(val) {
+      if (val == "") {
+        this.error = "Username is required";
+      } else {
+        this.error = "";
+      }
+    },
+
+    password(val) {
+      if (val == "") {
+        this.error = "Password is required";
+      } else {
+        this.error = "";
+      }
+    },
+  },
+};
 </script>
 
 <style lang="css" scoped>
-nav{
+nav {
   text-align: right;
   padding: right;
   padding: 10px;
 }
-#button{
-
+#button {
   color: white;
   text-align: center;
 
@@ -80,25 +127,24 @@ nav{
   border-radius: 10px;
 }
 
-#form{
+#form {
   padding: 30px;
   border-radius: 10px;
   width: 500px;
   color: white;
   -webkit-blur: 10px;
-  blur:10px;
-
+  /* blur: 10px; */
 
   margin-top: 100px;
   margin-left: 100px;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
 }
 
-label, button{
+label,
+button {
   margin-top: 20px;
   min-width: 70px;
 }
-
 
 @media only screen and (max-width: 540px) {
   #form {
@@ -113,6 +159,4 @@ label, button{
     margin: 30px auto;
   }
 }
-
-
 </style>

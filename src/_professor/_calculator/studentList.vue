@@ -1,6 +1,5 @@
 <template>
   <div class="sList">
-    <h4>Students</h4>
     <ul>
       <li><br />{{ firstname + " " + lastname }}</li>
     </ul>

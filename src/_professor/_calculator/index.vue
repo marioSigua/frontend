@@ -1,35 +1,23 @@
 <template lang="html">
   <div class="grid-container">
     <div id="sList">
+      <h4>Students</h4>
       <sList
         v-for="(list, index) in listStudents"
         :key="index"
         :firstname="list.firstname"
         :lastname="list.lastname"
       ></sList>
-
-      <sList firstname="list.firstname" lastname="list.lastname"></sList>
     </div>
 
     <div id="calc">
       <h4>Calculator</h4>
 
       <div id="getSubj">
-        <label for="name">Select Subject:</label>
-        <select
-          v-model="selectedSubject"
-          @change="getSubjectCode(selectedSubject)"
-        >
-          <option value="">Select Subject</option>
-          <option
-            v-for="(category, index) in selectSubj"
-            :key="index"
-            :value="category.subject_code"
-          >
-          </option>
-
-          <getSubj subject_code="category.subject_name"></getSubj>
-        </select>
+        <getSubj
+          :selected="selectedSubject"
+          :subjectList="selectSubj"
+        ></getSubj>
       </div>
 
       <div>
@@ -80,9 +68,8 @@ export default {
       currentIndex: "",
       selectedTerm: "",
 
-      selectedSubject: "",
-
       selectedStudent: "",
+      selectedSubject: "",
 
       Terms: [
         {
@@ -115,10 +102,6 @@ export default {
 
     newSubject: function(name, code) {
       this.subjects.push({ name, code });
-    },
-
-    getSubjectCode(code) {
-      this.$store.dispatch("getStudents", code);
     },
 
     getGrades() {
