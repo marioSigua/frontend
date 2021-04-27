@@ -23,21 +23,156 @@ const routeNames = {
   examform: "examform",
 };
 
+
+
+
+// Database ------------------------------------
+// Database ------------------------------------
+// Database ------------------------------------
+// Database ------------------------------------
+// Database ------------------------------------
+const DATABASE = {
+  async getQuestion({ commit, state }, payload) {
+    try {
+      const { status, data } = await axios.get(
+        `${state.BASE_URL}/student/question/${payload}`
+      );
+
+      if (status === 200) {
+        commit("getQuestion", data);
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
+
+  async getResponse({ commit, state }, payload) {
+    try {
+      const { status, data } = await axios.get(
+        `${state.BASE_URL}/student/response/${payload}`
+      );
+
+      if (status === 200) {
+        commit("getQuestion", data);
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
+
+  //payload = object
+  async getSubjects({ commit, state }) {
+    try {
+      const subjects = await axios.get(`${state.BASE_URL}/list/subjects`);
+      if (subjects.status === 200) {
+        commit("getSubjects", subjects);
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
+
+  async getStudents({ commit, state }, subject_code) {
+    try {
+      if (!subject_code) {
+        commit("getStudents", []);
+      } else {
+        const students = await axios.get(
+          `${state.BASE_URL}/list/students/${subject_code}`
+        );
+        if (students.status === 200) {
+          return students.data
+        }
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
+
+  async getStudentGrade({ state }, payload) {
+    try {
+      const students = await axios.get(
+        `${state.BASE_URL}/subjectGrade/listGrade`,
+        {
+          params: { ...payload },
+        }
+      );
+
+      if (students.status === 200) {
+        return students.data
+      }
+    }
+    catch (error) { console.log(error.response) }
+  },
+
+  async profSubjects({ state, commit }) {
+    try {
+      const subjs = await axios.get(`${state.BASE_URL}/assigned/subjects`, {
+        headers: { Authorization: this.getters.isLoggedIn },
+      });
+      console.log(subjs);
+      if (subjs.status === 200) commit("profSubjects", subjs.data);
+    }
+    catch (error) { console.log(error.response) }
+  },
+
+  async getEnrolledStudents({ state, commit }) {
+    try {
+      const subjs = await axios.get(`${state.BASE_URL}/enrolled/students`, {
+        headers: { Authorization: this.getters.isLoggedIn }
+      });
+      if (subjs.status === 200) commit("getStudents", subjs.data);
+    }
+    catch (error) { console.log(error.response) }
+  },
+
+  async updateGrade({ state }, payload) {
+    try {
+      await axios.patch(`${state.BASE_URL}/subjectGrade/students`, payload);
+    }
+    catch (error) { console.log(error.response) }
+  },
+}
+// Database ------------------------------------
+// Database ------------------------------------
+// Database ------------------------------------
+// Database ------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export default new Vuex.Store({
   // object
   state: {
+
     BASE_URL: "http://192.168.18.7:5115/api/p1",
+    //BASE_URL: "http://lsb.scanolongapo.com/api/p1",
+
     access_token: "",
     token_name: "",
     isAuth: false,
 
     userProfile: {},
 
+    // to isolate
     calculator: {
       listStudents: [],
       listSubjects: [],
       listGrades: "",
     },
+
 
     exam: {
       listStudents: [],
@@ -56,6 +191,8 @@ export default new Vuex.Store({
       historyList: [],
       listStudents: [],
     },
+    // end of isolate
+
 
     openModal: false,
 
@@ -89,6 +226,9 @@ export default new Vuex.Store({
       router.push({ name: "usersLogin" });
     },
 
+
+
+    // to remove
     getSubjects(state, payload) {
       state.calculator.listSubjects = payload.data;
     },
@@ -142,125 +282,9 @@ export default new Vuex.Store({
   // mga functions
   // this.$store.dispatch(nameofact, payload=={})
   actions: {
-    async getQuestion({ commit, state }, payload) {
-      try {
-        const { status, data } = await axios.get(
-          `${state.BASE_URL}/student/question/${payload}`
-        );
-
-        if (status === 200) {
-          commit("getQuestion", data);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    },
-
-    async getResponse({ commit, state }, payload) {
-      try {
-        const { status, data } = await axios.get(
-          `${state.BASE_URL}/student/response/${payload}`
-        );
-
-        if (status === 200) {
-          commit("getQuestion", data);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    },
-
-    //payload = object
-    async getSubjects({ commit, state }) {
-      try {
-        const subjects = await axios.get(`${state.BASE_URL}/list/subjects`);
-
-        if (subjects.status === 200) {
-          commit("getSubjects", subjects);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    },
-
-    async getStudents({ commit, state }, subject_code) {
-      try {
-        if (!subject_code) {
-          commit("getStudents", []);
-        } else {
-          const students = await axios.get(
-            `${state.BASE_URL}/list/students/${subject_code}`
-          );
-          if (students.status === 200) {
-            commit("getStudents", students.data);
-          }
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    },
-
-    async getStudentGrade({ state }, payload) {
-      try {
-        const students = await axios.get(
-          `${state.BASE_URL}/subjectGrade/listGrade`,
-          {
-            params: { ...payload },
-          }
-        );
-
-        if (students.status === 200) {
-          if (students.data.prelim_grade) {
-            state.calculator.listGrades = students.data.prelim_grade;
-          } else if (students.data.midterm_grade) {
-            state.calculator.listGrades = students.data.midterm_grade;
-          } else {
-            state.calculator.listGrades = students.data.finals_grade;
-          }
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    },
-
-    async profSubjects({ state, commit }) {
-      try {
-        const subjs = await axios.get(`${state.BASE_URL}/assigned/subjects`, {
-          headers: {
-            Authorization: this.getters.isLoggedIn,
-          },
-        });
-        console.log(subjs);
-        if (subjs.status === 200) commit("profSubjects", subjs.data);
-      } catch (error) {
-        console.log(error.response);
-      }
-    },
-
-    async getEnrolledStudents({ state, commit }) {
-      try {
-        const subjs = await axios.get(`${state.BASE_URL}/enrolled/students`, {
-          headers: {
-            Authorization: this.getters.isLoggedIn,
-          },
-        });
-
-        if (subjs.status === 200) commit("getStudents", subjs.data);
-      } catch (error) {
-        console.log(error.response);
-      }
-    },
-
-    async updateGrade({ state }, payload) {
-      try {
-        await axios.patch(`${state.BASE_URL}/subjectGrade/students`, payload);
-      } catch (error) {
-        console.log(error.response);
-      }
-    },
+    ...DATABASE
   },
-  // dependencies
-  modules: {},
+
 
   plugins: [
     createPersistedState({

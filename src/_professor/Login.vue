@@ -79,7 +79,6 @@ export default {
           `${this.$store.state.BASE_URL}/accounts/login`,
           { email: this.email, password: this.password }
         );
-
         if (res.status === 200) {
           this.$store.commit("set_cookie", res.data);
         }

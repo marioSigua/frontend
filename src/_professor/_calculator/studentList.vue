@@ -1,25 +1,69 @@
 <template>
-  <div class="sList">
+  <div>
+    <!-- Subjects -->
+    <label for="name">Select Subject:</label>
+    <select v-model="subjectSelected">
+      <option value="">Select Subject</option>
+      <option v-for="(category, i) in subjectList" :key="i" :value="category.subject_code" >
+        {{ category.subject_name }}
+      </option>
+    </select>
+
+
+    <!-- Students -->
     <ul>
-      <li><br />{{ firstname + " " + lastname }}</li>
+      <li v-for="(student,s) in studentList" :key="s" @click="selectStudent(s)">{{ student.firstname + " " + student.lastname }}</li>
     </ul>
+
+
+
   </div>
+
+
 </template>
 
 <script>
 export default {
   props: {
-    firstname: {
-      default() {
-        return "juan";
-      },
-    },
-    lastname: {
-      default() {
-        return "tamad";
-      },
-    },
+    student: Object
   },
+  data(){
+    return {
+      // subjects
+      subjectList:[],
+      subjectSelected:'',
+
+      //students
+      studentsList:[],
+      studentSelected:'',
+    }
+  },
+  mounted(){
+    this.$store.dispatch('getSubjects').then(subjects=>{
+      this.subjectList = subjects
+    })
+  },
+  methods:{
+    select(s){
+      console.log(this.studentsList[s]);
+    },
+  }
+  watch:{
+    subjectSelected(selected){
+      if(selected==''){
+        this.studentList = [];
+      }
+      else {
+        this.$store.dispatch('getStudents').then(students=>{
+          this.studentList = students
+        })
+      }
+    },
+
+
+
+  }
+
 };
 </script>
 
