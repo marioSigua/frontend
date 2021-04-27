@@ -1,23 +1,5 @@
 <template>
-  <div>
-    <!-- Subjects -->
-    <label for="name">Select Subject:</label>
-    <select v-model="subjectSelected">
-      <option value="">Select Subject</option>
-      <option v-for="(category, i) in subjectList" :key="i" :value="category.subject_code" >
-        {{ category.subject_name }}
-      </option>
-    </select>
 
-
-    <!-- Students -->
-    <ul>
-      <li v-for="(student,s) in studentList" :key="s" @click="selectStudent(s)">{{ student.firstname + " " + student.lastname }}</li>
-    </ul>
-
-
-
-  </div>
 
 
 </template>

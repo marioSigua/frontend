@@ -79,8 +79,43 @@
 </template>
 
 <script>
+
+/*
+
+index.vue
+
+- select subject
+    - loop -> subjectLists
+- select student
+    - loop -> studentList
+
+
+    <input :subject="selectedSubject" :target="selectedStudent">  - > inputGrade.vue
+      - term
+      - grades
+
+      button
+
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
 export default {
   props:{
+    // target student
+    // needed for database requests
     target:{
       default(){
         return{
@@ -89,6 +124,8 @@ export default {
         }
       }
     },
+    // subject code?
+    // needed for database requests
     subject:{ default(){ return ""} },
 
   },
@@ -96,11 +133,13 @@ export default {
   data() {
     return {
 
+
       terms: ["Prelims","Midterm","Finals"],
       selectedTerm: "",
 
 
       // Criterias
+      // input fields
       quiz: "",
       exam: "",
       extra: "",
@@ -112,12 +151,15 @@ export default {
       mExtra: "",
       grade:"",
 
-
+      // temporary storage of old data during verification
       previousPrice: null,
     };
   },
   watch:{
+    // watch changes in target
+    // change in target means change in student
     target(){
+      // get new set of grades
       this.getGrades();
     }
   },
@@ -128,12 +170,13 @@ export default {
       let regex = /^\d*(\.\d{1,2})?$/;
       if (!stringValue.match(regex) && this.mQuiz !== "") { this.mQuiz = this.previousPrice; }
       this.previousPrice = this.mQuiz;
-
+      // new input means new data, and new grade to compute
       this.calculateGrade();
     },
 
     // Updates after selecting a term
     getGrades() {
+      // if there is no subject dont fetch to avoid backend bugs
       if(this.subject=='') return;
 
       const gradeList = {
@@ -143,15 +186,15 @@ export default {
         subject_code: this.subject,
       };
 
+      // handle data here using then()
       this.$store.dispatch("getStudentGrade", gradeList);
 
-      /*
+      /* comment database response for better debugging
       {
       prelim_grade:100
       prelim_grade:100
       prelim_grade:100
       }
-
       */
     },
 
@@ -162,7 +205,10 @@ export default {
         totalGrade: this.calculateGrade,
       };
 
+      // handle data here using then()
+      // example implementation
       this.$store.dispatch("updateGrade", needs).then( grade =>{
+        // store data to local
         this.grade = grade;
       })
     },

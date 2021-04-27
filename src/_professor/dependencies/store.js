@@ -31,6 +31,13 @@ const routeNames = {
 // Database ------------------------------------
 // Database ------------------------------------
 // Database ------------------------------------
+
+// To do:
+
+// Return values instead of commiting
+// handle values in their respective vues to isolate data
+
+
 const DATABASE = {
   async getQuestion({ commit, state }, payload) {
     try {
@@ -39,7 +46,8 @@ const DATABASE = {
       );
 
       if (status === 200) {
-        commit("getQuestion", data);
+        //commit("getQuestion", data);
+        return data
       }
     } catch (error) {
       console.log(error.response);

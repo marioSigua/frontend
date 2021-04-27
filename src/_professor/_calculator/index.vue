@@ -38,6 +38,10 @@ export default {
   computed: {
     selectSubj() {
       return this.$store.state.subjectList;
+      /*
+      sample expectations
+      [{subject_name:'', subject_code:0 }]
+      */
     },
 
 
@@ -52,10 +56,12 @@ export default {
 
       currentIndex: "",
 
+
+      // local data
       subjectList:[],
       studentList:[],
 
-
+      // selection
       selectedStudent: "",
       selectedSubject: "",
 
@@ -63,6 +69,7 @@ export default {
       inpSubject: "",
       inpCode: "",
 
+      // selected student
       payload: {
         student_id: "",
         date_created: "",
@@ -86,13 +93,11 @@ export default {
 
   },
 
-  beforeRouteLeave(to, from, next) {
-    this.$store.commit("getStudents", []);
-    next();
-  },
 
   mounted() {
+    // call subjects then handle data here
     this.$store.dispatch("profSubjects").then(subjects=>{
+      // save locally
       this.subjectList = subjects;
     })
   },
