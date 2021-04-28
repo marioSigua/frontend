@@ -23,9 +23,6 @@ const routeNames = {
   examform: "examform",
 };
 
-
-
-
 // Database ------------------------------------
 // Database ------------------------------------
 // Database ------------------------------------
@@ -37,8 +34,33 @@ const routeNames = {
 // Return values instead of commiting
 // handle values in their respective vues to isolate data
 
-
 const DATABASE = {
+  /*
+  token and student_id is the req.body here 
+  the token will then be verfied if student already responded
+  response then checked by student_id and batch_number - > is a filter for submitted forms
+
+  question {
+
+        batch_number: k.batch_number,
+        form_number: k.form_number,
+        type: k.type,
+        format: k.format,
+        topic: k.topic,
+        term: k.term,
+        student_answer: k.student_answer,
+        form_answer: k.form_answer,
+        question_score: k.question_score,
+
+        question_text: k.question_text ? k.question_text : null,
+
+        question_image: k.question_image ? JSON.parse(k.question_image) : null,
+
+        choices: k.choices ? k.choices : null,
+        subject_code: k.subject_code,
+  }
+        
+  */
   async getQuestion({ commit, state }, payload) {
     try {
       const { status, data } = await axios.get(
@@ -47,13 +69,36 @@ const DATABASE = {
 
       if (status === 200) {
         //commit("getQuestion", data);
-        return data
+        return data;
       }
     } catch (error) {
       console.log(error.response);
     }
   },
 
+  /*
+  token is used to as a way to verify student already sent a response
+
+  question {
+
+        batch_number: k.batch_number,
+        form_number: k.form_number,
+        type: k.type,
+        format: k.format,
+        topic: k.topic,
+        term: k.term,
+        student_answer: k.student_answer,
+        form_answer: k.form_answer,
+        question_score: k.question_score,
+
+        question_text: k.question_text ? k.question_text : null,
+
+        question_image: k.question_image ? JSON.parse(k.question_image) : null,
+
+        choices: k.choices ? k.choices : null,
+        subject_code: k.subject_code,
+  }
+  */
   async getResponse({ commit, state }, payload) {
     try {
       const { status, data } = await axios.get(
@@ -69,6 +114,9 @@ const DATABASE = {
   },
 
   //payload = object
+  // int isOccupied parameters in DB
+  // add subject 0 = not taken 1 = already taken
+  // limit 1 prof per subj
   async getSubjects({ commit, state }) {
     try {
       const subjects = await axios.get(`${state.BASE_URL}/list/subjects`);
@@ -80,6 +128,15 @@ const DATABASE = {
     }
   },
 
+  /*
+    select
+        "firstname",
+        "lastname",
+        "students_tbl.student_id",
+        "EnrolledSubjects.created_at"
+
+    where subject_code isOccupied by current user
+  */
   async getStudents({ commit, state }, subject_code) {
     try {
       if (!subject_code) {
@@ -89,7 +146,7 @@ const DATABASE = {
           `${state.BASE_URL}/list/students/${subject_code}`
         );
         if (students.status === 200) {
-          return students.data
+          return students.data;
         }
       }
     } catch (error) {
@@ -97,6 +154,16 @@ const DATABASE = {
     }
   },
 
+  /*
+  check current selectedTerm in frontend
+  get prelim_grade || midterm_grade || finals_grade
+    where {
+      // matches all the selected items in frontend and backend
+      student_id,
+      created_at,
+      subject_code
+    }
+  */
   async getStudentGrade({ state }, payload) {
     try {
       const students = await axios.get(
@@ -107,12 +174,14 @@ const DATABASE = {
       );
 
       if (students.status === 200) {
-        return students.data
+        return students.data;
       }
+    } catch (error) {
+      console.log(error.response);
     }
-    catch (error) { console.log(error.response) }
   },
 
+  // get all isOccupied subject where account_id matches
   async profSubjects({ state, commit }) {
     try {
       const subjs = await axios.get(`${state.BASE_URL}/assigned/subjects`, {
@@ -120,51 +189,61 @@ const DATABASE = {
       });
       console.log(subjs);
       if (subjs.status === 200) commit("profSubjects", subjs.data);
+    } catch (error) {
+      console.log(error.response);
     }
-    catch (error) { console.log(error.response) }
   },
 
+  /*
+  get all students enrolled in subject
+    select(
+        "firstname",
+        "lastname",
+        "students_tbl.student_id",
+        "EnrolledSubjects.created_at"
+      )
+
+    where {
+      subject_code, account_id, current_year, isOccupied = '1'
+    }
+  */
   async getEnrolledStudents({ state, commit }) {
     try {
       const subjs = await axios.get(`${state.BASE_URL}/enrolled/students`, {
-        headers: { Authorization: this.getters.isLoggedIn }
+        headers: { Authorization: this.getters.isLoggedIn },
       });
       if (subjs.status === 200) commit("getStudents", subjs.data);
+    } catch (error) {
+      console.log(error.response);
     }
-    catch (error) { console.log(error.response) }
   },
 
+  /*
+  check current selectedTerm in frontend
+  modify prelim_grade || midterm_grade || finals_grade by the calculated totalGrade
+    where {
+      // matches all the selected items in frontend and backend
+      student_id,
+      created_at,
+      subject_code
+    }
+  */
   async updateGrade({ state }, payload) {
     try {
       await axios.patch(`${state.BASE_URL}/subjectGrade/students`, payload);
+    } catch (error) {
+      console.log(error.response);
     }
-    catch (error) { console.log(error.response) }
   },
-}
+};
 // Database ------------------------------------
 // Database ------------------------------------
 // Database ------------------------------------
 // Database ------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export default new Vuex.Store({
   // object
   state: {
-
     BASE_URL: "http://192.168.18.7:5115/api/p1",
     //BASE_URL: "http://lsb.scanolongapo.com/api/p1",
 
@@ -180,7 +259,6 @@ export default new Vuex.Store({
       listSubjects: [],
       listGrades: "",
     },
-
 
     exam: {
       listStudents: [],
@@ -200,7 +278,6 @@ export default new Vuex.Store({
       listStudents: [],
     },
     // end of isolate
-
 
     openModal: false,
 
@@ -236,13 +313,32 @@ export default new Vuex.Store({
       router.push({ name: "usersLogin" });
     },
 
-
-
-    // to remove
+    /*
+    select {
+      subject_code,
+      subject_name,
+      subject_desc,
+      subject_sem,
+      subject_year,
+      subject_course,
+      account_id,
+      isOccupied,
+      current_year
+    }
+    */
     getSubjects(state, payload) {
       state.calculator.listSubjects = payload.data;
     },
 
+    /*
+    select(
+        "firstname",
+        "lastname",
+        "students_tbl.student_id"
+        "students_tbl.student_id",
+        "EnrolledSubjects.created_at"
+      )
+    */
     getStudents(state, payload) {
       if (router.currentRoute.name === routeNames.exam) {
         //pag nsa route ng exam
@@ -258,6 +354,27 @@ export default new Vuex.Store({
       }
     },
 
+    /*
+    question {
+
+        batch_number: k.batch_number,
+        form_number: k.form_number,
+        type: k.type,
+        format: k.format,
+        topic: k.topic,
+        term: k.term,
+        student_answer: k.student_answer,
+        form_answer: k.form_answer,
+        question_score: k.question_score,
+
+        question_text: k.question_text ? k.question_text : null,
+
+        question_image: k.question_image ? JSON.parse(k.question_image) : null,
+
+        choices: k.choices ? k.choices : null,
+        subject_code: k.subject_code,
+    }
+    */
     getQuestion(state, payload) {
       if (router.currentRoute.name === routeNames.examform) {
         state.questionList = payload;
@@ -292,9 +409,8 @@ export default new Vuex.Store({
   // mga functions
   // this.$store.dispatch(nameofact, payload=={})
   actions: {
-    ...DATABASE
+    ...DATABASE,
   },
-
 
   plugins: [
     createPersistedState({
