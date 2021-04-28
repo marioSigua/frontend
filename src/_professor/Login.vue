@@ -74,6 +74,7 @@ export default {
     },
 
     async login() {
+
       try {
         const res = await this.$axios.post(
           `${this.$store.state.BASE_URL}/accounts/login`,
@@ -87,6 +88,7 @@ export default {
           this.error = error.response.data.message;
         }
       }
+      this.$router.push({name:'home'})
     },
   },
   watch: {

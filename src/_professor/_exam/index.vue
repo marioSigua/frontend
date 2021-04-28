@@ -1,15 +1,15 @@
 <template lang="html">
-  <div id="app">
+  <section>
     <h1>Exam</h1>
-    <importQuestion></importQuestion>
-  </div>
+    <creator></creator>
+  </section>
 </template>
 
 <script>
-import importQuestion from "@/_professor/_exam/importQuestion";
+import creator from "@/_professor/_exam/creator";
 
 export default {
-  components: { importQuestion },
+  components: { creator },
 };
 </script>
 

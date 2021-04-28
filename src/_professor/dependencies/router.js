@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const debug = true;
 let authenticate = (to, from, next)=>{
   console.log('Before Enter: Auth');
-  if (debug){ next() }
+  if (debug){ next(); return }
   else if (store.state.isAuth) { next() }
   else { next({ name: 'usersLogin' }) }
 }
@@ -39,6 +39,11 @@ const professor = {
            path: 'exam',
            name: 'exam',
            component: () =>import( '@/_professor/_exam/index.vue'),
+        },
+        {
+           path: 'history',
+           name: 'history',
+           component: () =>import( '@/_professor/_history/index.vue'),
         },
       ],
 }

@@ -2,11 +2,12 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  color: white;
 }
 
 body{
   background: url('../../assets/bg.jpg');
+  color: white;
+
 }
 
 button{
@@ -40,6 +41,16 @@ select{
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
+  margin-bottom: 5px;
+}
+
+ul{
+  list-style-type: none;
+}
+
+li{
+  padding: 10px;
+  margin-bottom: 5px;
 }
 
 
@@ -51,8 +62,8 @@ section {
 
 
 hr{
-  color: white;
-  border-color: white;
+  color: inherit;
+  border-color: inherit;
 }
 
 

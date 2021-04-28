@@ -36,7 +36,7 @@ const routeNames = {
 
 const DATABASE = {
   /*
-  token and student_id is the req.body here 
+  token and student_id is the req.body here
   the token will then be verfied if student already responded
   response then checked by student_id and batch_number - > is a filter for submitted forms
 
@@ -59,9 +59,10 @@ const DATABASE = {
         choices: k.choices ? k.choices : null,
         subject_code: k.subject_code,
   }
-        
+
   */
   async getQuestion({ commit, state }, payload) {
+    console.log(commit);
     try {
       const { status, data } = await axios.get(
         `${state.BASE_URL}/student/question/${payload}`

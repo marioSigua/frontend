@@ -26,6 +26,10 @@ nav {
   font-weight: bold;
 
   background-color: #807669;
+
+  position: sticky;
+  top:0;
+  z-index: 3;
 }
 
 nav a {
