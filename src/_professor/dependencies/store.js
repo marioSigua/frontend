@@ -63,6 +63,7 @@ export default new Vuex.Store({
   },
 
   getters: {
+    // to check if there is any current user logged in on current device
     isLoggedIn: (state) => {
       if (!Cookies.get(state.token_name)) {
         return false;
@@ -74,6 +75,7 @@ export default new Vuex.Store({
   // pang edit ng state
   // this.$store.commit(nameofmut, payload!null)
   mutations: {
+    // to remove current logged in user and cookies
     resetState(state) {
       Cookies.remove(state.token_name, {
         path: "/",
