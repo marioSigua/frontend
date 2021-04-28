@@ -1,25 +1,51 @@
 <template>
-  <div class="sList">
-    <ul>
-      <li><br />{{ firstname + " " + lastname }}</li>
-    </ul>
-  </div>
+
+
+
 </template>
 
 <script>
 export default {
   props: {
-    firstname: {
-      default() {
-        return "juan";
-      },
-    },
-    lastname: {
-      default() {
-        return "tamad";
-      },
-    },
+    student: Object
   },
+  data(){
+    return {
+      // subjects
+      subjectList:[],
+      subjectSelected:'',
+
+      //students
+      studentsList:[],
+      studentSelected:'',
+    }
+  },
+  mounted(){
+    this.$store.dispatch('getSubjects').then(subjects=>{
+      this.subjectList = subjects
+    })
+  },
+  methods:{
+    select(s){
+      console.log(this.studentsList[s]);
+    },
+  }
+  watch:{
+    subjectSelected(selected){
+      if(selected==''){
+        this.studentList = [];
+      }
+      else {
+        this.$store.dispatch('getStudents').then(students=>{
+          this.studentList = students
+        })
+      }
+    },
+
+
+
+  }
+
 };
 </script>
 

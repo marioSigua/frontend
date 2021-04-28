@@ -1,60 +1,49 @@
 <template lang="html">
   <div class="grid-container">
     <div id="sList">
-      <h4>Students</h4>
-      <sList
-        v-for="(list, index) in listStudents"
-        :key="index"
-        :firstname="list.firstname"
-        :lastname="list.lastname"
-      ></sList>
+        <!-- Subjects -->
+        <label for="name">Select Subject:</label>
+        <select v-model="subjectSelected">
+          <option value="">Select Subject</option>
+          <option v-for="(category, i) in subjectList" :key="i" :value="category.subject_code" >
+            {{ category.subject_name }}
+          </option>
+        </select>
+
+
+
+        <!-- Students -->
+        <ul>
+          <li v-for="(student,s) in studentList" :key="s" @click="selectStudent(s)">{{ student.firstname + " " + student.lastname }}</li>
+        </ul>
     </div>
+
 
     <div id="calc">
       <h4>Calculator</h4>
 
-      <div id="getSubj">
-        <getSubj
-          :selected="selectedSubject"
-          :subjectList="selectSubj"
-        ></getSubj>
-      </div>
+      <inputGrade :target="payload" :subject="selectedSubject"></inputGrade>
 
-      <div>
-        <label for="name">Select Term:</label>
-        <select v-model="selectedTerm" @change="getGrades">
-          <option value="">Select Term</option>
-          <option v-for="(category, index) in selectTerm" :key="index">
-            {{ category.name }}
-          </option>
-        </select>
-      </div>
-
-      <inputGrade></inputGrade>
-
-      <button type="button" @click="updateGrade">
-        SAVE
-      </button>
     </div>
   </div>
 </template>
 
 <script>
-import sList from "@/_professor/_calculator/studentList";
-import getSubj from "@/_professor/_calculator/getSubj";
+
 import inputGrade from "@/_professor/_calculator/inputGrade";
 
 export default {
-  components: { sList, getSubj, inputGrade },
+  components: { inputGrade },
 
   computed: {
     selectSubj() {
       return this.$store.state.subjectList;
+      /*
+      sample expectations
+      [{subject_name:'', subject_code:0 }]
+      */
     },
 
-    selectTerm() {
-      return this.Terms;
-    },
 
     listStudents() {
       return this.$store.state.calculator.listStudents;
@@ -66,26 +55,21 @@ export default {
       selectStudents: false,
 
       currentIndex: "",
-      selectedTerm: "",
 
+
+      // local data
+      subjectList:[],
+      studentList:[],
+
+      // selection
       selectedStudent: "",
       selectedSubject: "",
 
-      Terms: [
-        {
-          name: "Prelims",
-        },
-        {
-          name: "Midterm",
-        },
-        {
-          name: "Finals",
-        },
-      ],
 
       inpSubject: "",
       inpCode: "",
 
+      // selected student
       payload: {
         student_id: "",
         date_created: "",
@@ -104,35 +88,18 @@ export default {
       this.subjects.push({ name, code });
     },
 
-    getGrades() {
-      const gradeList = {
-        student_id: this.payload.student_id,
-        created_at: this.payload.date_created,
-        term: this.selectedTerm,
-        subject_code: this.selectedSubject,
-      };
 
-      this.$store.dispatch("getStudentGrade", gradeList);
-    },
 
-    updateGrade() {
-      const needs = {
-        ...this.payload,
-        term: this.selectedTerm,
-        totalGrade: this.calculateGrade,
-      };
 
-      this.$store.dispatch("updateGrade", needs);
-    },
   },
 
-  beforeRouteLeave(to, from, next) {
-    this.$store.commit("getStudents", []);
-    next();
-  },
 
   mounted() {
-    this.$store.dispatch("profSubjects");
+    // call subjects then handle data here
+    this.$store.dispatch("profSubjects").then(subjects=>{
+      // save locally
+      this.subjectList = subjects;
+    })
   },
 };
 </script>
