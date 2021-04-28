@@ -17,7 +17,7 @@
         </select>
         <ul>
           <!-- Loop for history after changing the subject -->
-          <li v-for="(form,i) in historyList" :key="h" @click="selectForm(i)">
+          <li v-for="(form,i) in historyList" :key="i" @click="selectForm(i)">
             <h3>{{form.name}}</h3>
             <span>{{form.time}}</span><br>
             <em>{{form.term}}</em>
