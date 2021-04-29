@@ -183,13 +183,12 @@ const DATABASE = {
   },
 
   // get all isOccupied subject where account_id matches
-  async profSubjects({ state, commit }) {
+  async profSubjects({ state }) {
     try {
       const subjs = await axios.get(`${state.BASE_URL}/assigned/subjects`, {
         headers: { Authorization: this.getters.isLoggedIn },
       });
-      console.log(subjs);
-      if (subjs.status === 200) commit("profSubjects", subjs.data);
+      if (subjs.status === 200) return subjs.data;
     } catch (error) {
       console.log(error.response);
     }

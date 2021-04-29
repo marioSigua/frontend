@@ -23,9 +23,6 @@ export default {
   components: { card, addSub },
 
   computed: {
-    listSubjs() {
-      return this.$store.state.subjectList;
-    },
     autoComplete() {
       const { listSubjects } = this.$store.state.calculator;
       return !this.searchList
@@ -51,6 +48,7 @@ export default {
         course: ["BSCpE", "BSEE", "BSECE", "BSIE", "BS Architecture"],
         year: ["1st Year", "2nd Year", "3rd Year", "4th Year", "5th Year"],
       },
+
       searchList: "",
       payload: {
         subject_code: "",
@@ -59,6 +57,9 @@ export default {
         subject_sem: "",
         subject_year: "",
       },
+
+      listSubjs: [],
+
       sizeChangedBy: null,
       optionVal: "",
     };
@@ -97,9 +98,8 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("profSubjects");
+    this.$store.dispatch("profSubjects").then((d) => (this.listSubjs = d));
 
-    console.log(this.$store.state.subjectList);
     setTimeout(() => {
       this.$store.dispatch("getSubjects");
     }, 2000);
