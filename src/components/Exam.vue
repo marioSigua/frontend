@@ -194,6 +194,28 @@
               </option>
             </b-form-select>
 
+            <div>
+              <b-button @click="show = true" variant="primary"
+                >Show Modal</b-button
+              >
+
+              <b-modal
+                v-model="show"
+                title="Report"
+                style="height: 200px; width: 200px;"
+              >
+                <b-container fluid>
+                  <b-row class="mb-1 text-center">
+                    <b-col>Status</b-col>
+                    <b-col>Student Number</b-col>
+                    <b-col>Firstname</b-col>
+                    <b-col>Lastname</b-col>
+                    <b-col>Score</b-col>
+                  </b-row>
+                </b-container>
+              </b-modal>
+            </div>
+
             <b-list-group>
               <b-list-group-item
                 v-for="(quest, index) in questionsHistory"
@@ -202,12 +224,22 @@
                 href="#"
                 class="flex-column align-items-start"
               >
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">
-                    {{ sidebarSubj.subject_name }}
-                  </h5>
-                  <small>{{ quest.created_at }}</small>
-                </div>
+                <router-link
+                  :to="{
+                    name: 'HistoryForm',
+                    params: {
+                      token: quest.url,
+                      batch: quest.batch_number,
+                      subject_code: quest.subject_code,
+                    },
+                  }"
+                >
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                      {{ choiceSubj.subject_name }}
+                    </h5>
+                    <small>{{ quest.created_at }}</small>
+                  </div>
 
                 <p class="mb-1">
                   {{ quest.term }}

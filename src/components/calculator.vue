@@ -91,7 +91,7 @@
 
             <div class="container termcontainer">
               <label for="name">Select Term:</label>
-              <select v-model="selectedTerm">
+              <select v-model="selectedTerm" @change="getGrades">
                 <option value="">Select Term</option>
                 <option v-for="(category, index) in selectTerm" :key="index">
                   {{ category.name }}
