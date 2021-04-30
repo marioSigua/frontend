@@ -9,7 +9,7 @@
         <option value="">-- Select Subject --</option>
       </select>
       <button type="button" @click="$router.push({name:'history'})">History</button>
-      <button type="button" name="button">Import Question</button>
+      <button @click="importQuestion">Import Question</button>
 
 
     </div>
@@ -95,6 +95,12 @@ export default {
       this.questions = this.questions.filter((v,i)=>{
         return !(i==s)
       })
+    },
+    append(item){
+      this.questions.push(item)
+    },
+    importQuestion(){
+      this.$emit('import')
     }
 
   }
