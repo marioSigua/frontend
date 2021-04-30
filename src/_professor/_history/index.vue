@@ -31,6 +31,7 @@
       </aside>
 
       <article class="">
+        <a @click="$router.go(-1)">x</a>
         <div class="right">
           <button>Form Link</button>
         </div>
@@ -202,5 +203,19 @@ article {
 
 table {
   width: 100%;
+}
+
+a {
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  float: right;
+  font-size: 20px;
+}
+
+a:hover {
+  border-radius: 50%;
+  background: rgba(44, 44, 44, 0.9);
+  cursor: pointer;
 }
 </style>
