@@ -74,9 +74,10 @@ ul.tabs__header > li.tab__selected {
   display: inline-block;
   color: black;
   padding: 20px;
-  min-width: 800px;
+  width: 100%;
+  min-width: 400px;
   border-radius: 10px;
-  min-height: 150px;
+  min-height: 100px;
   max-height: auto;
 }
 

@@ -19,10 +19,26 @@
         <button id="remove" @click="remove(q)">Remove</button>
         <div v-if="question.type == 'essay'">
           <h3>Essay</h3>
+
+          <div>
+            <input class="ptsInput" />
+            <span>pts</span>
+          </div>
+
           <textarea></textarea>
         </div>
         <div v-else-if="question.type == 'identification'">
           <h3>Identification</h3>
+
+          <div class="topic">
+            <label for="Topic">Topic:</label>
+            <input type="text" />
+          </div>
+
+          <div>
+            <input class="ptsInput" />
+            <span>pts</span>
+          </div>
 
           Question
           <div class="wrapper">
@@ -54,6 +70,16 @@
         </div>
         <div v-else>
           <h3>Multiple Choice</h3>
+
+          <div class="topic">
+            <label for="Topic">Topic:</label>
+            <input type="text" />
+          </div>
+
+          <div>
+            <input class="ptsInput" />
+            <span>pts</span>
+          </div>
 
           Question
           <div class="wrapper">
@@ -193,6 +219,21 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.topic {
+  width: 40%;
+  margin-bottom: 10px;
+}
+
+span {
+  padding: 10px;
+}
+
+.ptsInput {
+  max-width: 50px;
+  max-height: 50px;
+  padding: 10px;
+}
+
 .selection {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
