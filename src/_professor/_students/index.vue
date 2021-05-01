@@ -5,29 +5,47 @@
     </div>
 
     <div :hide="hide" id="collapse">
-      <label for="name">Subject Name</label>
-      <input type="text" name="name" value="" />
+      <table>
+        <tr>
+          <th>Student ID</th>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Course</th>
+          <th>Prelim</th>
+          <th>Midterm</th>
+          <th>Finals</th>
+          <th>GWA</th>
+          <th>Remarks</th>
+          <th>Drop</th>
 
-      <label for="name">Subject Code</label>
-      <input type="text" name="name" value="" />
+          
+        </tr>
+        <tr>
+          <td>2015020055</td>
+          <td>Gorospe</td>
+          <td>Vincent</td>
+          <td>BSCOE</td>
+          <td>75</td>
+          <td>76</td>
+          <td>99</td>
+          <td>77</td>
+          <td>Passed</td>
+          <td><button>Drop</button></td>
+        </tr>
+        <tr>
+          <td>2014021156</td>
+          <td>Argarin</td>
+          <td>David</td>
+          <td>BSCOE</td>
+          <td>99</td>
+          <td>85</td>
+          <td>62</td>
+          <td>76</td>
+          <td>Passed</td>
+          <td><button>Drop</button></td>
+        </tr>
 
-      <label for="name">Subject Course</label>
-      <input type="text" name="name" value="" />
-
-      <label for="desc">Subject Desc</label>
-      <input type="text" name="desc" value="" />
-
-      <label for="name">Semester</label>
-      <select class="" name="">
-        <option v-for="(sem, s) in sems" :key="s">{{ sem }}</option>
-      </select>
-
-      <label for="name">Year</label>
-      <select class="" name="">
-        <option v-for="(year, y) in years" :key="y">{{ year }}</option>
-      </select>
-
-      <button type="button" name="button">Add</button>
+      </table>
     </div>
   </div>
 </template>
@@ -59,5 +77,22 @@ export default {
 }
 #collapse[hide] {
   height: 0;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+  color: black;
 }
 </style>

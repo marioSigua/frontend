@@ -1,121 +1,158 @@
 <template>
-  <div class="ExamType" id="Identification" style="margin: 20px;">
-    <b-button-close
-      @click="parent.splice(parent.indexOf(identificationValues), 1)"
-    ></b-button-close>
-    <h2>Identification</h2>
-    <label for="Topic">Topic: </label>
-    <input type="text" v-model="identificationValues.topic" />
-    <div>
-      <div>
-        <b-card no-body>
-          <b-tabs card>
-            <b-tab title="Text" active>
-              <b-card-text>
-                <p class="tabt">Question:</p>
-                <textarea
-                  v-model="identificationValues.question_text"
-                  rows="4"
-                  cols="50"
-                ></textarea>
-              </b-card-text>
-            </b-tab>
-          </b-tabs>
+     <div class="ExamType" id="Identification" style="margin: 20px;">
+          <b-button-close
+               @click="parent.splice(parent.indexOf(identificationValues), 1)"
+          ></b-button-close>
+          <h2>Identification</h2>
 
-          <b-tab title="Upload Image">
-            <b-card-text>
-              <p class="tabt">Question:</p>
-              <img
-                class="is-rounded"
-                height="300"
-                width="300"
-                :src="imgUrl ? imgUrl : imgResponse"
-                alt="Placeholder image"
-                @click="$refs.file.click()"
-              />
-              <input
-                ref="file"
-                @change="onFileChange"
-                type="file"
-                style="display:none"
-              />
-            </b-card-text>
-          </b-tab>
+          <label for="Topic">Topic:</label>
+          <input type="text" v-model="identificationValues.topic" />
+          <!--pts-->
+          <b-input-group class="mt-3 pts">
+               <template #append>
+                    <b-input-group-text
+                         ><strong>pts.</strong></b-input-group-text
+                    >
+               </template>
+               <b-form-input
+                    v-model="identificationValues.question_score"
+               ></b-form-input>
+          </b-input-group>
+          <!--pts-->
 
-          <span class="danger"> {{ error }}</span>
-        </b-card>
-      </div>
-      <br />
-      <label for="Answer">Answer </label>
-      <input
-        v-model="identificationValues.form_answer"
-        type="text"
-      /><br /><br />
-    </div>
-  </div>
+          <div>
+               <div>
+                    <b-card no-body>
+                         <b-tabs card>
+                              <b-tab
+                                   @click="openTab"
+                                   title="Upload Image"
+                                   :active="tabIndex === 0"
+                              >
+                                   <b-card-text>
+                                        <p class="tabt">Question:</p>
+                                        <img
+                                             class="is-rounded"
+                                             height="300"
+                                             width="300"
+                                             :src="
+                                                  imgUrl ? imgUrl : imgResponse
+                                             "
+                                             alt="Placeholder image"
+                                             @click="$refs.file.click()"
+                                        />
+                                        <input
+                                             ref="file"
+                                             @change="onFileChange"
+                                             type="file"
+                                             style="display:none"
+                                        />
+                                   </b-card-text>
+                              </b-tab>
+                              <b-tab
+                                   @click="openTab"
+                                   :active="tabIndex === 1"
+                                   title="Text"
+                              >
+                                   <b-card-text>
+                                        <p class="tabt">Question:</p>
+                                        <textarea
+                                             v-model="
+                                                  identificationValues.question_text
+                                             "
+                                             rows="4"
+                                             cols="50"
+                                        ></textarea>
+                                   </b-card-text>
+                              </b-tab>
+                         </b-tabs>
+
+                         <span class="danger"> {{ error }}</span>
+                    </b-card>
+               </div>
+               <br />
+               <label for="Answer">Answer:</label>
+               <input
+                    v-model="identificationValues.form_answer"
+                    type="text"
+               /><br /><br />
+          </div>
+     </div>
 </template>
 
 <script>
-export default {
-  props: ["identificationValues", "parent"],
+     export default {
+          props: ['identificationValues', 'parent'],
 
-  data() {
-    return {
-      imgUrl: null,
-      imgResponse: null,
+          data() {
+               return {
+                    imgUrl: null,
+                    imgResponse: null,
 
-      error: "",
+                    error: '',
 
-      hidden: true,
-    };
-  },
+                    tabIndex: 0,
+               }
+          },
 
-  methods: {
-    encodeBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-      });
-    },
+          methods: {
+               openTab() {
+                    if (this.tabIndex === 0) {
+                         this.identificationValues.question_text = ''
+                    } else {
+                         this.identificationValues.question_image = ''
+                         this.imgUrl = 'https://i.imgur.com/SbAMcxP.png'
+                    }
+               },
 
-    async onFileChange(e) {
-      let imgFormats = ["jpg", "jpeg", "png", "PNG"];
-      const file = e.target.files[0];
-      let fileFormat = file.name.split(".")[1];
+               encodeBase64(file) {
+                    return new Promise((resolve, reject) => {
+                         const reader = new FileReader()
+                         reader.readAsDataURL(file)
+                         reader.onload = () => resolve(reader.result)
+                         reader.onerror = (error) => reject(error)
+                    })
+               },
 
-      if (!file) {
-        e.preventDefault();
-        return;
-      }
+               async onFileChange(e) {
+                    let imgFormats = ['jpg', 'jpeg', 'png', 'PNG']
+                    const file = e.target.files[0]
+                    let fileFormat = file.name.split('.')[1]
 
-      if (!imgFormats.includes(fileFormat)) {
-        e.preventDefault();
-        this.error = "jpg, jpeg and png are the only file supported";
-        return;
-      }
+                    if (!file) {
+                         e.preventDefault()
+                         return
+                    }
 
-      if (file.size > 1000 * 1000) {
-        e.preventDefault();
-        this.error = "Image must be less than 1mb";
-        return;
-      }
+                    if (!imgFormats.includes(fileFormat)) {
+                         e.preventDefault()
+                         this.error =
+                              'jpg, jpeg and png are the only file supported'
+                         return
+                    }
 
-      this.error = "";
+                    if (file.size > 1000 * 1000) {
+                         e.preventDefault()
+                         this.error = 'Image must be less than 1mb'
+                         return
+                    }
 
-      this.imgUrl = URL.createObjectURL(file);
+                    this.error = ''
 
-      this.identificationValues.question_image = await this.encodeBase64(file);
-    },
-  },
+                    this.imgUrl = URL.createObjectURL(file)
 
-  async mounted() {
-    if (this.identificationValues.question_image) {
-      this.imgResponse = this.identificationValues.question_image;
-    } else {
-      this.imgUrl = "https://i.imgur.com/SbAMcxP.png";
-    }
-  },
-};
+                    this.identificationValues.question_image = await this.encodeBase64(
+                         file
+                    )
+               },
+          },
+
+          async mounted() {
+               if (this.identificationValues.question_image) {
+                    this.imgResponse = this.identificationValues.question_image
+               } else {
+                    this.imgUrl = 'https://i.imgur.com/SbAMcxP.png'
+               }
+          },
+     }
 </script>

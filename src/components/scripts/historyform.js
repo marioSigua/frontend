@@ -62,7 +62,6 @@ export default {
      },
 
      mounted() {
-          const { token } = this.$route.params
-          this.$store.dispatch('getQuestion', token)
+          this.$store.dispatch('getResponse', this.$route.params.token)
      },
 }

@@ -1,19 +1,19 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import * as Cookies from "js-cookie";
-import router from "../router/index";
-import createPersistedState from "vuex-persistedstate";
-import axios from "axios";
-Vue.use(Vuex);
+import Vue from 'vue'
+import Vuex from 'vuex'
+import * as Cookies from 'js-cookie'
+import router from '../router/index'
+import createPersistedState from 'vuex-persistedstate'
+import axios from 'axios'
+Vue.use(Vuex)
 
 const logout = () => {
-  return {
-    access_token: "",
-    isAuth: false,
-    userProfile: {},
-    token_name: "",
-  };
-};
+     return {
+          access_token: '',
+          isAuth: false,
+          userProfile: {},
+          token_name: '',
+     }
+}
 
 const routeNames = {
   calculator: "calculator",

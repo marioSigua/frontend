@@ -1,5 +1,11 @@
 <template>
-     <div class="MCQ">
+     <div
+          class="MCQ"
+          :class="{
+               'is-correct': isCorrect,
+               'is-wrong': !isCorrect,
+          }"
+     >
           <b-button-close></b-button-close>
           <div class="ui form">
                <div class="grouped fields">
@@ -9,18 +15,16 @@
                          id=""
                          cols="30"
                          rows="10"
-                  
                     ></textarea> -->
                     <img
                          v-if="mcq.question_image"
-                         :src="imgUrl"
+                         :src="imgurl"
                          height="300"
                          width="300"
                          alt=""
                     />
 
                     <p v-else>{{ mcq.question_text }}</p>
-
                     <div class="field">
                          <div class="ui radio checkbox">
                               <b-form-radio-group
@@ -66,6 +70,12 @@
                choice() {
                     return JSON.parse(this.mcq.choices)
                },
+
+               isCorrect() {
+                    return this.mcq.student_answer === this.mcq.form_answer
+                         ? true
+                         : false
+               },
           },
 
           data() {
@@ -75,8 +85,9 @@
           },
 
           mounted() {
+               console.log(this.mcq.student_answer)
                if (this.mcq.question_image) {
-                    this.imgUrl = this.mcq.question_image
+                    this.imgUrl = JSON.parse(this.mcq.question_image)
                }
           },
      }

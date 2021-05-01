@@ -3,6 +3,58 @@
     <navbar />
     <!--Import Question-->
     <div>
+      <div>
+        <b-modal id="historyModal" size="xl" title="Extra Large Modal">
+          <template #modal-header="">
+            <!-- Emulate built in modal header close button action -->
+            <router-link
+              target="_blank"
+              :to="{
+                name: 'HistoryForm',
+                params: {
+                  token: objHistory.url,
+                  batch: objHistory.batch_number,
+                  subject_code: objHistory.subject_code,
+                },
+              }"
+            >
+              <b-button size="sm" variant="primary">
+                View Form
+              </b-button>
+            </router-link>
+            <h5>
+              {{ sidebarSubj.subject_name }}
+            </h5>
+          </template>
+          <div>
+            <b-table striped hover :items="listResponses" :fields="fields">
+              <template #cell(view)="row">
+                <router-link
+                  v-if="row.item.student_token"
+                  target="_blank"
+                  :to="{
+                    name: 'ResponseViewing',
+                    params: {
+                      token: objHistory.url,
+                      student_id: row.item.student_token,
+                    },
+                  }"
+                  :disabled="!row.item.isTaken"
+                >
+                  <b-button variant="info" :disabled="!row.item.isTaken"
+                    >Info</b-button
+                  >
+                </router-link>
+              </template>
+
+              <template #cell(status)="row">
+                <b-col>{{ row.item.score ? "Submitted" : "Not Taken" }}</b-col>
+              </template>
+            </b-table>
+          </div>
+        </b-modal>
+      </div>
+
       <!--Accordian-->
       <b-modal id="modal-xl" size="xl" title="Import Questions">
         <div
@@ -18,7 +70,7 @@
                 v-b-toggle="'accordion' + index"
                 variant="info"
                 class="clsbtn"
-                @click="getSubjectCode(subj)"
+                @click="getSubjectCode(subj.subject_code)"
               >
                 {{ subj ? subj.subject_name : "" }}
               </b-button>
@@ -131,7 +183,7 @@
       <b-sidebar id="sidebar-history" title="History" right shadow>
         <div class="px-3 py-2">
           <div>
-            <b-form-select v-model="choiceSubj" size="sm" class="mt-3">
+            <b-form-select v-model="sidebarSubj" size="sm" class="mt-3">
               <option value="">Select Subject</option>
               <option
                 v-for="(subj, index) in selectSubj"
@@ -168,6 +220,7 @@
               <b-list-group-item
                 v-for="(quest, index) in questionsHistory"
                 :key="index"
+                @click="openHistory(quest)"
                 href="#"
                 class="flex-column align-items-start"
               >
@@ -188,12 +241,11 @@
                     <small>{{ quest.created_at }}</small>
                   </div>
 
-                  <p class="mb-1">
-                    {{ quest.term }}
-                  </p>
+                <p class="mb-1">
+                  {{ quest.term }}
+                </p>
 
-                  <small>Description</small>
-                </router-link>
+                <small>Description</small>
               </b-list-group-item>
             </b-list-group>
           </div>
@@ -237,8 +289,7 @@
     </div>
 
     <br />
-    <b-button variant="primary" @click="openStudentList">
-      <!-- <button @click="createForm()" v-b-modal.modal-tall style="margin-left: 10px"> -->
+    <b-button variant="primary" @click="openStudentList" class="bts">
       Create Form
     </b-button>
 

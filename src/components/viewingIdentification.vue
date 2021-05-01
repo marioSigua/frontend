@@ -1,16 +1,23 @@
 <template>
      <div>
           <b-button-close></b-button-close>
-          <div class="Identification">
+          <div
+               class="Identification"
+               :class="{
+                    'is-correct': isCorrect,
+                    'is-wrong': !isCorrect,
+               }"
+          >
                <img
                     v-if="identi.question_image"
-                    :src="imgUrl"
+                    :src="imgurl"
                     height="300"
                     width="300"
                     alt=""
                />
 
                <p v-else>{{ identi.question_text }}</p>
+
                <br />
                <input
                     v-model="identi.student_answer"
@@ -19,7 +26,6 @@
                     @paste.prevent
                     type="text"
                     class="idn"
-                    :disabled="!isDisabled"
                />
           </div>
      </div>
@@ -27,7 +33,16 @@
 
 <script>
      export default {
-          props: ['identi', 'isDisabled'],
+          props: ['identi'],
+
+          computed: {
+               isCorrect() {
+                    return this.identi.student_answer ===
+                         this.identi.form_answer
+                         ? true
+                         : false
+               },
+          },
 
           data() {
                return {
@@ -42,8 +57,9 @@
           },
 
           mounted() {
+               console.log(this.identi.student_answer)
                if (this.identi.question_image) {
-                    this.imgUrl = this.identi.question_image
+                    this.imgUrl = JSON.parse(this.identi.question_image)
                }
           },
      }

@@ -1,57 +1,70 @@
 <template>
      <div class="Eform">
-          <div class="Term">
-               <div class="clr"></div>
-               <h1>Untitled form</h1>
-               <h5>Desciption</h5>
-          </div>
-          <div class="Term">
-               <div class="Info"></div>
-               <label for="text">Student ID:</label>
-               <input v-model="student_id" />
-               <div class="Info"></div>
-               <label for="text">First Name:</label>
-               <input v-model="fname" />
-               <label for="text">Last Name:</label>
-               <input v-model="lname" />
+          <div v-if="hasError">
+               <div class="Term">
+                    <div class="clr"></div>
+                    <h1>{{ hasError }}</h1>
+               </div>
           </div>
 
-          <div class="" v-for="(quest, index) in questionList" :key="index">
-               <component
-                    v-if="quest.type === 'Identification'"
-                    :key="`${index}-${quest.batch_number}`"
-                    :is="quest.format.replace('exam', 'student')"
-                    :identi="quest"
-                    :isDisabled="checkRoute"
-               >
-               </component>
+          <div v-else>
+               <div class="Term">
+                    <div class="clr"></div>
+                    <h1>Untitled form</h1>
+                    <h5>Desciption</h5>
+               </div>
+               <div class="Term">
+                    <div class="Info"></div>
+                    <label for="text">Student ID:</label>
+                    <input v-model="student_id" />
+                    <div class="Info"></div>
+                    <label for="text">First Name:</label>
+                    <input v-model="fname" />
+                    <label for="text">Last Name:</label>
+                    <input v-model="lname" />
+               </div>
 
-               <component
-                    v-if="quest.type === 'Essay'"
-                    :key="`${index}-${quest.batch_number}`"
-                    :is="quest.format.replace('exam', 'student')"
-                    :essay="quest"
-                    :isDisabled="checkRoute"
+               <div
+                    class=""
+                    v-for="(quest, index) in questionList"
+                    :key="index"
                >
-               </component>
+                    <component
+                         v-if="quest.type === 'Identification'"
+                         :key="`${index}-${quest.batch_number}`"
+                         :is="quest.format.replace('exam', 'student')"
+                         :identi="quest"
+                         :isDisabled="checkRoute"
+                    >
+                    </component>
 
-               <component
-                    v-if="quest.type === 'Multiple Choice'"
-                    :key="`${index}-${quest.batch_number}`"
-                    :is="quest.format.replace('exam', 'student')"
-                    :mcq="quest"
-                    :isDisabled="checkRoute"
-               >
-               </component>
-          </div>
+                    <component
+                         v-if="quest.type === 'Essay'"
+                         :key="`${index}-${quest.batch_number}`"
+                         :is="quest.format.replace('exam', 'student')"
+                         :essay="quest"
+                         :isDisabled="checkRoute"
+                    >
+                    </component>
 
-          <div class="btnx" v-if="checkRoute">
-               <b-button
-                    @click="createStudentForm"
-                    variant="primary"
-                    class="submit"
-                    >Submit</b-button
-               >
+                    <component
+                         v-if="quest.type === 'Multiple Choice'"
+                         :key="`${index}-${quest.batch_number}`"
+                         :is="quest.format.replace('exam', 'student')"
+                         :mcq="quest"
+                         :isDisabled="checkRoute"
+                    >
+                    </component>
+               </div>
+
+               <div class="btnx" v-if="checkRoute">
+                    <b-button
+                         @click="createStudentForm"
+                         variant="primary"
+                         class="submit"
+                         >Submit</b-button
+                    >
+               </div>
           </div>
      </div>
 </template>

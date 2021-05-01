@@ -7,6 +7,10 @@ export default {
           checkRoute() {
                return this.$route.name !== 'HistoryForm' ? true : false
           },
+
+          hasError() {
+               return this.$store.state.errorMessage
+          },
      },
 
      data() {
@@ -20,25 +24,30 @@ export default {
      methods: {
           async createStudentForm() {
                const { state } = this.$store
+
                const dispatch = this.questionList.map((k) => {
-                    //aayusin ko pa
-                    delete k.question_image
-                    delete k.question_text
-                    delete k.choices
-                    delete k.form_answer
-                    delete k.created_at
-                    delete k.updated_at
-                    delete k.topic
-                    delete k.term
-                    delete k.format
-                    delete k.type
-                    delete k.question_id
+                    let isCorrect = ''
+
+                    if (k.type === 'Essay') {
+                         isCorrect = ''
+                    } else {
+                         isCorrect =
+                              k.form_answer.toLowerCase() ===
+                                   k.student_answer.toLowerCase() ||
+                              k.form_answer.toUpperCase() ===
+                                   k.student_answer.toUpperCase()
+                                   ? true
+                                   : false
+                    }
 
                     return {
                          student_answer: k.student_answer,
-                         firstname: this.fname,
-                         lastname: this.lname,
-                         student_id: this.student_id,
+                         student_score: isCorrect
+                              ? k.question_score
+                              : k.type === 'Essay'
+                              ? null
+                              : 0,
+                         student_id: this.$route.params.student_id,
                          batch_number: k.batch_number,
                          form_number: k.form_number,
                          subject_code: k.subject_code,
@@ -50,7 +59,7 @@ export default {
                          { questionList: dispatch }
                     )
 
-                    if (isSuccess.status === 200) console.log(1)
+                    if (isSuccess.status === 200) window.location.reload()
                } catch (error) {
                     console.log(error.response)
                }
@@ -58,8 +67,16 @@ export default {
      },
 
      mounted() {
-          this.$store.dispatch('getQuestion', this.$route.params.token)
+          const payload = {
+               token: this.$route.params.token,
+               student_id: this.$route.params.student_id,
+          }
 
+          this.$store.dispatch('getQuestion', payload)
+
+          setTimeout(() => {
+               console.log(this.questionList)
+          }, 2000)
           // document.addEventListener('contextmenu', function(e) {
           //      e.preventDefault()
           // })

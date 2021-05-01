@@ -22,6 +22,15 @@ const routes = [
      },
 
      {
+          path: '/professor/student/response/:token/:student_id',
+          name: 'ResponseViewing',
+          component: () =>
+               import(
+                    /* webpackChunkName: "usersExam" */ '../components/ResponseViewing.vue'
+               ),
+     },
+
+     {
           path: '/professor/viewing/form/:token/:batch/:subject_code',
           name: 'HistoryForm',
           component: () =>
@@ -32,7 +41,7 @@ const routes = [
 
      //student question form route
      {
-          path: '/student/question/form/:token',
+          path: '/student/question/form/:token/:student_id',
           name: 'examform',
           component: () =>
                import(
