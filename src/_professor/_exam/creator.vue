@@ -1,69 +1,202 @@
 <template lang="html">
-  <div>
-    <div class="selection">
-      <select>
-        <option value="">-- Select Term --</option>
-      </select>
-      <select>
-        <option value="">-- Select Subject --</option>
-      </select>
-      <button type="button" @click="$router.push({ name: 'history' })">
-        History
-      </button>
-      <button @click="importQuestion">Import Question</button>
-    </div>
-    <br />
+     <div>
+          <div class="selection">
+               <select v-model="selectedTerm">
+                    <option value="">-- Select Term --</option>
+                    <option value="Preliminary">-- Preliminary --</option>
+                    <option value="Midterm">-- Midterm --</option>
+                    <option value="Pre-Finals">-- Pre-Finals --</option>
+                    <option value="Finals">-- Finals --</option>
+               </select>
+               <select v-model="selectedSubject">
+                    <option value="">-- Select Subject --</option>
+                    <option
+                         v-for="(subj, s) in subjectList"
+                         :key="s"
+                         :value="subj.subject_code"
+                         >{{ subj.subject_name }}</option
+                    >
+               </select>
+               <button type="button" @click="$router.push({ name: 'history' })">
+                    History
+               </button>
 
-    <ul>
-      <li v-for="(question, q) in questions" :key="q" class="backdrop">
-        <button id="remove" @click="remove(q)">Remove</button>
-        <div v-if="question.type == 'essay'">
-          <h3>Essay</h3>
-
-          <div>
-            <input class="ptsInput" />
-            <span>pts</span>
+               <button @click="importQuestion">Import Question</button>
           </div>
+          <br />
 
-          <textarea></textarea>
-        </div>
-        <div v-else-if="question.type == 'identification'">
-          <h3>Identification</h3>
+          <ul>
+               <li v-for="(question, q) in questions" :key="q" class="backdrop">
+                    <button id="remove" @click="remove(q)">Remove</button>
+                    <div v-if="question.type == 'essay'">
+                         <h3>Essay</h3>
 
-          <div class="topic">
-            <label for="Topic">Topic:</label>
-            <input type="text" />
-          </div>
+                         <div>
+                              <input
+                                   class="ptsInput"
+                                   v-model="question.question_score"
+                              />
+                              <span>pts</span>
+                         </div>
 
-          <div>
-            <input class="ptsInput" />
-            <span>pts</span>
-          </div>
+                         <textarea v-model="question.question"></textarea>
+                    </div>
 
-          Question
-          <div class="wrapper">
-            <tabs :mode="mode">
-              <tab title="Text"><textarea></textarea></tab>
-              <tab title="Image">
-                <input
-                  ref="file"
-                  @change="onFileChange"
-                  type="file"
-                  style="display:none"
-                />
-                <img
-                  class="is-rounded"
-                  height="300"
-                  width="300"
-                  :src="imgUrl ? imgUrl : 'https://i.imgur.com/bCOd9N0.jpg'"
-                  alt="Placeholder image"
-                  @click="$refs.file.click()"
-                />
-                <span class="danger">
-                  {{ error }}
-                </span>
-              </tab>
-            </tabs>
+                    <div v-else-if="question.type == 'identification'">
+                         <h3>Identification</h3>
+
+                         <div class="topic">
+                              <label for="Topic">Topic:</label>
+                              <input type="text" v-model="question.topic" />
+                         </div>
+
+                         <div>
+                              <input
+                                   class="ptsInput"
+                                   v-model="question.question_score"
+                              />
+                              <span>pts</span>
+                         </div>
+
+                         Question
+                         <div class="wrapper">
+                              <tabs :mode="mode" :body="question">
+                                   <tab title="Text"
+                                        ><textarea
+                                             v-model="question.question"
+                                        ></textarea
+                                   ></tab>
+
+                                   <tab title="Image">
+                                        <img
+                                             class="is-rounded"
+                                             height="300"
+                                             width="300"
+                                             :src="
+                                                  question.question
+                                                       ? question.question
+                                                       : 'https://i.imgur.com/bCOd9N0.jpg'
+                                             "
+                                             alt="Placeholder image"
+                                             @click="$refs.file[q].click()"
+                                        />
+                                        <input
+                                             ref="file"
+                                             @change="onFileChange($event, q)"
+                                             type="file"
+                                             style="display:none"
+                                        />
+                                        <span class="danger">
+                                             {{ question.error }}
+                                        </span>
+                                   </tab>
+                              </tabs>
+                         </div>
+                         Answer
+                         <input
+                              type="text"
+                              name=""
+                              value=""
+                              v-model="question.form_answer"
+                         />
+                    </div>
+
+                    <div v-else>
+                         <h3>Multiple Choice</h3>
+
+                         <div class="topic">
+                              <label for="Topic">Topic:</label>
+                              <input type="text" v-model="question.topic" />
+                         </div>
+
+                         <div>
+                              <input
+                                   class="ptsInput"
+                                   v-model="question.question_score"
+                              />
+                              <span>pts</span>
+                         </div>
+
+                         Question
+                         <div class="wrapper">
+                              <tabs :mode="mode" :body="question">
+                                   <tab title="Text"
+                                        ><textarea
+                                             v-model="question.question"
+                                        ></textarea
+                                   ></tab>
+
+                                   <tab title="Image">
+                                        <img
+                                             class="is-rounded"
+                                             height="300"
+                                             width="300"
+                                             :src="
+                                                  question.question
+                                                       ? question.question
+                                                       : 'https://i.imgur.com/bCOd9N0.jpg'
+                                             "
+                                             alt="Placeholder image"
+                                             @click="$refs.file[q].click()"
+                                        />
+
+                                        <input
+                                             ref="file"
+                                             @change="onFileChange($event, q)"
+                                             type="file"
+                                             style="display:none"
+                                        />
+
+                                        <span class="danger">
+                                             {{ question.error }}
+                                        </span>
+                                   </tab>
+                              </tabs>
+                         </div>
+
+                         Answer
+                         <input
+                              v-model="question.form_answer"
+                              type="text"
+                              name=""
+                              value=""
+                         />
+                         Choices:
+                         <input
+                              v-model="question.choices.a"
+                              type="text"
+                              name=""
+                              value=""
+                         />
+                         <input
+                              v-model="question.choices.b"
+                              type="text"
+                              name=""
+                              value=""
+                         />
+                         <input
+                              v-model="question.choices.c"
+                              type="text"
+                              name=""
+                              value=""
+                         />
+                    </div>
+               </li>
+          </ul>
+
+          <div class="selection">
+               <select v-model="newItem">
+                    <option value="">-- New Item --</option>
+                    <option value="essay">Essay</option>
+                    <option value="identification">Identification</option>
+                    <option value="mcq">Multiple Choice</option>
+               </select>
+               <button type="button" @click="add">Add</button>
+
+               <div></div>
+               <button type="button" @click="createForm" name="button">
+                    Create Form
+               </button>
           </div>
           Answer
           <input type="text" name="" value="" />
