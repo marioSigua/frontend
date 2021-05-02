@@ -17,8 +17,6 @@
           <th>GWA</th>
           <th>Remarks</th>
           <th>Drop</th>
-
-          
         </tr>
         <tr>
           <td>2015020055</td>
@@ -44,7 +42,6 @@
           <td>Passed</td>
           <td><button>Drop</button></td>
         </tr>
-
       </table>
     </div>
   </div>
@@ -85,7 +82,8 @@ table {
   width: 100%;
 }
 
-td, th {
+td,
+th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
