@@ -244,7 +244,7 @@ const DATABASE = {
                          headers: { Authorization: this.getters.isLoggedIn },
                     }
                )
-               if (subjs.status === 200) commit('getStudents', subjs.data)
+               if (subjs.status === 200) return subjs.data
           } catch (error) {
                if (error.response !== undefined) {
                     if (error.response.data.message === 'jwt expired') {

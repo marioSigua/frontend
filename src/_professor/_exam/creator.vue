@@ -194,9 +194,39 @@
                <button type="button" @click="add">Add</button>
 
                <div></div>
-               <button type="button" @click="createForm" name="button">
+               <button type="button" name="button" v-on:click="showModal">
                     Create Form
                </button>
+
+               <modal ref="importer">
+                    <template v-slot:header>Send to Students</template>
+                    <template v-slot:body>
+                         <div class="modalList">
+                              <ul class="list">
+                                   <li
+                                        v-for="(student, s) in listStudents"
+                                        :key="s"
+                                   >
+                                        <input
+                                             type="checkbox"
+                                             ref="studentEmail"
+                                             @change="
+                                                  getEmails(
+                                                       $refs.studentEmail,
+                                                       s
+                                                  )
+                                             "
+                                             :value="student.student_email"
+                                        />
+                                        {{ student.firstname }}
+                                   </li>
+                              </ul>
+                         </div>
+                    </template>
+                    <template v-slot:footer>
+                         <button @click="createForm">Submit</button>
+                    </template>
+               </modal>
           </div>
      </div>
 </template>
@@ -204,9 +234,10 @@
 <script>
      import Tab from '../_tabs/tab'
      import Tabs from '../_tabs/tabs'
-
+     import modal from '@/modals/empty'
      export default {
           components: {
+               modal,
                Tab,
                Tabs,
           },
@@ -218,7 +249,7 @@
 
                     subjectList: [],
 
-                    kamote: [],
+                    listStudents: [],
 
                     mode: '',
                     selectedTerm: '',
@@ -241,14 +272,33 @@
 
                     //palitan nalang ng value ng mga email ng student pag meron na ui
 
-                    stdEmail: [
-                         'caliljaudiannn@gmail.com',
-                         'caliljaudiannnn@gmail.com',
-                    ],
+                    stdEmail: [],
                }
           },
 
           methods: {
+               getEmails(ref, index) {
+                    this.stdEmail.push(ref[index].value)
+               },
+
+               showModal() {
+                    if (!this.selectedSubject) {
+                         alert('Please Select a Subject')
+                         return
+                    }
+
+                    this.$store
+                         .dispatch('getStudents', this.selectedSubject)
+                         .then((result) => {
+                              this.listStudents = result
+                              console.log(this.listStudents)
+                              this.$refs.importer.open()
+                         })
+                         .catch((err) => {
+                              console.log(err)
+                         })
+               },
+
                add() {
                     let d = Date.now()
                     switch (this.newItem) {
@@ -389,6 +439,16 @@
 </script>
 
 <style lang="css" scoped>
+     .list input {
+          margin: 5px;
+          width: 20px;
+     }
+
+     .modalList {
+          border-top: 1px solid #333;
+          color: white;
+     }
+
      .topic {
           width: 40%;
           margin-bottom: 10px;
