@@ -127,7 +127,22 @@
       <button type="button" @click="add">Add</button>
 
       <div></div>
-      <button type="button" name="button">Create Form</button>
+      <button type="button" name="button" v-on:click="showModal">
+        Create Form
+      </button>
+      <modal ref="importer">
+        <template v-slot:header>Send to Students</template>
+        <template v-slot:body>
+          <div class="modalList">
+            <ul class="list">
+              <li><input type="checkbox" />stowdent</li>
+            </ul>
+          </div>
+        </template>
+        <template v-slot:footer>
+          <button>Submit</button>
+        </template>
+      </modal>
     </div>
   </div>
 </template>
@@ -135,9 +150,11 @@
 <script>
 import Tab from "../_tabs/tab";
 import Tabs from "../_tabs/tabs";
+import modal from "@/modals/empty";
 
 export default {
   components: {
+    modal,
     Tab,
     Tabs,
   },
@@ -149,6 +166,10 @@ export default {
     };
   },
   methods: {
+    showModal() {
+      this.$refs.importer.open();
+    },
+
     add() {
       switch (this.newItem) {
         case "essay":
@@ -219,6 +240,16 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.list input {
+  margin: 5px;
+  width: 20px;
+}
+
+.modalList {
+  border-top: 1px solid #333;
+  color: white;
+}
+
 .topic {
   width: 40%;
   margin-bottom: 10px;
