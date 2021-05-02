@@ -1,83 +1,79 @@
 <template lang="html">
-  <transition name="fade">
-    <div class="modal" v-if="show">
-      <div class="close backdrop" @click="close"></div>
-      <div class="window">
-        <header>
-          <h2>
-            <slot name="header"/>
-          </h2>
-        </header>
-        <div class="">
-          <slot name="body"/>
-        </div>
-        <footer>
-          <slot name="footer"/>
-        </footer>
-      </div>
-    </div>
-  </transition>
+     <transition name="fade">
+          <div class="modal" v-if="show">
+               <div class="close backdrop" @click="close"></div>
+               <div class="window">
+                    <header>
+                         <h2>
+                              <slot name="header" />
+                         </h2>
+                    </header>
+                    <div class="">
+                         <slot name="body" />
+                    </div>
+                    <footer>
+                         <slot name="footer" />
+                    </footer>
+               </div>
+          </div>
+     </transition>
 </template>
 
 <script>
-export default {
+     export default {
+          data() {
+               return {
+                    show: false,
+               }
+          },
 
-  data(){
-    return{
-      show:false
-    }
-  },
-  methods:{
-    open(){
-      this.show=true
-    },
-    close(){
-      this.show=false
-    }
-  }
-}
+          methods: {
+               open() {
+                    this.show = true
+               },
+               close() {
+                    this.show = false
+               },
+          },
+     }
 </script>
 
 <style lang="css" scoped>
-.modal{
-  display: block;
-  position: absolute;
+     .modal {
+          display: block;
+          position: absolute;
 
-  height: 100vh;
-  width: 100vw;
+          height: 100vh;
+          width: 100vw;
 
-  z-index: 4;
-}
+          z-index: 4;
+     }
 
-.close{
-  position: absolute;
+     .close {
+          position: absolute;
 
-  height: 100vh;
-  width: 100vw;
+          height: 100vh;
+          width: 100vw;
 
-  background: rgba(0,0,0,0.3);
+          background: rgba(0, 0, 0, 0.3);
 
-  z-index: 5;
-}
+          z-index: 5;
+     }
 
-.window{
-  position: relative;
-  margin: 100px auto;
-  padding: 10px;
+     .window {
+          position: relative;
+          margin: 100px auto;
+          padding: 10px;
 
-  border-radius: 10px;
+          border-radius: 10px;
 
-  height: 600px;
-  width: 800px;
+          height: 600px;
+          width: 800px;
 
-  background: white;
-  color: black;
+          background: white;
+          color: black;
 
-  z-index: 6;
-  overflow: scroll;
-
-}
-
-
-
+          z-index: 6;
+          overflow: scroll;
+     }
 </style>
