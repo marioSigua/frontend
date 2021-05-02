@@ -21,19 +21,37 @@
                     type: String,
                     default: 'light',
                },
+
+               body: {
+                    default() {
+                         return {
+                              question: '',
+                              question_type: '',
+                              imgUrl: '',
+                         }
+                    },
+               },
           },
 
           data() {
                return {
                     selectedIndex: 0, // the index of the selected tab,
                     tabs: [], // all of the tabs
+
+                    // image: this.body.question_image,
+                    // text: this.body.question_text,
                }
           },
           created() {
                this.tabs = this.$children
           },
           mounted() {
-               this.selectTab(0)
+               // loop over all the tabs
+               if (this.body.question_type === 'image') {
+                    this.selectOnMount(1)
+               } else {
+                    this.selectOnMount(0)
+               }
           },
           methods: {
                selectTab(i) {
@@ -43,6 +61,30 @@
                     this.tabs.forEach((tab, index) => {
                          tab.isActive = index === i
                     })
+
+                    if (this.selectedIndex === 0) {
+                         this.body.question_type = 'text'
+                         this.body.question = ''
+                         this.body.imgUrl = ''
+                    } else {
+                         this.body.question_type = 'image'
+                         this.body.question = ''
+                    }
+               },
+
+               selectOnMount(i) {
+                    this.selectedIndex = i
+
+                    // loop over all the tabs
+                    this.tabs.forEach((tab, index) => {
+                         tab.isActive = index === i
+                    })
+
+                    if (this.selectedIndex === 0) {
+                         this.body.question_type = 'text'
+                    } else {
+                         this.body.question_type = 'image'
+                    }
                },
           },
      }

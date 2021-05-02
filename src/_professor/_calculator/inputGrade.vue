@@ -141,6 +141,7 @@ index.vue
                          }
                     },
                },
+
                // subject code?
                // needed for database requests
                subject: {
