@@ -4,6 +4,164 @@
     <p>{{ description }}</p>
     <ul>
       <li v-for="(question, q) in questions" :key="q" class="backdrop">
+           <button id="remove" @click="remove(q)">Remove</button>
+           <div v-if="question.type == 'essay'">
+                <h3>Essay</h3>
+
+                <div>
+                     <input
+                          class="ptsInput"
+                          v-model="question.question_score"
+                     />
+                     <span>pts</span>
+                </div>
+
+                <textarea v-model="question.question"></textarea>
+           </div>
+
+           <div v-else-if="question.type == 'identification'">
+                <h3>Identification</h3>
+
+                <div class="topic">
+                     <label for="Topic">Topic:</label>
+                     <input type="text" v-model="question.topic" />
+                </div>
+
+                <div>
+                     <input
+                          class="ptsInput"
+                          v-model="question.question_score"
+                     />
+                     <span>pts</span>
+                </div>
+
+                Question
+                <div class="wrapper">
+                     <tabs :mode="mode" :body="question">
+                          <tab title="Text"
+                               ><textarea
+                                    v-model="question.question"
+                               ></textarea
+                          ></tab>
+
+                          <tab title="Image">
+                               <img
+                                    class="is-rounded"
+                                    height="300"
+                                    width="300"
+                                    :src="
+                                         question.question
+                                              ? question.question
+                                              : 'https://i.imgur.com/bCOd9N0.jpg'
+                                    "
+                                    alt="Placeholder image"
+                                    @click="$refs.file[q].click()"
+                               />
+                               <input
+                                    ref="file"
+                                    @change="onFileChange($event, q)"
+                                    type="file"
+                                    style="display:none"
+                               />
+                               <span class="danger">
+                                    {{ question.error }}
+                               </span>
+                          </tab>
+                     </tabs>
+                </div>
+                Answer
+                <input
+                     type="text"
+                     name=""
+                     value=""
+                     v-model="question.form_answer"
+                />
+           </div>
+
+           <div v-else>
+                <h3>Multiple Choice</h3>
+
+                <div class="topic">
+                     <label for="Topic">Topic:</label>
+                     <input type="text" v-model="question.topic" />
+                </div>
+
+                <div>
+                     <input
+                          class="ptsInput"
+                          v-model="question.question_score"
+                     />
+                     <span>pts</span>
+                </div>
+
+                Question
+                <div class="wrapper">
+                     <tabs :mode="mode" :body="question">
+                          <tab title="Text"
+                               ><textarea
+                                    v-model="question.question"
+                               ></textarea
+                          ></tab>
+
+                          <tab title="Image">
+                               <img
+                                    class="is-rounded"
+                                    height="300"
+                                    width="300"
+                                    :src="
+                                         question.question
+                                              ? question.question
+                                              : 'https://i.imgur.com/bCOd9N0.jpg'
+                                    "
+                                    alt="Placeholder image"
+                                    @click="$refs.file[q].click()"
+                               />
+
+                               <input
+                                    ref="file"
+                                    @change="onFileChange($event, q)"
+                                    type="file"
+                                    style="display:none"
+                               />
+
+                               <span class="danger">
+                                    {{ question.error }}
+                               </span>
+                          </tab>
+                     </tabs>
+                </div>
+
+                Answer
+                <input
+                     v-model="question.form_answer"
+                     type="text"
+                     name=""
+                     value=""
+                />
+                Choices:
+                <input
+                     v-model="question.choices.a"
+                     type="text"
+                     name=""
+                     value=""
+                />
+                <input
+                     v-model="question.choices.b"
+                     type="text"
+                     name=""
+                     value=""
+                />
+                <input
+                     v-model="question.choices.c"
+                     type="text"
+                     name=""
+                     value=""
+                />
+           </div>
+      </li>
+ </ul>
+    <!-- <ul>
+      <li v-for="(question, q) in questions" :key="q" class="backdrop">
         <p>{{ question.question }}</p>
         <img :src="question.image" alt="" />
         <div v-if="question.type == 'essay'">
@@ -25,7 +183,7 @@
           </div>
         </div>
       </li>
-    </ul>
+    </ul> -->
   </section>
 </template>
 
@@ -277,6 +435,19 @@ li {
 
 .text,
 .input {
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-family: inherit;
+  font-size: inherit;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+textarea,
+input {
   padding: 10px;
   border: 1px solid #aaa;
   border-radius: 10px;
