@@ -1,27 +1,27 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import * as Cookies from 'js-cookie'
-import router from '@/_professor/dependencies/router'
-import createPersistedState from 'vuex-persistedstate'
-import axios from 'axios'
-Vue.use(Vuex)
+import Vue from "vue";
+import Vuex from "vuex";
+import * as Cookies from "js-cookie";
+import router from "@/_professor/dependencies/router";
+import createPersistedState from "vuex-persistedstate";
+import axios from "axios";
+Vue.use(Vuex);
 
 const logout = () => {
-     return {
-          access_token: '',
-          isAuth: false,
-          userProfile: {},
-          token_name: '',
-     }
-}
+  return {
+    access_token: "",
+    isAuth: false,
+    userProfile: {},
+    token_name: "",
+  };
+};
 
 const routeNames = {
-     calculator: 'calculator',
-     exam: 'usersExam',
-     studentList: 'studentList',
-     HistoryForm: 'HistoryForm',
-     examform: 'examform',
-}
+  calculator: "calculator",
+  exam: "usersExam",
+  studentList: "studentList",
+  HistoryForm: "HistoryForm",
+  examform: "examform",
+};
 
 // Database ------------------------------------
 // Database ------------------------------------
@@ -35,7 +35,7 @@ const routeNames = {
 // handle values in their respective vues to isolate data
 
 const DATABASE = {
-     /*
+  /*
   token and student_id is the req.body here
   the token will then be verfied if student already responded
   response then checked by student_id and batch_number - > is a filter for submitted forms
@@ -61,43 +61,37 @@ const DATABASE = {
   }
 
   */
-     async getQuestion({ commit, state }, payload) {
-          console.log(commit)
-          try {
-               const { status, data } = await axios.get(
-                    `${state.BASE_URL}/student/question/${payload}`
-               )
+  async getQuestion({ commit, state }, payload) {
+    console.log(commit);
+    try {
+      const { status, data } = await axios.get(
+        `${state.BASE_URL}/student/question/${payload}`
+      );
 
-               if (status === 200) {
-                    //commit("getQuestion", data);
-                    return data
-               }
-          } catch (error) {
-               if (error.response !== undefined) {
-                    if (
-                         error.response.data.message === 'jwt expired' &&
-                         router.currentRoute.name === routeNames.examform
-                    ) {
-                         commit(
-                              'getError',
-                              'Form is not Currently Accepting Responses'
-                         )
-                    } else if (
-                         error.response.data.message ===
-                              'You already have submitted' &&
-                         router.currentRoute.name === routeNames.examform
-                    ) {
-                         commit('getError', error.response.data.message)
-                    } else if (
-                         router.currentRoute.name !== routeNames.examform
-                    ) {
-                         console.log(error.response)
-                    }
-               }
-          }
-     },
+      if (status === 200) {
+        //commit("getQuestion", data);
+        return data;
+      }
+    } catch (error) {
+      if (error.response !== undefined) {
+        if (
+          error.response.data.message === "jwt expired" &&
+          router.currentRoute.name === routeNames.examform
+        ) {
+          commit("getError", "Form is not Currently Accepting Responses");
+        } else if (
+          error.response.data.message === "You already have submitted" &&
+          router.currentRoute.name === routeNames.examform
+        ) {
+          commit("getError", error.response.data.message);
+        } else if (router.currentRoute.name !== routeNames.examform) {
+          console.log(error.response);
+        }
+      }
+    }
+  },
 
-     /*
+  /*
   token is used to as a way to verify student already sent a response
 
   question {
@@ -120,38 +114,36 @@ const DATABASE = {
         subject_code: k.subject_code,
   }
   */
-     async getResponse({ commit, state }, payload) {
-          try {
-               const { status, data } = await axios.get(
-                    `${state.BASE_URL}/student/response/${payload}`
-               )
+  async getResponse({ commit, state }, payload) {
+    try {
+      const { status, data } = await axios.get(
+        `${state.BASE_URL}/student/response/${payload}`
+      );
 
-               if (status === 200) {
-                    commit('getQuestion', data)
-               }
-          } catch (error) {
-               console.log(error.response)
-          }
-     },
+      if (status === 200) {
+        commit("getQuestion", data);
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
 
-     //payload = object
-     // int isOccupied parameters in DB
-     // add subject 0 = not taken 1 = already taken
-     // limit 1 prof per subj
-     async getSubjects({ commit, state }) {
-          try {
-               const subjects = await axios.get(
-                    `${state.BASE_URL}/list/subjects`
-               )
-               if (subjects.status === 200) {
-                    commit('getSubjects', subjects)
-               }
-          } catch (error) {
-               console.log(error.response)
-          }
-     },
+  //payload = object
+  // int isOccupied parameters in DB
+  // add subject 0 = not taken 1 = already taken
+  // limit 1 prof per subj
+  async getSubjects({ commit, state }) {
+    try {
+      const subjects = await axios.get(`${state.BASE_URL}/list/subjects`);
+      if (subjects.status === 200) {
+        commit("getSubjects", subjects);
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
 
-     /*
+  /*
     select
         "firstname",
         "lastname",
@@ -160,24 +152,24 @@ const DATABASE = {
 
     where subject_code isOccupied by current user
   */
-     async getStudents({ commit, state }, subject_code) {
-          try {
-               if (!subject_code) {
-                    commit('getStudents', [])
-               } else {
-                    const students = await axios.get(
-                         `${state.BASE_URL}/list/students/${subject_code}`
-                    )
-                    if (students.status === 200) {
-                         return students.data
-                    }
-               }
-          } catch (error) {
-               console.log(error.response)
-          }
-     },
+  async getStudents({ commit, state }, subject_code) {
+    try {
+      if (!subject_code) {
+        commit("getStudents", []);
+      } else {
+        const students = await axios.get(
+          `${state.BASE_URL}/list/students/${subject_code}`
+        );
+        if (students.status === 200) {
+          return students.data;
+        }
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
 
-     /*
+  /*
   check current selectedTerm in frontend
   get prelim_grade || midterm_grade || finals_grade
     where {
@@ -187,43 +179,40 @@ const DATABASE = {
       subject_code
     }
   */
-     async getStudentGrade({ state }, payload) {
-          try {
-               const students = await axios.get(
-                    `${state.BASE_URL}/subjectGrade/listGrade`,
-                    {
-                         params: { ...payload },
-                    }
-               )
+  async getStudentGrade({ state }, payload) {
+    try {
+      const students = await axios.get(
+        `${state.BASE_URL}/subjectGrade/listGrade`,
+        {
+          params: { ...payload },
+        }
+      );
 
-               if (students.status === 200) {
-                    return students.data
-               }
-          } catch (error) {
-               console.log(error.response)
-          }
-     },
+      if (students.status === 200) {
+        return students.data;
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
 
-     // get all isOccupied subject where account_id matches
-     async profSubjects({ state, commit }) {
-          try {
-               const subjs = await axios.get(
-                    `${state.BASE_URL}/assigned/subjects`,
-                    {
-                         headers: { Authorization: this.getters.isLoggedIn },
-                    }
-               )
-               if (subjs.status === 200) return subjs.data
-          } catch (error) {
-               if (error.response !== undefined) {
-                    if (error.response.data.message === 'jwt expired') {
-                         commit('resetState')
-                    }
-               }
-          }
-     },
+  // get all isOccupied subject where account_id matches
+  async profSubjects({ state, commit }) {
+    try {
+      const subjs = await axios.get(`${state.BASE_URL}/assigned/subjects`, {
+        headers: { Authorization: this.getters.isLoggedIn },
+      });
+      if (subjs.status === 200) return subjs.data;
+    } catch (error) {
+      if (error.response !== undefined) {
+        if (error.response.data.message === "jwt expired") {
+          commit("resetState");
+        }
+      }
+    }
+  },
 
-     /*
+  /*
   get all students enrolled in subject
     select(
         "firstname",
@@ -236,25 +225,22 @@ const DATABASE = {
       subject_code, account_id, current_year, isOccupied = '1'
     }
   */
-     async getEnrolledStudents({ state, commit }) {
-          try {
-               const subjs = await axios.get(
-                    `${state.BASE_URL}/enrolled/students`,
-                    {
-                         headers: { Authorization: this.getters.isLoggedIn },
-                    }
-               )
-               if (subjs.status === 200) commit('getStudents', subjs.data)
-          } catch (error) {
-               if (error.response !== undefined) {
-                    if (error.response.data.message === 'jwt expired') {
-                         commit('resetState')
-                    }
-               }
-          }
-     },
+  async getEnrolledStudents({ state, commit }) {
+    try {
+      const subjs = await axios.get(`${state.BASE_URL}/enrolled/students`, {
+        headers: { Authorization: this.getters.isLoggedIn },
+      });
+      if (subjs.status === 200) return subjs.data;
+    } catch (error) {
+      if (error.response !== undefined) {
+        if (error.response.data.message === "jwt expired") {
+          commit("resetState");
+        }
+      }
+    }
+  },
 
-     /*
+  /*
   check current selectedTerm in frontend
   modify prelim_grade || midterm_grade || finals_grade by the calculated totalGrade
     where {
@@ -264,95 +250,92 @@ const DATABASE = {
       subject_code
     }
   */
-     async updateGrade({ state }, payload) {
-          try {
-               await axios.patch(
-                    `${state.BASE_URL}/subjectGrade/students`,
-                    payload
-               )
-          } catch (error) {
-               console.log(error.response)
-          }
-     },
-}
+  async updateGrade({ state }, payload) {
+    try {
+      await axios.patch(`${state.BASE_URL}/subjectGrade/students`, payload);
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
+};
 // Database ------------------------------------
 // Database ------------------------------------
 // Database ------------------------------------
 // Database ------------------------------------
 
 export default new Vuex.Store({
-     // object
-     state: {
-          BASE_URL: 'http://192.168.1.12:5115/api/p1',
-          //BASE_URL: "http://lsb.scanolongapo.com/api/p1",
+  // object
+  state: {
+    BASE_URL: "http://192.168.18.7:5115/api/p1",
+    //BASE_URL: "http://lsb.scanolongapo.com/api/p1",
 
-          access_token: '',
-          token_name: '',
-          isAuth: false,
+    access_token: "",
+    token_name: "",
+    isAuth: false,
 
-          userProfile: {},
+    userProfile: {},
 
-          // to isolate
-          calculator: {
-               listStudents: [],
-               listSubjects: [],
-               listGrades: '',
-          },
+    // to isolate
+    calculator: {
+      listStudents: [],
+      listSubjects: [],
+      listGrades: "",
+    },
 
-          exam: {
-               listStudents: [],
-          },
+    exam: {
+      listStudents: [],
+    },
 
-          studentList: {
-               students: [],
-          },
+    studentList: {
+      students: [],
+    },
 
-          subjectList: [],
+    subjectList: [],
 
-          //sa examform to
-          questionList: [],
+    //sa examform to
+    questionList: [],
 
-          historyForm: {
-               historyList: [],
-               listStudents: [],
-          },
-          // end of isolate
+    historyForm: {
+      historyList: [],
+      listStudents: [],
+    },
+    // end of isolate
 
-          openModal: false,
+    openModal: false,
 
-          openAccordion: '',
-     },
+    openAccordion: "",
+  },
 
-     getters: {
-          // to check if there is any current user logged in on current device
-          isLoggedIn: (state) => {
-               if (!Cookies.get(state.token_name)) {
-                    return false
-               } else {
-                    return Cookies.get(state.token_name)
-               }
-          },
-     },
-     // pang edit ng state
-     // this.$store.commit(nameofmut, payload!null)
-     mutations: {
-          // to remove current logged in user and cookies
-          resetState(state) {
-               Cookies.remove(state.token_name, {
-                    path: '/',
-                    domain: 'localhost',
-               })
-               const logoutUser = logout()
+  getters: {
+    // to check if there is any current user logged in on current device
+    isLoggedIn: (state) => {
+      if (!Cookies.get(state.token_name)) {
+        return false;
+      } else {
+        return Cookies.get(state.token_name);
+      }
+    },
+  },
+  // pang edit ng state
+  // this.$store.commit(nameofmut, payload!null)
+  mutations: {
+    // to remove current logged in user and cookies
+    resetState(state) {
+      Cookies.remove(state.token_name, {
+        path: "/",
+        domain: "localhost",
+      });
+      const logoutUser = logout();
 
-               Object.keys(logoutUser).forEach((k) => {
-                    state[k] = logoutUser[k]
-               })
+      Object.keys(logoutUser).forEach((k) => {
+        state[k] = logoutUser[k];
+      });
 
-               localStorage.removeItem('vuex')
-               router.push({ name: 'usersLogin' })
-          },
+      localStorage.removeItem("vuex");
+      router.push({ name: "usersLogin" });
+    },
 
-          /*
+    /*
     select {
       subject_code,
       subject_name,
@@ -365,11 +348,11 @@ export default new Vuex.Store({
       current_year
     }
     */
-          getSubjects(state, payload) {
-               state.calculator.listSubjects = payload.data
-          },
+    getSubjects(state, payload) {
+      state.calculator.listSubjects = payload.data;
+    },
 
-          /*
+    /*
     select(
         "firstname",
         "lastname",
@@ -378,22 +361,22 @@ export default new Vuex.Store({
         "EnrolledSubjects.created_at"
       )
     */
-          getStudents(state, payload) {
-               if (router.currentRoute.name === routeNames.exam) {
-                    //pag nsa route ng exam
-                    state.exam.listStudents = payload
-               } else if (router.currentRoute.name === routeNames.studentList) {
-                    //pag nsa route ng student list
-                    state.studentList.students = payload
-               } else if (router.currentRoute.name === routeNames.HistoryForm) {
-                    //pag nsa route ng history form
-                    state.historyForm.listStudents = payload
-               } else {
-                    state.calculator.listStudents = payload
-               }
-          },
+    getStudents(state, payload) {
+      if (router.currentRoute.name === routeNames.exam) {
+        //pag nsa route ng exam
+        state.exam.listStudents = payload;
+      } else if (router.currentRoute.name === routeNames.studentList) {
+        //pag nsa route ng student list
+        state.studentList.students = payload;
+      } else if (router.currentRoute.name === routeNames.HistoryForm) {
+        //pag nsa route ng history form
+        state.historyForm.listStudents = payload;
+      } else {
+        state.calculator.listStudents = payload;
+      }
+    },
 
-          /*
+    /*
     question {
 
         batch_number: k.batch_number,
@@ -414,46 +397,46 @@ export default new Vuex.Store({
         subject_code: k.subject_code,
     }
     */
-          getQuestion(state, payload) {
-               if (router.currentRoute.name === routeNames.examform) {
-                    state.questionList = payload
-               } else if (router.currentRoute.name === routeNames.HistoryForm) {
-                    state.historyForm.historyList = payload
-               }
-          },
+    getQuestion(state, payload) {
+      if (router.currentRoute.name === routeNames.examform) {
+        state.questionList = payload;
+      } else if (router.currentRoute.name === routeNames.HistoryForm) {
+        state.historyForm.historyList = payload;
+      }
+    },
 
-          profSubjects(state, payload) {
-               state.subjectList = payload
-          },
+    profSubjects(state, payload) {
+      state.subjectList = payload;
+    },
 
-          remove_cookie(state) {
-               Cookies.remove(state.token_name, {
-                    path: '/',
-                    domain: 'localhost',
-               })
-          },
+    remove_cookie(state) {
+      Cookies.remove(state.token_name, {
+        path: "/",
+        domain: "localhost",
+      });
+    },
 
-          set_cookie(state, payload) {
-               state.access_token = payload.token
-               state.token_name = payload.name
-               state.isAuth = true
-               state.userProfile = { ...payload.profile }
+    set_cookie(state, payload) {
+      state.access_token = payload.token;
+      state.token_name = payload.name;
+      state.isAuth = true;
+      state.userProfile = { ...payload.profile };
 
-               Cookies.set(state.token_name, state.access_token, {
-                    expires: 1,
-               })
-               router.push({ name: 'home' })
-          },
-     },
-     // mga functions
-     // this.$store.dispatch(nameofact, payload=={})
-     actions: {
-          ...DATABASE,
-     },
+      Cookies.set(state.token_name, state.access_token, {
+        expires: 1,
+      });
+      router.push({ name: "home" });
+    },
+  },
+  // mga functions
+  // this.$store.dispatch(nameofact, payload=={})
+  actions: {
+    ...DATABASE,
+  },
 
-     plugins: [
-          createPersistedState({
-               paths: ['access_token', 'isAuth', 'token_name', 'userProfile'],
-          }),
-     ],
-})
+  plugins: [
+    createPersistedState({
+      paths: ["access_token", "isAuth", "token_name", "userProfile"],
+    }),
+  ],
+});

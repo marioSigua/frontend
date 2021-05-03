@@ -316,7 +316,7 @@
               <b-form-checkbox
                 v-for="student in listStudents"
                 :key="student.student_id"
-                :value="student.student_email"
+             
                 >{{
                   student.student_id + " " + student.firstname
                 }}</b-form-checkbox
