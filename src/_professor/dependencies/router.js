@@ -3,13 +3,8 @@ import VueRouter from 'vue-router'
 import store from '@/_professor/dependencies/store'
 Vue.use(VueRouter)
 
-const debug = true
 let authenticate = (to, from, next) => {
-     console.log('Before Enter: Auth')
-     if (debug) {
-          next()
-          return
-     } else if (store.state.isAuth) {
+     if (store.state.isAuth) {
           next()
      } else {
           next({ name: 'usersLogin' })
