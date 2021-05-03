@@ -70,7 +70,7 @@ const routes = [
      {
           path: '/student/question/form/:token',
           name: 'examform',
-          component: () => import('@/_professor/_history/viewing.vue'),
+          component: () => import('@/_professor/_students/questionnaire.vue'),
      },
      professor,
 ]
