@@ -3,21 +3,32 @@
           <h1>yawa</h1>
           <p>{{ description }}</p>
           <ul>
-               <li v-for="(question, q) in questions" :key="q" class="backdrop">
-                    <p>{{ question.question }}</p>
-                    <img :src="question.image" alt="" />
-                    <div v-if="question.type == 'essay'">
+               <li v-for="(list, q) in questions" :key="q" class="backdrop">
+                    <p v-if="list.question_type === 'text'">
+                         {{ list.question }}
+                    </p>
+                    <img v-else :src="list.question" alt="" />
+                    <!-- end of if -->
+
+                    <div v-if="list.type == 'essay'">
                          <textarea name="" id="" cols="30" rows="10"></textarea>
                     </div>
 
-                    <div v-else-if="question.type == 'identification'">
+                    <div v-else-if="list.type == 'identification'">
                          <input type="text" />
                     </div>
 
                     <div v-else>
-                         <div v-for="(choice, c) in question.choices" :key="c">
-                              {{ choice }}
-                         </div>
+                         Choices:
+                         <input :value="list.choices.a" type="radio" name="" />
+                         {{ list.choices.a }}
+                         <input :value="list.choices.b" type="radio" name="" />
+                         {{ list.choices.b }}
+                         <input
+                              :value="list.choices.c"
+                              type="radio"
+                              name=""
+                         />{{ list.choices.c }}
                     </div>
                </li>
           </ul>
@@ -33,6 +44,18 @@
                }
           },
           methods: {},
+
+          mounted() {
+               this.$store
+                    .dispatch('getResponse', this.$route.params.token)
+                    .then((result) => {
+                         console.log(result)
+                         this.questions = result
+                    })
+                    .catch((err) => {
+                         console.log(err)
+                    })
+          },
      }
 </script>
 

@@ -120,14 +120,14 @@ const DATABASE = {
         subject_code: k.subject_code,
   }
   */
-     async getResponse({ commit, state }, payload) {
+     async getResponse({ state }, payload) {
           try {
                const { status, data } = await axios.get(
                     `${state.BASE_URL}/student/response/${payload}`
                )
 
                if (status === 200) {
-                    commit('getQuestion', data)
+                    return data
                }
           } catch (error) {
                console.log(error.response)
