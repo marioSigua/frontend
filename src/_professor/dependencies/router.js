@@ -50,7 +50,7 @@ const routes = [
           redirect: '/login',
      },
      {
-          path: '/login',
+          path: '/Login',
           name: 'usersLogin',
           component: () => import('@/_professor/Login.vue'),
      },
@@ -63,10 +63,11 @@ const routes = [
    */
      //student question form route
      {
-          path: '/student/question/form/:token',
-          name: 'examform',
-          component: () => import('@/_professor/_exam/studentForm.vue'),
+          path: '/professor/viewing/form/:token/:batch/:subject_code',
+          name: 'HistoryForm',
+          component: () => import('@/_professor/_students/questionnaire.vue'),
      },
+
      professor,
 ]
 
