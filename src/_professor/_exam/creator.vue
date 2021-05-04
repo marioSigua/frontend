@@ -40,7 +40,28 @@
                               <span>pts</span>
                          </div>
 
-                         <textarea v-model="question.question"></textarea>
+                         <tabs :mode="mode" :body="question">
+                              <tab title="Text"
+                                   ><textarea
+                                        v-model="question.question"
+                                   ></textarea
+                              ></tab>
+
+                              <tab title="Image">
+                                   <img
+                                        class="is-rounded"
+                                        height="300"
+                                        width="300"
+                                        :src="
+                                             question.question
+                                                  ? question.question
+                                                  : 'https://i.imgur.com/bCOd9N0.jpg'
+                                        "
+                                        alt="Placeholder image"
+                                        @click="$refs.file[q].click()"
+                                   />
+                              </tab>
+                         </tabs>
                     </div>
 
                     <div v-else-if="question.type == 'identification'">
