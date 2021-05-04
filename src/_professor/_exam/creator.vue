@@ -28,6 +28,7 @@
           <ul>
                <li v-for="(question, q) in questions" :key="q" class="backdrop">
                     <button id="remove" @click="remove(q)">Remove</button>
+
                     <div v-if="question.type == 'essay'">
                          <h3>Essay</h3>
 
@@ -80,12 +81,7 @@
                                              alt="Placeholder image"
                                              @click="$refs.file[q].click()"
                                         />
-                                        <input
-                                             ref="file"
-                                             @change="onFileChange($event, q)"
-                                             type="file"
-                                             style="display:none"
-                                        />
+
                                         <span class="danger">
                                              {{ question.error }}
                                         </span>
@@ -140,13 +136,6 @@
                                              @click="$refs.file[q].click()"
                                         />
 
-                                        <input
-                                             ref="file"
-                                             @change="onFileChange($event, q)"
-                                             type="file"
-                                             style="display:none"
-                                        />
-
                                         <span class="danger">
                                              {{ question.error }}
                                         </span>
@@ -181,6 +170,13 @@
                               value=""
                          />
                     </div>
+
+                    <input
+                         ref="file"
+                         @change="onFileChange($event, q)"
+                         type="file"
+                         style="display:none"
+                    />
                </li>
           </ul>
 
@@ -291,7 +287,7 @@
                          .dispatch('getStudents', this.selectedSubject)
                          .then((result) => {
                               this.listStudents = result
-                              console.log(this.listStudents)
+
                               this.$refs.importer.open()
                          })
                          .catch((err) => {
@@ -364,6 +360,7 @@
                          )
                          if (saveQuestion.status === 200) {
                               this.questions = []
+                              this.$refs.importer.close()
                          }
                     } catch (error) {
                          console.log(error.response)

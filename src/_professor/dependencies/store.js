@@ -61,15 +61,13 @@ const DATABASE = {
   }
 
   */
-     async getQuestion({ commit, state }, payload) {
-          console.log(commit)
+     async getQuestion({ state }, payload) {
           try {
                const { status, data } = await axios.get(
-                    `${state.BASE_URL}/student/question/${payload}`
+                    `${state.BASE_URL}/student/question/${payload.token}/${payload.student_id}`
                )
 
                if (status === 200) {
-                    //commit("getQuestion", data);
                     return data
                }
           } catch (error) {
@@ -78,16 +76,13 @@ const DATABASE = {
                          error.response.data.message === 'jwt expired' &&
                          router.currentRoute.name === routeNames.examform
                     ) {
-                         commit(
-                              'getError',
-                              'Form is not Currently Accepting Responses'
-                         )
+                         return 'Form is not Currently Accepting Responses'
                     } else if (
                          error.response.data.message ===
                               'You already have submitted' &&
                          router.currentRoute.name === routeNames.examform
                     ) {
-                         commit('getError', error.response.data.message)
+                         return error.response.data.message
                     } else if (
                          router.currentRoute.name !== routeNames.examform
                     ) {

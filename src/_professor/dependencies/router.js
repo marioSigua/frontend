@@ -61,10 +61,17 @@ const routes = [
       component: () => import('@/_professor/HistoryForm.vue'),
    },
    */
-     //student question form route
+     //form question viewing route
      {
           path: '/professor/viewing/form/:token/:batch/:subject_code',
           name: 'HistoryForm',
+          component: () => import('@/_professor/_history/formviewing.vue'),
+     },
+
+     //student question form route
+     {
+          path: '/student/question/form/:token/:student_id',
+          name: 'examform',
           component: () => import('@/_professor/_students/questionnaire.vue'),
      },
 

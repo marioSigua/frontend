@@ -2,70 +2,113 @@
      <section>
           <h1>yawa</h1>
           <p>{{ description }}</p>
+
           <ul>
-               <li v-for="(list, q) in questions" :key="q" class="backdrop">
-                    <p v-if="list.question_type === 'text'">
-                         {{ list.question }}
-                    </p>
+               <li v-for="(li, q) in questions" :key="q" class="backdrop">
+                    <div v-if="li.type == 'essay'">
+                         <h3>Essay</h3>
 
-                    <img v-else :src="list.question" alt="" />
-
-                    <!-- end of v-if -->
-
-                    <div v-if="list.type == 'essay'">
                          <textarea
-                              name=""
-                              id=""
-                              cols="30"
-                              rows="10"
-                              class="text"
+                              v-if="li.question_type === 'text'"
+                              v-model="li.question"
                          ></textarea>
+
+                         <img
+                              v-else
+                              class="is-rounded"
+                              height="300"
+                              width="300"
+                              :src="
+                                   li.question
+                                        ? li.question
+                                        : 'https://i.imgur.com/bCOd9N0.jpg'
+                              "
+                              alt="Placeholder image"
+                         />
+
+                         <input
+                              type="text"
+                              name=""
+                              value=""
+                              placeholder="Your answer"
+                              v-model="li.student_answer"
+                         />
                     </div>
 
-                    <div v-else-if="list.type == 'identification'">
-                         <div>
-                              <input
-                                   class="ptsInput"
-                                   v-model="list.question_score"
+                    <div v-else-if="li.type == 'identification'">
+                         <h3>Identification</h3>
+
+                         Question
+                         <div class="wrapper">
+                              <textarea
+                                   v-if="li.question_type === 'text'"
+                                   v-model="li.question"
+                              ></textarea>
+
+                              <img
+                                   v-else
+                                   class="is-rounded"
+                                   height="300"
+                                   width="300"
+                                   :src="
+                                        li.question
+                                             ? li.question
+                                             : 'https://i.imgur.com/bCOd9N0.jpg'
+                                   "
+                                   alt="Placeholder image"
                               />
-                              <span>pts</span>
                          </div>
-                         <input type="text" class="input" />
+                         <input
+                              type="text"
+                              name=""
+                              value=""
+                              placeholder="Your answer"
+                              v-model="li.student_answer"
+                         />
                     </div>
 
                     <div v-else>
-                         Choices:
-                         <div>
-                              <input
-                                   type="radio"
-                                   id="male"
-                                   name="gender"
-                                   :value="list.choices.a"
-                              />
-                              <label for="male">{{ list.choices.a }}</label
-                              ><br />
+                         <h3>Multiple Choice</h3>
 
-                              <input
-                                   type="radio"
-                                   id="male"
-                                   name="gender"
-                                   :value="list.choices.b"
-                              />
-                              <label for="male">{{ list.choices.b }}</label
-                              ><br />
+                         Question
+                         <div class="wrapper">
+                              <textarea
+                                   v-if="li.question_type === 'text'"
+                                   v-model="li.question"
+                              ></textarea>
 
-                              <input
-                                   type="radio"
-                                   id="male"
-                                   name="gender"
-                                   :value="list.choices.c"
+                              <img
+                                   v-else
+                                   class="is-rounded"
+                                   height="300"
+                                   width="300"
+                                   :src="
+                                        li.question
+                                             ? li.question
+                                             : 'https://i.imgur.com/bCOd9N0.jpg'
+                                   "
+                                   alt="Placeholder image"
                               />
-                              <label for="male">{{ list.choices.c }}</label
-                              ><br />
                          </div>
+
+                         Choices:
+                         <div></div>
+                         <input type="radio" name="" :value="li.choices.a" />
+                         <label>{{ li.choices.a }}</label>
+                         <br />
+
+                         <input type="radio" name="" :value="li.choices.b" />
+                         <label>{{ li.choices.b }}</label>
+                         <br />
+
+                         <input type="radio" name="" :value="li.choices.c" />
+                         <label>{{ li.choices.c }}</label>
+                         <br />
                     </div>
                </li>
           </ul>
+
+          <button>Submit</button>
      </section>
 </template>
 
@@ -75,15 +118,26 @@
                return {
                     questions: [],
                     description: 'sample',
+
+                    listStudents: [],
+
+                    stdEmail: [],
                }
           },
+
           methods: {},
 
           mounted() {
+               const payload = {
+                    token: this.$route.params.token,
+                    student_id: this.$route.params.student_id,
+               }
+
                this.$store
-                    .dispatch('getResponse', this.$route.params.token)
+                    .dispatch('getQuestion', payload)
                     .then((result) => {
                          console.log(result)
+
                          this.questions = result
                     })
                     .catch((err) => {

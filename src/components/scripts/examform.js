@@ -74,9 +74,6 @@ export default {
 
           this.$store.dispatch('getQuestion', payload)
 
-          setTimeout(() => {
-               console.log(this.questionList)
-          }, 2000)
           // document.addEventListener('contextmenu', function(e) {
           //      e.preventDefault()
           // })

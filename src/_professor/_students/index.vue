@@ -266,19 +266,38 @@
                async dropStudent(student) {
                     const { state } = this.$store
                     delete this.needs.subject_sem
-                    this.needs.student_id = student.student_id
-                    this.needs.created_at = student.created_at
-                    try {
-                         const deactStudent = await this.$axios.patch(
-                              `${state.BASE_URL}/drop/students`,
-                              this.needs
-                         )
 
-                         if (deactStudent.status === 200)
-                              this.initEnrolledStudents()
-                    } catch (error) {
-                         console.log(error.response)
+                    let prompt = this.askUser(student)
+
+                    if (prompt) {
+                         this.needs.student_id = student.student_id
+                         this.needs.created_at = student.created_at
+                         try {
+                              const deactStudent = await this.$axios.patch(
+                                   `${state.BASE_URL}/drop/students`,
+                                   this.needs
+                              )
+
+                              if (deactStudent.status === 200)
+                                   this.initEnrolledStudents()
+                         } catch (error) {
+                              console.log(error.response)
+                         }
+                    } else {
+                         return
                     }
+               },
+
+               askUser(name) {
+                    let foundData = this.subjectList.find(
+                         (el) => el.subject_code === this.needs.subject_code
+                    )
+
+                    const answer = window.confirm(
+                         `Do you really want to Drop ${name.firstname} ${name.lastname} from ${foundData.subject_name} ?`
+                    )
+
+                    return answer ? true : false
                },
 
                initEnrolledStudents() {
