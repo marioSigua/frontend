@@ -109,6 +109,7 @@
                          .then(({ data }) => {
                               this.temp_RequestHolder = data.map((k) => {
                                    return {
+                                        batch_number: k.batch_number,
                                         topic: k.topic,
                                         subject_code: k.subject_code,
                                         form_number: k.form_number,
@@ -119,7 +120,7 @@
                                         student_answer: '',
                                         question_score: k.question_score,
                                         error: '',
-                                        choices: { a: '', b: '', c: '' },
+                                        choices: k.choices,
                                    }
                               })
                          })
@@ -141,6 +142,8 @@
                          alert('Topic is already Added')
                          return
                     } else {
+                         delete this.questions[q].batch_number
+                         this.questions[q].type = this.selectedType
                          this.$refs.creator.appendPremade(this.questions[q])
                     }
                },
@@ -181,10 +184,11 @@
                          return
                     }
 
+                    console.log(val)
                     this.questions = this.topics.filter(
                          (k) =>
                               k.form_number === val.form_number &&
-                              k.topic === val.topic
+                              k.batch_number === val.batch_number
                     )
 
                     /*

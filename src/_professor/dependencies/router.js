@@ -3,13 +3,8 @@ import VueRouter from 'vue-router'
 import store from '@/_professor/dependencies/store'
 Vue.use(VueRouter)
 
-const debug = true
 let authenticate = (to, from, next) => {
-     console.log('Before Enter: Auth')
-     if (debug) {
-          next()
-          return
-     } else if (store.state.isAuth) {
+     if (store.state.isAuth) {
           next()
      } else {
           next({ name: 'usersLogin' })
@@ -46,6 +41,21 @@ const professor = {
                name: 'history',
                component: () => import('@/_professor/_history/index.vue'),
           },
+
+          //form question viewing route
+          {
+               path: 'viewing/form/:token/:batch/:subject_code',
+               name: 'HistoryForm',
+               component: () => import('@/_professor/_history/formviewing.vue'),
+          },
+
+          //viewing of student response
+          {
+               path: 'student/response/form/:token/:student_id',
+               name: 'reponseviewing',
+               component: () =>
+                    import('@/_professor/_history/studentresponse.vue'),
+          },
      ],
 }
 
@@ -55,7 +65,7 @@ const routes = [
           redirect: '/login',
      },
      {
-          path: '/login',
+          path: '/Login',
           name: 'usersLogin',
           component: () => import('@/_professor/Login.vue'),
      },
@@ -66,12 +76,14 @@ const routes = [
       component: () => import('@/_professor/HistoryForm.vue'),
    },
    */
+
      //student question form route
      {
-          path: '/student/question/form/:token',
+          path: '/student/question/form/:token/:student_id',
           name: 'examform',
           component: () => import('@/_professor/_students/questionnaire.vue'),
      },
+
      professor,
 ]
 

@@ -28,6 +28,7 @@
           <ul>
                <li v-for="(question, q) in questions" :key="q" class="backdrop">
                     <button id="remove" @click="remove(q)">Remove</button>
+
                     <div v-if="question.type == 'essay'">
                          <h3>Essay</h3>
 
@@ -39,7 +40,28 @@
                               <span>pts</span>
                          </div>
 
-                         <textarea v-model="question.question"></textarea>
+                         <tabs :mode="mode" :body="question">
+                              <tab title="Text"
+                                   ><textarea
+                                        v-model="question.question"
+                                   ></textarea
+                              ></tab>
+
+                              <tab title="Image">
+                                   <img
+                                        class="is-rounded"
+                                        height="300"
+                                        width="300"
+                                        :src="
+                                             question.question
+                                                  ? question.question
+                                                  : 'https://i.imgur.com/bCOd9N0.jpg'
+                                        "
+                                        alt="Placeholder image"
+                                        @click="$refs.file[q].click()"
+                                   />
+                              </tab>
+                         </tabs>
                     </div>
 
                     <div v-else-if="question.type == 'identification'">
@@ -80,12 +102,7 @@
                                              alt="Placeholder image"
                                              @click="$refs.file[q].click()"
                                         />
-                                        <input
-                                             ref="file"
-                                             @change="onFileChange($event, q)"
-                                             type="file"
-                                             style="display:none"
-                                        />
+
                                         <span class="danger">
                                              {{ question.error }}
                                         </span>
@@ -140,13 +157,6 @@
                                              @click="$refs.file[q].click()"
                                         />
 
-                                        <input
-                                             ref="file"
-                                             @change="onFileChange($event, q)"
-                                             type="file"
-                                             style="display:none"
-                                        />
-
                                         <span class="danger">
                                              {{ question.error }}
                                         </span>
@@ -161,26 +171,24 @@
                               name=""
                               value=""
                          />
+
                          Choices:
-                         <input
-                              v-model="question.choices.a"
-                              type="text"
-                              name=""
-                              value=""
-                         />
-                         <input
-                              v-model="question.choices.b"
-                              type="text"
-                              name=""
-                              value=""
-                         />
-                         <input
-                              v-model="question.choices.c"
-                              type="text"
-                              name=""
-                              value=""
-                         />
+                         <div v-for="(choice, c) in question.choices" :key="c">
+                              <input v-model="choice.value" type="text" />
+                         </div>
+
+                         <button v-once @click="addChoices(q)">
+                              <strong>+</strong>
+                         </button>
+                         <!-- 1st param outer array 2nd param inner array -->
                     </div>
+
+                    <input
+                         ref="file"
+                         @change="onFileChange($event, q)"
+                         type="file"
+                         style="display:none"
+                    />
                </li>
           </ul>
 
@@ -194,9 +202,39 @@
                <button type="button" @click="add">Add</button>
 
                <div></div>
-               <button type="button" @click="createForm" name="button">
+               <button type="button" name="button" v-on:click="showModal">
                     Create Form
                </button>
+
+               <modal ref="importer">
+                    <template v-slot:header>Send to Students</template>
+                    <template v-slot:body>
+                         <div class="modalList">
+                              <ul class="list">
+                                   <li
+                                        v-for="(student, s) in listStudents"
+                                        :key="s"
+                                   >
+                                        <input
+                                             type="checkbox"
+                                             ref="studentEmail"
+                                             @change="
+                                                  getEmails(
+                                                       $refs.studentEmail,
+                                                       s
+                                                  )
+                                             "
+                                             :value="student.student_email"
+                                        />
+                                        {{ student.firstname }}
+                                   </li>
+                              </ul>
+                         </div>
+                    </template>
+                    <template v-slot:footer>
+                         <button @click="createForm">Submit</button>
+                    </template>
+               </modal>
           </div>
      </div>
 </template>
@@ -204,9 +242,10 @@
 <script>
      import Tab from '../_tabs/tab'
      import Tabs from '../_tabs/tabs'
-
+     import modal from '@/modals/empty'
      export default {
           components: {
+               modal,
                Tab,
                Tabs,
           },
@@ -218,7 +257,7 @@
 
                     subjectList: [],
 
-                    kamote: [],
+                    listStudents: [],
 
                     mode: '',
                     selectedTerm: '',
@@ -232,7 +271,7 @@
                          question_score: '',
                          error: '',
                          question_type: '',
-                         choices: { a: '', b: '', c: '' },
+                         choices: [{ value: '' }],
                     },
 
                     tobeDeleted: {
@@ -241,14 +280,37 @@
 
                     //palitan nalang ng value ng mga email ng student pag meron na ui
 
-                    stdEmail: [
-                         'caliljaudiannn@gmail.com',
-                         'caliljaudiannnn@gmail.com',
-                    ],
+                    stdEmail: [],
                }
           },
 
           methods: {
+               addChoices(outer) {
+                    this.questions[outer].choices.push({ value: '' })
+               },
+
+               getEmails(ref, index) {
+                    this.stdEmail.push(ref[index].value)
+               },
+
+               showModal() {
+                    if (!this.selectedSubject) {
+                         alert('Please Select a Subject')
+                         return
+                    }
+
+                    this.$store
+                         .dispatch('getStudents', this.selectedSubject)
+                         .then((result) => {
+                              this.listStudents = result
+
+                              this.$refs.importer.open()
+                         })
+                         .catch((err) => {
+                              console.log(err)
+                         })
+               },
+
                add() {
                     let d = Date.now()
                     switch (this.newItem) {
@@ -273,10 +335,12 @@
                                    form_number: d,
                                    ...this.questionBody,
                               })
+
                               break
                          default:
                               alert('Please select a type')
                     }
+                    this.questionBody.choices = [{ value: '' }]
                     this.newItem = ''
                },
 
@@ -314,6 +378,7 @@
                          )
                          if (saveQuestion.status === 200) {
                               this.questions = []
+                              this.$refs.importer.close()
                          }
                     } catch (error) {
                          console.log(error.response)
@@ -389,6 +454,16 @@
 </script>
 
 <style lang="css" scoped>
+     .list input {
+          margin: 5px;
+          width: 20px;
+     }
+
+     .modalList {
+          border-top: 1px solid #333;
+          color: white;
+     }
+
      .topic {
           width: 40%;
           margin-bottom: 10px;

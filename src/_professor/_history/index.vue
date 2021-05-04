@@ -17,12 +17,13 @@
                               {{ subject.subject_name }}</option
                          >
                     </select>
+
                     <ul>
                          <!-- Loop for history after changing the subject -->
                          <li
                               v-for="(form, i) in historyList"
                               :key="i"
-                              @click="selectForm(i)"
+                              @click="selectForm(form)"
                          >
                               <h3>{{ form.subject_name }}</h3>
                               <span>{{ form.created_at }}</span
@@ -37,7 +38,9 @@
                <article class="">
                     <a @click="$router.go(-1)">x</a>
                     <div class="right">
-                         <button>Form Link</button>
+                         <button @click="checkForm()" :disabled="!link.token">
+                              Form Link
+                         </button>
                     </div>
                     <table>
                          <tr>
@@ -50,12 +53,29 @@
                          </tr>
 
                          <tr v-for="(student, s) in table" :key="s">
-                              <td>{{ student.id }}</td>
+                              <td>{{ student.student_id }}</td>
                               <td>{{ student.lastname }}</td>
                               <td>{{ student.firstname }}</td>
                               <td>{{ student.score }}</td>
-                              <td>{{ student.status }}</td>
-                              <td>{{ student.view }}</td>
+                              <td>
+                                   {{
+                                        student.isTaken
+                                             ? 'Submitted'
+                                             : 'No Submitted'
+                                   }}
+                              </td>
+                              <td>
+                                   <button
+                                        v-if="student.isTaken"
+                                        @click="
+                                             checkResponse(
+                                                  student.student_token
+                                             )
+                                        "
+                                   >
+                                        Check Form
+                                   </button>
+                              </td>
                          </tr>
                     </table>
                </article>
@@ -93,7 +113,11 @@
 
                     historyList: [],
 
-                    link: '',
+                    link: {
+                         token: '',
+                         batch: '',
+                         subject_code: '',
+                    },
                     // table: [
                     //      {
                     //           id: 32133212,
@@ -122,12 +146,19 @@
                     // ],
 
                     table: [],
+
+                    temp_studentResponse: [],
                }
           },
 
           methods: {
                selectForm(i) {
-                    console.log('Select ' + i.name)
+                    this.link.batch = i.batch_number
+                    this.link.token = i.url
+                    this.link.subject_code = i.subject_code
+
+                    this.getStudents(this.subjectSelected)
+
                     // pag nag select ng list
 
                     /*
@@ -139,6 +170,52 @@
        yung maseselect na subject yung value ng i na ibig sabihin yung index nya kung pang ilan yung form sa array
 
        */
+               },
+
+               checkForm() {
+                    let routeData = this.$router.resolve({
+                         name: 'HistoryForm',
+                         params: { ...this.link },
+                    })
+                    window.open(routeData.href, '_blank')
+               },
+
+               checkResponse(token) {
+                    console.log(token)
+                    let routeData = this.$router.resolve({
+                         name: 'reponseviewing',
+                         params: { token: this.link.token, student_id: token },
+                    })
+
+                    window.open(routeData.href, '_blank')
+               },
+
+               getStudents(sub) {
+                    this.$store
+                         .dispatch('getStudents', sub.subject_code)
+                         .then((students) => {
+                              const responses = students.map((k) => {
+                                   let foundData = this.temp_studentResponse.find(
+                                        (el) =>
+                                             el.student_id === k.student_id &&
+                                             el.batch_number === this.link.batch
+                                   )
+
+                                   return {
+                                        student_id: k.student_id,
+                                        firstname: k.firstname,
+                                        lastname: k.lastname,
+                                        score: foundData ? foundData.score : '',
+                                        student_token: foundData
+                                             ? foundData.student_token
+                                             : '',
+                                        isTaken: foundData
+                                             ? foundData.isTaken
+                                             : false,
+                                   }
+                              })
+                              this.table = responses
+                         })
                },
           },
           mounted() {
@@ -182,12 +259,8 @@
                                         subject_name: sub.subject_name,
                                    }
                               })
-                         })
 
-                    this.$store
-                         .dispatch('getStudents', sub.subject_code)
-                         .then((students) => {
-                              console.log(students)
+                              this.temp_studentResponse = data.studentResponse
                          })
 
                     /*
