@@ -93,22 +93,27 @@
 
                          Choices:
                          <div></div>
-                         <input type="radio" name="" :value="li.choices.a" />
-                         <label>{{ li.choices.a }}</label>
-                         <br />
-
-                         <input type="radio" name="" :value="li.choices.b" />
-                         <label>{{ li.choices.b }}</label>
-                         <br />
-
-                         <input type="radio" name="" :value="li.choices.c" />
-                         <label>{{ li.choices.c }}</label>
-                         <br />
+                         <div
+                              v-for="(choice, c) in li.choices"
+                              :key="li.form_number + '' + c"
+                         >
+                              {{ li.form_number }}
+                              <input
+                                   @change="getChoiceValue($event)"
+                                   type="radio"
+                                   v-model="li.student_answer"
+                                   :key="c"
+                                   :id="c"
+                                   :value="choice.value"
+                              />
+                              <label>{{ choice.value }}</label>
+                              <br />
+                         </div>
                     </div>
                </li>
           </ul>
 
-          <button>Submit</button>
+          <button @click="submitForm">Submit</button>
      </section>
 </template>
 
@@ -125,7 +130,59 @@
                }
           },
 
-          methods: {},
+          methods: {
+               submitForm() {
+                    console.log(this.questions)
+               },
+
+               getChoiceValue(e) {
+                    let selected = e.target.value
+                    console.log(selected)
+               },
+
+               async createStudentForm() {
+                    const { state } = this.$store
+
+                    const dispatch = this.questions.map((k) => {
+                         let isCorrect = ''
+
+                         if (k.type === 'essay') {
+                              isCorrect = ''
+                         } else {
+                              isCorrect =
+                                   k.form_answer.toLowerCase() ===
+                                        k.student_answer.toLowerCase() ||
+                                   k.form_answer.toUpperCase() ===
+                                        k.student_answer.toUpperCase()
+                                        ? true
+                                        : false
+                         }
+
+                         return {
+                              student_answer: k.student_answer,
+                              student_score: isCorrect
+                                   ? k.question_score
+                                   : k.type === 'essay'
+                                   ? null
+                                   : 0,
+                              student_id: this.$route.params.student_id,
+                              batch_number: k.batch_number,
+                              form_number: k.form_number,
+                              subject_code: k.subject_code,
+                         }
+                    })
+                    try {
+                         const isSuccess = await this.$axios.post(
+                              `${state.BASE_URL}/student/response`,
+                              { questionList: dispatch }
+                         )
+
+                         if (isSuccess.status === 200) window.location.reload()
+                    } catch (error) {
+                         console.log(error.response)
+                    }
+               },
+          },
 
           mounted() {
                const payload = {

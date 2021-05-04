@@ -150,25 +150,16 @@
                               name=""
                               value=""
                          />
+
                          Choices:
-                         <input
-                              v-model="question.choices.a"
-                              type="text"
-                              name=""
-                              value=""
-                         />
-                         <input
-                              v-model="question.choices.b"
-                              type="text"
-                              name=""
-                              value=""
-                         />
-                         <input
-                              v-model="question.choices.c"
-                              type="text"
-                              name=""
-                              value=""
-                         />
+                         <div v-for="(choice, c) in question.choices" :key="c">
+                              <input v-model="choice.value" type="text" />
+                         </div>
+
+                         <button v-once @click="addChoices(q)">
+                              <strong>+</strong>
+                         </button>
+                         <!-- 1st param outer array 2nd param inner array -->
                     </div>
 
                     <input
@@ -259,7 +250,7 @@
                          question_score: '',
                          error: '',
                          question_type: '',
-                         choices: { a: '', b: '', c: '' },
+                         choices: [{ value: '' }],
                     },
 
                     tobeDeleted: {
@@ -273,6 +264,10 @@
           },
 
           methods: {
+               addChoices(outer) {
+                    this.questions[outer].choices.push({ value: '' })
+               },
+
                getEmails(ref, index) {
                     this.stdEmail.push(ref[index].value)
                },
@@ -319,10 +314,12 @@
                                    form_number: d,
                                    ...this.questionBody,
                               })
+
                               break
                          default:
                               alert('Please select a type')
                     }
+                    this.questionBody.choices = [{ value: '' }]
                     this.newItem = ''
                },
 

@@ -120,7 +120,7 @@
                                         student_answer: '',
                                         question_score: k.question_score,
                                         error: '',
-                                        choices: { a: '', b: '', c: '' },
+                                        choices: k.choices,
                                    }
                               })
                          })
