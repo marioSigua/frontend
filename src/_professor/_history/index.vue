@@ -17,6 +17,7 @@
                               {{ subject.subject_name }}</option
                          >
                     </select>
+
                     <ul>
                          <!-- Loop for history after changing the subject -->
                          <li
@@ -64,7 +65,14 @@
                                    }}
                               </td>
                               <td>
-                                   <button>
+                                   <button
+                                        v-if="student.isTaken"
+                                        @click="
+                                             checkResponse(
+                                                  student.student_token
+                                             )
+                                        "
+                                   >
                                         Check Form
                                    </button>
                               </td>
@@ -150,27 +158,8 @@
                     this.link.subject_code = i.subject_code
 
                     this.getStudents(this.subjectSelected)
+
                     // pag nag select ng list
-                    const responses = this.table.map((k) => {
-                         let foundData = this.temp_studentResponse.find(
-                              (el) =>
-                                   el.student_id === i.student_id &&
-                                   el.batch_number === i.batch_number
-                         )
-
-                         return {
-                              student_id: k.student_id,
-                              firstname: k.firstname,
-                              lastname: k.lastname,
-                              score: foundData ? foundData.score : '',
-                              student_token: foundData
-                                   ? foundData.student_token
-                                   : '',
-                              isTaken: foundData ? foundData.isTaken : false,
-                         }
-                    })
-
-                    this.table = responses
 
                     /*
        fetch nyo yung data ng mga students dito kasama yung link ng form
@@ -191,11 +180,41 @@
                     window.open(routeData.href, '_blank')
                },
 
+               checkResponse(token) {
+                    console.log(token)
+                    let routeData = this.$router.resolve({
+                         name: 'reponseviewing',
+                         params: { token: this.link.token, student_id: token },
+                    })
+
+                    window.open(routeData.href, '_blank')
+               },
+
                getStudents(sub) {
                     this.$store
                          .dispatch('getStudents', sub.subject_code)
                          .then((students) => {
-                              this.table = students
+                              const responses = students.map((k) => {
+                                   let foundData = this.temp_studentResponse.find(
+                                        (el) =>
+                                             el.student_id === k.student_id &&
+                                             el.batch_number === this.link.batch
+                                   )
+
+                                   return {
+                                        student_id: k.student_id,
+                                        firstname: k.firstname,
+                                        lastname: k.lastname,
+                                        score: foundData ? foundData.score : '',
+                                        student_token: foundData
+                                             ? foundData.student_token
+                                             : '',
+                                        isTaken: foundData
+                                             ? foundData.isTaken
+                                             : false,
+                                   }
+                              })
+                              this.table = responses
                          })
                },
           },

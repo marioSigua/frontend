@@ -71,24 +71,7 @@ const DATABASE = {
                     return data
                }
           } catch (error) {
-               if (error.response !== undefined) {
-                    if (
-                         error.response.data.message === 'jwt expired' &&
-                         router.currentRoute.name === routeNames.examform
-                    ) {
-                         return 'Form is not Currently Accepting Responses'
-                    } else if (
-                         error.response.data.message ===
-                              'You already have submitted' &&
-                         router.currentRoute.name === routeNames.examform
-                    ) {
-                         return error.response.data.message
-                    } else if (
-                         router.currentRoute.name !== routeNames.examform
-                    ) {
-                         console.log(error.response)
-                    }
-               }
+               throw error.response
           }
      },
 

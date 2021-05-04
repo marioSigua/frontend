@@ -41,6 +41,21 @@ const professor = {
                name: 'history',
                component: () => import('@/_professor/_history/index.vue'),
           },
+
+          //form question viewing route
+          {
+               path: 'viewing/form/:token/:batch/:subject_code',
+               name: 'HistoryForm',
+               component: () => import('@/_professor/_history/formviewing.vue'),
+          },
+
+          //viewing of student response
+          {
+               path: 'student/response/form/:token/:student_id',
+               name: 'reponseviewing',
+               component: () =>
+                    import('@/_professor/_history/studentresponse.vue'),
+          },
      ],
 }
 
@@ -61,12 +76,6 @@ const routes = [
       component: () => import('@/_professor/HistoryForm.vue'),
    },
    */
-     //form question viewing route
-     {
-          path: '/professor/viewing/form/:token/:batch/:subject_code',
-          name: 'HistoryForm',
-          component: () => import('@/_professor/_history/formviewing.vue'),
-     },
 
      //student question form route
      {
