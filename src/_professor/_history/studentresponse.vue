@@ -1,18 +1,16 @@
-<template lang="html">
+<template>
      <section>
-          <span v-if="error !== ''"> {{ error }}</span>
+          <ul>
+               <h1>{{ `Student ID: ${info.student_id}` }}</h1>
+               <p>{{ `Student Name: ${info.firstname}  ${info.lastname}` }}</p>
 
-          <ul v-else>
-               <h1>yawa</h1>
-               <p>{{ description }}</p>
                <li v-for="(li, q) in questions" :key="q" class="backdrop">
                     <div v-if="li.type == 'essay'">
                          <h3>Essay</h3>
 
-                         <textarea
-                              v-if="li.question_type === 'text'"
-                              v-model="li.question"
-                         ></textarea>
+                         <p v-if="li.question_type === 'text'">
+                              {{ li.question }}
+                         </p>
 
                          <img
                               v-else
@@ -41,10 +39,9 @@
 
                          Question
                          <div class="wrapper">
-                              <textarea
-                                   v-if="li.question_type === 'text'"
-                                   v-model="li.question"
-                              ></textarea>
+                              <p v-if="li.question_type === 'text'">
+                                   {{ li.question }}
+                              </p>
 
                               <img
                                    v-else
@@ -73,10 +70,9 @@
 
                          Question
                          <div class="wrapper">
-                              <textarea
-                                   v-if="li.question_type === 'text'"
-                                   v-model="li.question"
-                              ></textarea>
+                              <p v-if="li.question_type === 'text'">
+                                   {{ li.question }}
+                              </p>
 
                               <img
                                    v-else
@@ -98,7 +94,6 @@
                               v-for="(choice, c) in li.choices"
                               :key="li.form_number + '' + c"
                          >
-                              {{ li.form_number }}
                               <input
                                    @change="getChoiceValue($event)"
                                    type="radio"
@@ -122,82 +117,36 @@
           data() {
                return {
                     questions: [],
-                    description: 'sample',
 
-                    listStudents: [],
-
-                    stdEmail: [],
-                    error: '',
+                    info: {
+                         firstname: '',
+                         lastname: '',
+                         student_id: '',
+                    },
                }
           },
 
           methods: {
-               getChoiceValue(e) {
-                    let selected = e.target.value
-                    console.log(selected)
-               },
-
-               async submitForm() {
-                    const { state } = this.$store
-
-                    const dispatch = this.questions.map((k) => {
-                         let isCorrect = ''
-
-                         if (k.type === 'essay') {
-                              isCorrect = ''
-                         } else {
-                              isCorrect =
-                                   k.form_answer.toLowerCase() ===
-                                        k.student_answer.toLowerCase() ||
-                                   k.form_answer.toUpperCase() ===
-                                        k.student_answer.toUpperCase()
-                                        ? true
-                                        : false
-                         }
-
-                         return {
-                              student_answer: k.student_answer,
-                              student_score: isCorrect
-                                   ? k.question_score
-                                   : k.type === 'essay'
-                                   ? null
-                                   : 0,
-                              student_id: this.$route.params.student_id,
-                              batch_number: k.batch_number,
-                              form_number: k.form_number,
-                              subject_code: k.subject_code,
-                         }
-                    })
-                    try {
-                         const isSuccess = await this.$axios.post(
-                              `${state.BASE_URL}/student/response`,
-                              { questionList: dispatch }
-                         )
-
-                         if (isSuccess.status === 200) window.location.reload()
-                    } catch (error) {
-                         console.log(error.response)
-                    }
-               },
+               submitForm() {},
           },
 
-          mounted() {
-               const payload = {
-                    token: this.$route.params.token,
-                    student_id: this.$route.params.student_id,
-               }
-               console.log(this.questions)
+          async mounted() {
+               const { token, student_id } = this.$route.params
 
-               this.$store
-                    .dispatch('getQuestion', payload)
-                    .then((result) => {
-                         this.questions = result
-                    })
-                    .catch((err) => {
-                         if (err.data !== undefined) {
-                              this.error = err.data.message
-                         }
-                    })
+               try {
+                    const { data, status } = await this.$axios.get(
+                         `${this.$store.state.BASE_URL}/viewing/student/form/${token}/${student_id}`
+                    )
+
+                    console.log(data)
+
+                    if (status === 200) {
+                         this.questions = data.list
+                         this.info = { ...data.profile }
+                    }
+               } catch (error) {
+                    console.log(error.response)
+               }
           },
      }
 </script>
