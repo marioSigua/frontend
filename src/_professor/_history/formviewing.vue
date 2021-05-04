@@ -6,35 +6,40 @@
                Resend To Students
           </button>
 
-          <modal ref="importer">
-               <template v-slot:header>Send to Students</template>
-               <template v-slot:body>
-                    <div class="modalList">
-                         <ul class="list">
-                              <li v-for="(student, s) in listStudents" :key="s">
-                                   <input
-                                        type="checkbox"
-                                        ref="studentEmail"
-                                        @change="
-                                             getEmails($refs.studentEmail, s)
-                                        "
-                                        :value="student.student_email"
-                                   />
-                                   {{ student.firstname }}
-                              </li>
-
-                              <li>
-                                   <button @click="resendForm()">Send</button>
-                              </li>
-                         </ul>
-                    </div>
-               </template>
-               <!-- <template v-slot:footer>
-                    <button @click="resendForm()">Send</button>
-               </template> -->
-          </modal>
-
           <ul>
+               <modal ref="importer">
+                    <template v-slot:header>Send to Students</template>
+                    <template v-slot:body>
+                         <div class="modalList">
+                              <ul class="list">
+                                   <li
+                                        v-for="(student, s) in listStudents"
+                                        :key="s"
+                                   >
+                                        <input
+                                             type="checkbox"
+                                             ref="studentEmail"
+                                             @change="
+                                                  getEmails(
+                                                       $refs.studentEmail,
+                                                       s
+                                                  )
+                                             "
+                                             :value="student.student_email"
+                                        />
+                                        {{ student.firstname }}
+                                   </li>
+                              </ul>
+                         </div>
+                    </template>
+
+                    <template v-slot:footer>
+                         <button @click="resendForm()">
+                              Send
+                         </button>
+                    </template>
+               </modal>
+
                <li v-for="(li, q) in questions" :key="q" class="backdrop">
                     <div v-if="li.type == 'essay'">
                          <h3>Essay</h3>
@@ -149,31 +154,20 @@
                          </div>
 
                          Question Answer
-                         <input
-                              v-model="li.form_answer"
-                              type="text"
-                              name=""
-                              value=""
-                         />
-                         Choices:
-                         <input
-                              v-model="li.choices.a"
-                              type="text"
-                              name=""
-                              value=""
-                         />
-                         <input
-                              v-model="li.choices.b"
-                              type="text"
-                              name=""
-                              value=""
-                         />
-                         <input
-                              v-model="li.choices.c"
-                              type="text"
-                              name=""
-                              value=""
-                         />
+                         <div
+                              v-for="(choice, c) in li.choices"
+                              :key="li.form_number + '' + c"
+                         >
+                              <input
+                                   type="radio"
+                                   v-model="li.student_answer"
+                                   :key="c"
+                                   :id="c"
+                                   :value="choice.value"
+                              />
+                              <label>{{ choice.value }}</label>
+                              <br />
+                         </div>
                     </div>
                </li>
           </ul>

@@ -98,6 +98,7 @@
                               v-for="(choice, c) in li.choices"
                               :key="li.form_number + '' + c"
                          >
+                              {{ li.form_number }}
                               <input
                                    @change="getChoiceValue($event)"
                                    type="radio"
