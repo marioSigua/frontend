@@ -239,6 +239,9 @@
                               )
 
                               if (status === 200) {
+                                   Object.keys(this.student).forEach(
+                                        (k) => (this.student[k] = '')
+                                   )
                                    this.initEnrolledStudents()
                                    this.$refs.importer.close()
                               }
@@ -246,12 +249,6 @@
                     } catch (error) {
                          if (error.response !== undefined) {
                               if (
-                                   error.response.data.message.includes(
-                                        'Student ID'
-                                   )
-                              ) {
-                                   this.error = error.response.data.message
-                              } else if (
                                    error.response.data.message.includes(
                                         'Student Email'
                                    )
