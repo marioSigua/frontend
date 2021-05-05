@@ -370,6 +370,12 @@
                               ) {
                                    this.error = error.response.data.message
                               } else if (
+                                   error.response.data.message.includes(
+                                        'Student ID'
+                                   )
+                              ) {
+                                   this.error = error.response.data.message
+                              } else if (
                                    error.response.data.message.includes('class')
                               ) {
                                    this.error = error.response.data.message

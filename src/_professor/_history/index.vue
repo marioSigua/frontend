@@ -240,13 +240,14 @@
           watch: {
                subjectSelected(sub) {
                     // if nothing selected, clear all data
-                    if (sub == '') {
+                    if (sub === '') {
                          // uncomment code if connected to database
                          this.historyList = []
                          // this.link=''
                          this.table = []
                          return
                     }
+                    this.table = []
 
                     this.$axios
                          .get(`${this.$store.state.BASE_URL}/exam/history`, {
