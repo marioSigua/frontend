@@ -238,7 +238,11 @@ const DATABASE = {
   */
   async updateGrade({ state }, payload) {
     try {
-      await axios.patch(`${state.BASE_URL}/subjectGrade/students`, payload);
+      const { status } = await axios.patch(
+        `${state.BASE_URL}/subjectGrade/students`,
+        payload
+      );
+      return status;
     } catch (error) {
       console.log(error.response);
     }

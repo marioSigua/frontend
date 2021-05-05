@@ -2,9 +2,11 @@
   <div>
     <!-- Term -->
     <label for="name">Select Term:</label>
-    <select v-model="selectedTerm" @change="getGrades">
+    <select v-model="selectedTerm">
       <option value="">Select Term</option>
-      <option v-for="(term, t) in terms" :key="t"> {{ term }} </option>
+      <option v-for="(term, t) in terms" :value="term" :key="t">
+        {{ term }}
+      </option>
     </select>
 
     <article>
@@ -83,16 +85,17 @@
 
     <div>
       <h4>Calculated Grade</h4>
-      <p v-if="$store.state.calculator.listGrades">
+      <p v-if="calculateGrade === 0">
         TOTAL GRADE:
-        <input :value="$store.state.calculator.listGrades" disabled />
+        <input v-model="existingGrade" />
       </p>
 
       <p v-else>
         TOTAL GRADE:
 
-        <input :value="calculateGrade" disabled />
+        <input :value="calculateGrade" />
       </p>
+
       <p>
         REMARKS:
         <input :value="remarks" disabled />
@@ -106,25 +109,25 @@
 <script>
 /*
 
-index.vue
+     index.vue
 
-- select subject
-    - loop -> subjectLists
-- select student
-    - loop -> studentList
-
-
-    <input :subject="selectedSubject" :target="selectedStudent">  - > inputGrade.vue
-      - term
-      - grades
-
-      button
+     - select subject
+         - loop -> subjectLists
+     - select student
+         - loop -> studentList
 
 
+         <input :subject="selectedSubject" :target="selectedStudent">  - > inputGrade.vue
+           - term
+           - grades
+
+           button
 
 
 
-*/
+
+
+     */
 
 export default {
   props: {
@@ -153,6 +156,9 @@ export default {
       terms: ["Prelims", "Midterm", "Finals"],
       selectedTerm: "",
 
+      existingGrade: "",
+
+      inputGrade: "",
       // Criterias
       // input fields
       criterias: {
@@ -197,6 +203,8 @@ export default {
     // Updates after selecting a term
     getGrades() {
       // if there is no subject dont fetch to avoid backend bugs
+      // if (this.subject == '') return
+
       const gradeList = {
         student_id: this.target.student_id,
         created_at: this.target.date_created,
@@ -204,31 +212,55 @@ export default {
         subject_code: this.subject,
       };
 
-      if (this.subject == "") return;
       // handle data here using then()
-      else this.$store.dispatch("getStudentGrade", gradeList);
+      this.$store
+        .dispatch("getStudentGrade", gradeList)
+        .then((result) => {
+          this.existingGrade = result.prelim_grade
+            ? result.prelim_grade
+            : result.midterm_grade
+            ? result.midterm_grade
+            : result.finals_grade
+            ? result.finals_grade
+            : "";
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
       /* comment database response for better debugging
-      {
-      prelim_grade:100
-      prelim_grade:100
-      prelim_grade:100
-      }
-      */
+           {
+           prelim_grade:100
+           prelim_grade:100
+           prelim_grade:100
+           }
+           */
     },
 
     updateGrade() {
       console.log(this.target);
+      console.log(this.calculateGrade);
+      if (this.calculateGrade > 0) {
+        this.existingGrade = this.calculateGrade;
+      }
       const needs = {
         ...this.target,
         term: this.selectedTerm,
-        totalGrade: this.calculateGrade,
+        totalGrade: this.existingGrade,
       };
 
       // handle data here using then()
       // example implementation
       // patch protocol in store
-      this.$store.dispatch("updateGrade", needs);
+      this.$store
+        .dispatch("updateGrade", needs)
+        .then((status) => {
+          console.log(status);
+          if (status === 200) window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 
