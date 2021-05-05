@@ -69,6 +69,13 @@ const routes = [
           name: 'usersLogin',
           component: () => import('@/_professor/Login.vue'),
      },
+
+     {
+          path: '/signup',
+          name: 'signup',
+          component: () => import('@/_professor/Signup.vue'),
+     },
+
      /*
    {
       path: '/professor/viewing/form/:token/:batch/:subject_code',
