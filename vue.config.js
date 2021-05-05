@@ -1,15 +1,10 @@
-const BootstrapVueLoader = require('bootstrap-vue-loader')
 module.exports = {
-     configureWebpack: {
-          plugins: [new BootstrapVueLoader()],
-     },
-
+     publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
      //pang production
      // configureWebpack: {
      //      performance: {
      //           hints: false,
      //      },
-
      //      optimization: {
      //           splitChunks: {
      //                minSize: 10000,

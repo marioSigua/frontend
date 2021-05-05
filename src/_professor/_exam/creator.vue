@@ -28,6 +28,7 @@
     <ul>
       <li v-for="(question, q) in questions" :key="q" class="backdrop">
         <button id="remove" @click="remove(q)">Remove</button>
+
         <div v-if="question.type == 'essay'">
           <h3>Essay</h3>
 
@@ -36,38 +37,26 @@
             <span>pts</span>
           </div>
 
-          Question
-          <div class="wrapper">
-            <tabs :mode="mode" :body="question">
-              <tab title="Text"
-                ><textarea v-model="question.question"></textarea
-              ></tab>
+          <tabs :mode="mode" :body="question">
+            <tab title="Text"
+              ><textarea v-model="question.question"></textarea
+            ></tab>
 
-              <tab title="Image">
-                <img
-                  class="is-rounded"
-                  height="300"
-                  width="300"
-                  :src="
-                    question.question
-                      ? question.question
-                      : 'https://i.imgur.com/bCOd9N0.jpg'
-                  "
-                  alt="Placeholder image"
-                  @click="$refs.file[q].click()"
-                />
-                <input
-                  ref="file"
-                  @change="onFileChange($event, q)"
-                  type="file"
-                  style="display:none"
-                />
-                <span class="danger">
-                  {{ question.error }}
-                </span>
-              </tab>
-            </tabs>
-          </div>
+            <tab title="Image">
+              <img
+                class="is-rounded"
+                height="300"
+                width="300"
+                :src="
+                  question.question
+                    ? question.question
+                    : 'https://i.imgur.com/bCOd9N0.jpg'
+                "
+                alt="Placeholder image"
+                @click="$refs.file[q].click()"
+              />
+            </tab>
+          </tabs>
         </div>
 
         <div v-else-if="question.type == 'identification'">
@@ -103,12 +92,7 @@
                   alt="Placeholder image"
                   @click="$refs.file[q].click()"
                 />
-                <input
-                  ref="file"
-                  @change="onFileChange($event, q)"
-                  type="file"
-                  style="display:none"
-                />
+
                 <span class="danger">
                   {{ question.error }}
                 </span>
@@ -153,13 +137,6 @@
                   @click="$refs.file[q].click()"
                 />
 
-                <input
-                  ref="file"
-                  @change="onFileChange($event, q)"
-                  type="file"
-                  style="display:none"
-                />
-
                 <span class="danger">
                   {{ question.error }}
                 </span>
@@ -169,11 +146,24 @@
 
           Answer
           <input v-model="question.form_answer" type="text" name="" value="" />
+
           Choices:
-          <input v-model="question.choices.a" type="text" name="" value="" />
-          <input v-model="question.choices.b" type="text" name="" value="" />
-          <input v-model="question.choices.c" type="text" name="" value="" />
+          <div v-for="(choice, c) in question.choices" :key="c">
+            <input v-model="choice.value" type="text" />
+          </div>
+
+          <button v-once @click="addChoices(q)">
+            <strong>+</strong>
+          </button>
+          <!-- 1st param outer array 2nd param inner array -->
         </div>
+
+        <input
+          ref="file"
+          @change="onFileChange($event, q)"
+          type="file"
+          style="display:none"
+        />
       </li>
     </ul>
 
@@ -190,17 +180,26 @@
       <button type="button" name="button" v-on:click="showModal">
         Create Form
       </button>
+
       <modal ref="importer">
         <template v-slot:header>Send to Students</template>
         <template v-slot:body>
           <div class="modalList">
             <ul class="list">
-              <li><input type="checkbox" />stowdent</li>
+              <li v-for="(student, s) in listStudents" :key="s">
+                <input
+                  type="checkbox"
+                  ref="studentEmail"
+                  @change="getEmails($refs.studentEmail, s)"
+                  :value="student.student_email"
+                />
+                {{ student.firstname }}
+              </li>
             </ul>
           </div>
         </template>
         <template v-slot:footer>
-          <button>Submit</button>
+          <button @click="createForm">Submit</button>
         </template>
       </modal>
     </div>
@@ -211,7 +210,6 @@
 import Tab from "../_tabs/tab";
 import Tabs from "../_tabs/tabs";
 import modal from "@/modals/empty";
-
 export default {
   components: {
     modal,
@@ -223,39 +221,147 @@ export default {
     return {
       newItem: "",
       questions: [],
+
+      subjectList: [],
+
+      listStudents: [],
+
+      mode: "",
+      selectedTerm: "",
+      selectedSubject: "",
+
+      questionBody: {
+        topic: "",
+        form_answer: "",
+        question: "",
+        student_answer: "",
+        question_score: "",
+        error: "",
+        question_type: "",
+        choices: [{ value: "" }],
+      },
+
+      tobeDeleted: {
+        error: "",
+      },
+
+      //palitan nalang ng value ng mga email ng student pag meron na ui
+
+      stdEmail: [],
     };
   },
+
   methods: {
+    addChoices(outer) {
+      this.questions[outer].choices.push({ value: "" });
+    },
+
+    getEmails(ref, index) {
+      this.stdEmail.push(ref[index].value);
+    },
+
     showModal() {
-      this.$refs.importer.open();
+      if (!this.selectedSubject) {
+        alert("Please Select a Subject");
+        return;
+      }
+
+      this.$store
+        .dispatch("getStudents", this.selectedSubject)
+        .then((result) => {
+          this.listStudents = result;
+
+          this.$refs.importer.open();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     add() {
+      let d = Date.now();
       switch (this.newItem) {
         case "essay":
-          this.questions.push({ type: "essay" });
+          this.questions.push({
+            type: "essay",
+            form_number: d,
+            ...this.questionBody,
+          });
+
           break;
         case "identification":
-          this.questions.push({ type: "identification" });
+          this.questions.push({
+            type: "identification",
+            form_number: d,
+            ...this.questionBody,
+          });
           break;
         case "mcq":
-          this.questions.push({ type: "mcq" });
+          this.questions.push({
+            type: "mcq",
+            form_number: d,
+            ...this.questionBody,
+          });
+
           break;
         default:
           alert("Please select a type");
       }
+      this.questionBody.choices = [{ value: "" }];
       this.newItem = "";
     },
+
+    async createForm() {
+      const { state } = this.$store;
+
+      if (!this.selectedSubject) return alert("Please Select a Subject");
+
+      Object.keys(this.tobeDeleted).forEach((k) => delete this.questions[k]);
+
+      let batch = Date.now();
+      let formData = new FormData();
+
+      formData.append("batch_number", batch);
+      formData.append("term", this.selectedTerm);
+      formData.append("subject_code", this.selectedSubject);
+      formData.append("question_form", JSON.stringify(this.questions));
+      formData.append("stdEmail", JSON.stringify(this.stdEmail));
+
+      try {
+        const saveQuestion = await this.$axios.post(
+          `${state.BASE_URL}/create/form/questions`,
+          formData,
+          {
+            headers: {
+              "content-type": "multipart/form-data",
+            },
+          }
+        );
+        if (saveQuestion.status === 200) {
+          this.questions = [];
+          this.$refs.importer.close();
+        }
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+
     remove(s) {
       this.questions = this.questions.filter((v, i) => {
         return !(i == s);
       });
     },
+
     append(item) {
       this.questions.push(item);
     },
+
     importQuestion() {
       this.$emit("import");
+    },
+
+    appendPremade(question) {
+      this.questions.push(question);
     },
 
     encodeBase64(file) {
@@ -267,7 +373,7 @@ export default {
       });
     },
 
-    async onFileChange(e) {
+    async onFileChange(e, i) {
       let imgFormats = ["jpg", "jpeg", "png", "PNG"];
       const file = e.target.files[0];
       let fileFormat = file.name.split(".")[1];
@@ -279,22 +385,31 @@ export default {
 
       if (!imgFormats.includes(fileFormat)) {
         e.preventDefault();
-        this.error = "jpg, jpeg and png are the only file supported";
+        this.questions[i].error =
+          "jpg, jpeg and png are the only file supported";
         return;
       }
 
-      if (file.size > 1000 * 1000) {
+      if (file.size > 600 * 600) {
         e.preventDefault();
-        this.error = "Image must be less than 1mb";
+        this.questions[i].error = "Image must be less than 1mb";
         return;
       }
 
-      this.error = "";
+      this.questions[i].error = "";
 
-      this.imgUrl = URL.createObjectURL(file);
+      this.questions[i].imgUrl = URL.createObjectURL(file);
 
-      this.essayValues.question_image = await this.encodeBase64(file);
+      this.questions[i].question = await this.encodeBase64(file);
     },
+  },
+
+  mounted() {
+    // call subjects then handle data here
+    this.$store.dispatch("profSubjects").then((subjects) => {
+      // save locally
+      this.subjectList = subjects;
+    });
   },
 };
 </script>

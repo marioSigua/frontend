@@ -1,13 +1,56 @@
 <template lang="html">
      <section>
-          <span v-if="error !== ''"> {{ error }}</span>
+          <h1>yawa</h1>
+          <p>{{ description }}</p>
+          <button type="button" name="button" v-on:click="showModal">
+               Resend To Students
+          </button>
 
-          <ul v-else>
-               <h1>yawa</h1>
-               <p>{{ description }}</p>
+          <ul>
+               <modal ref="importer">
+                    <template v-slot:header>Send to Students</template>
+                    <template v-slot:body>
+                         <div class="modalList">
+                              <ul class="list">
+                                   <li
+                                        v-for="(student, s) in listStudents"
+                                        :key="s"
+                                   >
+                                        <input
+                                             type="checkbox"
+                                             ref="studentEmail"
+                                             @change="
+                                                  getEmails(
+                                                       $refs.studentEmail,
+                                                       s
+                                                  )
+                                             "
+                                             :value="student.student_email"
+                                        />
+                                        {{ student.firstname }}
+                                   </li>
+                              </ul>
+                         </div>
+                    </template>
+
+                    <template v-slot:footer>
+                         <button @click="resendForm()">
+                              Send
+                         </button>
+                    </template>
+               </modal>
+
                <li v-for="(li, q) in questions" :key="q" class="backdrop">
                     <div v-if="li.type == 'essay'">
                          <h3>Essay</h3>
+
+                         <div>
+                              <input
+                                   class="ptsInput"
+                                   v-model="li.question_score"
+                              />
+                              <span>pts</span>
+                         </div>
 
                          <textarea
                               v-if="li.question_type === 'text'"
@@ -26,18 +69,23 @@
                               "
                               alt="Placeholder image"
                          />
-
-                         <input
-                              type="text"
-                              name=""
-                              value=""
-                              placeholder="Your answer"
-                              v-model="li.student_answer"
-                         />
                     </div>
 
                     <div v-else-if="li.type == 'identification'">
                          <h3>Identification</h3>
+
+                         <div class="topic">
+                              <label for="Topic">Topic:</label>
+                              <input type="text" v-model="li.topic" />
+                         </div>
+
+                         <div>
+                              <input
+                                   class="ptsInput"
+                                   v-model="li.question_score"
+                              />
+                              <span>pts</span>
+                         </div>
 
                          Question
                          <div class="wrapper">
@@ -59,18 +107,31 @@
                                    alt="Placeholder image"
                               />
                          </div>
+                         Question Answer
                          <input
                               type="text"
                               name=""
                               value=""
-                              placeholder="Your answer"
-                              v-model="li.student_answer"
+                              v-model="li.form_answer"
                          />
                     </div>
 
                     <div v-else>
                          <h3>Multiple Choice</h3>
 
+                         <div class="topic">
+                              <label for="Topic">Topic:</label>
+                              <input type="text" v-model="li.topic" />
+                         </div>
+
+                         <div>
+                              <input
+                                   class="ptsInput"
+                                   v-model="li.question_score"
+                              />
+                              <span>pts</span>
+                         </div>
+
                          Question
                          <div class="wrapper">
                               <textarea
@@ -92,15 +153,12 @@
                               />
                          </div>
 
-                         Choices:
-                         <div></div>
+                         Question Answer
                          <div
                               v-for="(choice, c) in li.choices"
                               :key="li.form_number + '' + c"
                          >
-                              {{ li.form_number }}
                               <input
-                                   @change="getChoiceValue($event)"
                                    type="radio"
                                    v-model="li.student_answer"
                                    :key="c"
@@ -112,13 +170,17 @@
                          </div>
                     </div>
                </li>
-               <button @click="submitForm">Submit</button>
           </ul>
      </section>
 </template>
 
 <script>
+     import modal from '@/modals/empty'
      export default {
+          components: {
+               modal,
+          },
+
           data() {
                return {
                     questions: [],
@@ -127,76 +189,56 @@
                     listStudents: [],
 
                     stdEmail: [],
-                    error: '',
                }
           },
 
           methods: {
-               getChoiceValue(e) {
-                    let selected = e.target.value
-                    console.log(selected)
+               getEmails(ref, index) {
+                    this.stdEmail.push(ref[index].value)
                },
 
-               async submitForm() {
+               showModal() {
+                    this.$store
+                         .dispatch(
+                              'getStudents',
+                              this.$route.params.subject_code
+                         )
+                         .then((result) => {
+                              this.listStudents = result
+                              this.$refs.importer.open()
+                         })
+                         .catch((err) => {
+                              console.log(err)
+                         })
+               },
+
+               async resendForm() {
                     const { state } = this.$store
-
-                    const dispatch = this.questions.map((k) => {
-                         let isCorrect = ''
-
-                         if (k.type === 'essay') {
-                              isCorrect = ''
-                         } else {
-                              isCorrect =
-                                   k.form_answer.toLowerCase() ===
-                                        k.student_answer.toLowerCase() ||
-                                   k.form_answer.toUpperCase() ===
-                                        k.student_answer.toUpperCase()
-                                        ? true
-                                        : false
-                         }
-
-                         return {
-                              student_answer: k.student_answer,
-                              student_score: isCorrect
-                                   ? k.question_score
-                                   : k.type === 'essay'
-                                   ? null
-                                   : 0,
-                              student_id: this.$route.params.student_id,
-                              batch_number: k.batch_number,
-                              form_number: k.form_number,
-                              subject_code: k.subject_code,
-                         }
-                    })
                     try {
                          const isSuccess = await this.$axios.post(
-                              `${state.BASE_URL}/student/response`,
-                              { questionList: dispatch }
+                              `${state.BASE_URL}/resend/question`,
+                              {
+                                   batch_number: this.$route.params.batch,
+                                   stdEmail: JSON.stringify(this.stdEmail),
+                              }
                          )
 
-                         if (isSuccess.status === 200) window.location.reload()
+                         if (isSuccess.status === 200)
+                              this.$refs.importer.close()
                     } catch (error) {
-                         console.log(error.response)
+                         console.log(error)
                     }
                },
           },
 
           mounted() {
-               const payload = {
-                    token: this.$route.params.token,
-                    student_id: this.$route.params.student_id,
-               }
-               console.log(this.questions)
-
                this.$store
-                    .dispatch('getQuestion', payload)
+                    .dispatch('getResponse', this.$route.params.token)
                     .then((result) => {
                          this.questions = result
                     })
                     .catch((err) => {
-                         if (err.data !== undefined) {
-                              this.error = err.data.message
-                         }
+                         console.log(err)
                     })
           },
      }

@@ -61,33 +61,17 @@ const DATABASE = {
   }
 
   */
-  async getQuestion({ commit, state }, payload) {
-    console.log(commit);
+  async getQuestion({ state }, payload) {
     try {
       const { status, data } = await axios.get(
-        `${state.BASE_URL}/student/question/${payload}`
+        `${state.BASE_URL}/student/question/${payload.token}/${payload.student_id}`
       );
 
       if (status === 200) {
-        //commit("getQuestion", data);
         return data;
       }
     } catch (error) {
-      if (error.response !== undefined) {
-        if (
-          error.response.data.message === "jwt expired" &&
-          router.currentRoute.name === routeNames.examform
-        ) {
-          commit("getError", "Form is not Currently Accepting Responses");
-        } else if (
-          error.response.data.message === "You already have submitted" &&
-          router.currentRoute.name === routeNames.examform
-        ) {
-          commit("getError", error.response.data.message);
-        } else if (router.currentRoute.name !== routeNames.examform) {
-          console.log(error.response);
-        }
-      }
+      throw error.response;
     }
   },
 
@@ -114,14 +98,14 @@ const DATABASE = {
         subject_code: k.subject_code,
   }
   */
-  async getResponse({ commit, state }, payload) {
+  async getResponse({ state }, payload) {
     try {
       const { status, data } = await axios.get(
         `${state.BASE_URL}/student/response/${payload}`
       );
 
       if (status === 200) {
-        commit("getQuestion", data);
+        return data;
       }
     } catch (error) {
       console.log(error.response);
@@ -132,11 +116,13 @@ const DATABASE = {
   // int isOccupied parameters in DB
   // add subject 0 = not taken 1 = already taken
   // limit 1 prof per subj
-  async getSubjects({ commit, state }) {
+  async getSubjects({ state }) {
     try {
-      const subjects = await axios.get(`${state.BASE_URL}/list/subjects`);
-      if (subjects.status === 200) {
-        commit("getSubjects", subjects);
+      const { data, status } = await axios.get(
+        `${state.BASE_URL}/list/subjects`
+      );
+      if (status === 200) {
+        return data;
       }
     } catch (error) {
       console.log(error.response);
@@ -267,7 +253,7 @@ export default new Vuex.Store({
   // object
   state: {
     BASE_URL: "http://192.168.18.7:5115/api/p1",
-    //BASE_URL: "http://lsb.scanolongapo.com/api/p1",
+    // BASE_URL: 'http://api.scanolongapo.com/api/p1',
 
     access_token: "",
     token_name: "",
