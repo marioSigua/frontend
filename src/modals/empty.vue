@@ -46,6 +46,8 @@ export default {
   height: 100vh;
   width: 100vw;
 
+  overflow-y: auto;
+
   z-index: 4;
 }
 

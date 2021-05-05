@@ -15,47 +15,60 @@
       </button>
 
       <modal ref="importer">
-        <template v-slot:header>Add Students</template>
-        <template v-slot:body>
-          <div class="modalList">
-            <ul class="list">
-              <label for="SID">Student ID</label>
-              <li>
-                <input v-model="student.student_id" type="text" />
-              </li>
-              <label for="fname">First Name</label>
-              <li>
-                <input v-model="student.firstname" type="text" />
-              </li>
-              <label for="lname">Last Name</label>
-              <li>
-                <input v-model="student.lastname" type="text" />
-              </li>
-              <label for="email">Student Email</label>
-              <li>
-                <input v-model="student.student_email" type="text" />
-              </li>
-              <label for="course">Course</label>
-              <li>
-                <select v-model="student.student_course">
-                  <option value="">-- Select Course --</option>
-                  <option
-                    v-for="(subj, index) in engrCourse"
-                    :key="index"
-                    :value="subj"
-                    >{{ subj }}</option
-                  >
-                </select>
-              </li>
-              <li>{{ error }}</li>
+        <template v-slot:header>
+          <tabs class="tabs">
+            <tab class="tab" title="Add Existing Student">
+              Search:
+              <input type="text" />
 
-              <li>
-                <button @click="addStudents">
-                  Submit
-                </button>
-              </li>
-            </ul>
-          </div>
+              <div>
+                <ul>
+                  <li>
+                    <input type="checkbox" />
+                  </li>
+                </ul>
+              </div>
+            </tab>
+            <tab class="tab" title="Add New Student">
+              <ul>
+                <label for="SID">Student ID</label>
+                <li>
+                  <input v-model="student.student_id" type="text" />
+                </li>
+                <label for="fname">First Name</label>
+                <li>
+                  <input v-model="student.firstname" type="text" />
+                </li>
+                <label for="lname">Last Name</label>
+                <li>
+                  <input v-model="student.lastname" type="text" />
+                </li>
+                <label for="email">Student Email</label>
+                <li>
+                  <input v-model="student.student_email" type="text" />
+                </li>
+                <label for="course">Course</label>
+                <li>
+                  <select v-model="student.student_course">
+                    <option value="">-- Select Course --</option>
+                    <option
+                      v-for="(subj, index) in engrCourse"
+                      :key="index"
+                      :value="subj"
+                      >{{ subj }}</option
+                    >
+                  </select>
+                </li>
+                <li>{{ error }}</li>
+
+                <li>
+                  <button @click="addStudents">
+                    Submit
+                  </button>
+                </li>
+              </ul>
+            </tab>
+          </tabs>
         </template>
 
         <!-- di ko makita tinatago siya -->
@@ -102,9 +115,13 @@
 </template>
 
 <script>
+import tab from "../_tabs/tab";
+import tabs from "../_tabs/tabs";
 import modal from "@/modals/empty";
 export default {
   components: {
+    tab,
+    tabs,
     modal,
   },
 
@@ -323,6 +340,17 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.tab {
+  border: 8px solid #555;
+  background-color: white;
+  font-size: 18px;
+}
+
+.tab li {
+  background-color: white;
+  font-size: 20px;
+}
+
 .subjects {
   margin: 10px;
   border-radius: 10px;
