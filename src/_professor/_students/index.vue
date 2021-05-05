@@ -19,14 +19,36 @@
                          <tabs class="tabs">
                               <tab class="tab" title="Add Existing Student">
                                    Search:
-                                   <input type="text" />
+                                   <input type="text" v-model="searchQuery" />
 
                                    <div>
                                         <ul>
-                                             <li>
-                                                  <input type="checkbox" />
+                                             <li
+                                                  v-for="(student,
+                                                  s) in searchListModal"
+                                                  :key="s"
+                                             >
+                                                  <input
+                                                       type="checkbox"
+                                                       @change="
+                                                            getStudentInfo(
+                                                                 $event,
+                                                                 student
+                                                            )
+                                                       "
+                                                       :value="student"
+                                                  />
+                                                  {{
+                                                       student.firstname +
+                                                            ' ' +
+                                                            student.lastname
+                                                  }}
                                              </li>
                                         </ul>
+
+                                        <button @click="addOldStudents">
+                                             Submit
+                                        </button>
                                    </div>
                               </tab>
                               <tab class="tab" title="Add New Student">
@@ -189,6 +211,25 @@
                                 })
                },
 
+               searchListModal() {
+                    return !this.searchQuery
+                         ? this.modalStudents
+                         : this.modalStudents.filter((item) => {
+                                return this.searchQuery
+                                     .toLowerCase()
+                                     .split(' ')
+                                     .every(
+                                          (v) =>
+                                               item.firstname
+                                                    .toLowerCase()
+                                                    .includes(v) ||
+                                               item.lastname
+                                                    .toLowerCase()
+                                                    .includes(v)
+                                     )
+                           })
+               },
+
                //check if data property of student is empty
                isEmpty() {
                     return Object.values(this.student).every((v) => v === '')
@@ -209,6 +250,8 @@
 
                     students: [],
 
+                    searchQuery: '',
+
                     needs: {
                          student_id: '',
                          created_at: '',
@@ -224,6 +267,10 @@
                          student_course: '',
                     },
 
+                    modalStudents: [],
+
+                    payloadStudent: [],
+
                     emailValidation: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 
                     error: '',
@@ -233,6 +280,25 @@
           methods: {
                showModal() {
                     this.$refs.importer.open()
+                    this.$axios
+                         .get(`${this.$store.state.BASE_URL}/list/all/students`)
+                         .then(({ data }) => {
+                              this.modalStudents = data
+                         })
+               },
+
+               getStudentInfo(e, std) {
+                    console.log(std)
+                    if (e.target.checked) {
+                         this.payloadStudent.push(std)
+                    } else {
+                         this.payloadStudent.splice(
+                              this.payloadStudent.indexOf(std),
+                              1
+                         )
+                    }
+
+                    console.log(this.payloadStudent)
                },
 
                getSubjectCode(code) {
@@ -240,6 +306,33 @@
 
                     this.needs.subject_code = code.subject_code
                     this.needs.subject_sem = code.subject_sem
+               },
+
+               async addOldStudents() {
+                    try {
+                         let dispatch = this.payloadStudent.map((k) => {
+                              return k.student_id
+                         })
+                         const { status } = await this.$axios.post(
+                              `${this.$store.state.BASE_URL}/add/old/students`,
+                              {
+                                   listStudents: dispatch,
+                                   subject_code: this.needs.subject_code,
+                                   subject_sem: this.needs.subject_sem,
+                              }
+                         )
+
+                         if (status === 200) {
+                              this.initEnrolledStudents()
+                              this.$refs.importer.close()
+                         }
+                    } catch (error) {
+                         if (error.response !== undefined) {
+                              alert(
+                                   `Students ${error.response.data.message} are already included in the classroom`
+                              )
+                         }
+                    }
                },
 
                async addStudents() {
