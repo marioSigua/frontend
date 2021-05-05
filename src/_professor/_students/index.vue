@@ -256,6 +256,10 @@
                                    )
                               ) {
                                    this.error = error.response.data.message
+                              } else if (
+                                   error.response.data.message.includes('class')
+                              ) {
+                                   this.error = error.response.data.message
                               } else {
                                    console.log(error.response)
                               }
@@ -272,12 +276,12 @@
                     if (prompt) {
                          this.needs.student_id = student.student_id
                          this.needs.created_at = student.created_at
+
                          try {
                               const deactStudent = await this.$axios.patch(
                                    `${state.BASE_URL}/drop/students`,
                                    this.needs
                               )
-
                               if (deactStudent.status === 200)
                                    this.initEnrolledStudents()
                          } catch (error) {
