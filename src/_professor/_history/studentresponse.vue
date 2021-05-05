@@ -138,8 +138,6 @@
                          `${this.$store.state.BASE_URL}/viewing/student/form/${token}/${student_id}`
                     )
 
-                    console.log(data)
-
                     if (status === 200) {
                          this.questions = data.list
                          this.info = { ...data.profile }
