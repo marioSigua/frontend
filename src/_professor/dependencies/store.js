@@ -261,13 +261,8 @@ const DATABASE = {
 export default new Vuex.Store({
      // object
      state: {
-<<<<<<< HEAD
-          BASE_URL: 'http://192.168.100.4:5115/api/p1',
-          //BASE_URL: "http://lsb.scanolongapo.com/api/p1",
-=======
           // BASE_URL: 'http://192.168.1.12:5115/api/p1',
           BASE_URL: 'http://api.scanolongapo.com/api/p1',
->>>>>>> 5e214e52c41f57b2c50f4ee965fe8e71afa536cd
 
           access_token: '',
           token_name: '',
