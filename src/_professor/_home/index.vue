@@ -1,11 +1,11 @@
 <template lang="html">
      <section id="home">
           <h1>Home</h1>
-          <addSub></addSub>
+          <addSub :profSubjs="subjects"></addSub>
 
           <div id="cards">
                <card
-                    v-for="subj in listSubjs"
+                    v-for="subj in subjects"
                     :key="subj.subject_code"
                     :title="subj.subject_name"
                     :code="subj.subject_code"
@@ -23,25 +23,8 @@
           components: { card, addSub },
 
           computed: {
-               autoComplete() {
-                    const { listSubjects } = this.$store.state.calculator
-                    return !this.searchList
-                         ? []
-                         : listSubjects.filter((item) => {
-                                return this.searchList
-                                     .toLowerCase()
-                                     .split(' ')
-                                     .every((v) =>
-                                          item.subject_name
-                                               .toLowerCase()
-                                               .includes(v)
-                                     )
-                           })
-               },
-               foundData() {
-                    return this.autoComplete.find(
-                         (o) => o.subject_name === this.searchList
-                    )
+               subjects() {
+                    return this.listSubjs
                },
           },
 
@@ -83,43 +66,13 @@
                }
           },
           methods: {
-               sendDispatch() {
-                    if (this.foundData) {
-                         this.patchRequest(this.foundData.subject_code)
-                    } else {
-                         this.patchRequest(this.payload.subject_code)
-                    }
-               },
                sendToStudentList(id) {
                     this.$store.state.openAccordion = id
                },
+
                getSubjectValues(obj) {
                     console.log(obj)
                     this.payload = { ...obj }
-               },
-               async patchRequest(subject_code) {
-                    try {
-                         const grade = await this.$axios.patch(
-                              `${this.$store.state.BASE_URL}/add/prof/subjects`,
-                              { subject_code },
-                              {
-                                   headers: {
-                                        Authorization: this.$store.getters
-                                             .isLoggedIn,
-                                   },
-                              }
-                         )
-
-                         if (grade.status === 200) {
-                              this.$store.dispatch('profSubjects')
-                              Object.keys(this.payload).forEach(
-                                   (k) => (this.payload[k] = '')
-                              )
-                              this.searchList = ''
-                         }
-                    } catch (error) {
-                         console.log(error.response)
-                    }
                },
           },
           mounted() {

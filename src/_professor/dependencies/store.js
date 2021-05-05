@@ -116,13 +116,13 @@ const DATABASE = {
      // int isOccupied parameters in DB
      // add subject 0 = not taken 1 = already taken
      // limit 1 prof per subj
-     async getSubjects({ commit, state }) {
+     async getSubjects({ state }) {
           try {
-               const subjects = await axios.get(
+               const { data, status } = await axios.get(
                     `${state.BASE_URL}/list/subjects`
                )
-               if (subjects.status === 200) {
-                    commit('getSubjects', subjects)
+               if (status === 200) {
+                    return data
                }
           } catch (error) {
                console.log(error.response)

@@ -8,6 +8,7 @@
           >
                {{ subject.subject_name }}
           </div>
+
           <div :hide="hide" id="collapse">
                <button type="button" name="button" v-on:click="showModal">
                     Add Student

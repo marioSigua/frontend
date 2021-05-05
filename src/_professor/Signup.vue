@@ -50,7 +50,7 @@
                          @click="createAccount"
                          type="button"
                          name="button"
-                         :disabled="checkPayload || checkPass"
+                         :disabled="checkPayload"
                     >
                          Login
                     </button>
