@@ -4,7 +4,7 @@
       <h4>Student List</h4>
       <!-- Subjects -->
       <label for="name">Select Subject:</label>
-      <select v-model="subjectSelected">
+      <select v-model="selectedSubject">
         <option value="">Select Subject</option>
         <option
           v-for="(category, i) in subjectList"
@@ -31,7 +31,11 @@
     <div id="calc">
       <h4>Calculator</h4>
 
-      <inputGrade :target="payload" :subject="selectedSubject"></inputGrade>
+      <inputGrade
+        ref="calculatorMain"
+        :target="payload"
+        :subject="selectedSubject"
+      ></inputGrade>
     </div>
   </div>
 </template>
@@ -86,6 +90,7 @@ export default {
       this.currentIndex = this.studentList.indexOf(info);
       this.payload.student_id = info.student_id;
       this.payload.date_created = info.created_at;
+      this.$refs.calculatorMain.getGrades();
     },
 
     newSubject: function(name, code) {
@@ -102,7 +107,7 @@ export default {
   },
 
   watch: {
-    subjectSelected(selected) {
+    selectedSubject(selected) {
       if (selected == "") {
         this.studentList = [];
       } else {
