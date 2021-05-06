@@ -1,79 +1,84 @@
 <template lang="html">
-     <transition name="fade">
-          <div class="modal" v-if="show">
-               <div class="close backdrop" @click="close"></div>
-               <div class="window">
-                    <header>
-                         <h2>
-                              <slot name="header" />
-                         </h2>
-                    </header>
-                    <div class="">
-                         <slot name="body" />
-                    </div>
-                    <footer>
-                         <slot name="footer" />
-                    </footer>
-               </div>
-          </div>
-     </transition>
+  <transition name="fade">
+    <div class="modal" v-if="show">
+      <div class="close backdrop" @click="close"></div>
+      <div class="window">
+        <header>
+          <h2>
+            <slot name="header" />
+          </h2>
+        </header>
+        <div class="">
+          <slot name="body" />
+        </div>
+        <footer>
+          <slot name="footer" />
+        </footer>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
-     export default {
-          data() {
-               return {
-                    show: false,
-               }
-          },
+export default {
+  data() {
+    return {
+      show: false,
+    };
+  },
 
-          methods: {
-               open() {
-                    this.show = true
-               },
-               close() {
-                    this.show = false
-               },
-          },
-     }
+  methods: {
+    open() {
+      this.show = true;
+    },
+    close() {
+      this.show = false;
+    },
+  },
+};
 </script>
 
 <style lang="css" scoped>
-     .modal {
-          display: block;
-          position: absolute;
+.modal {
+  display: block;
+  position: absolute;
 
-          height: 100vh;
-          width: 100vw;
+  height: 100vh;
+  width: 100vw;
 
-          z-index: 4;
-     }
+  overflow-y: auto;
 
-     .close {
-          position: absolute;
+  z-index: 4;
+}
 
-          height: 100vh;
-          width: 100vw;
+.close {
+  position: absolute;
 
-          background: rgba(0, 0, 0, 0.3);
+  height: 100vh;
+  width: 100vw;
 
-          z-index: 5;
-     }
+  background: rgba(0, 0, 0, 0.3);
 
-     .window {
-          position: relative;
-          margin: 100px auto;
-          padding: 10px;
+  z-index: 5;
+}
 
-          border-radius: 10px;
+.window {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 100px auto;
+  padding: 10px;
 
-          height: 600px;
-          width: 800px;
+  border-radius: 10px;
 
-          background: white;
-          color: black;
+  height: 800px;
+  width: 800px;
 
-          z-index: 6;
-          overflow: scroll;
-     }
+  background: white;
+  color: black;
+
+  z-index: 6;
+  overflow: scroll;
+}
 </style>

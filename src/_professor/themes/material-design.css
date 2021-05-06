@@ -44,6 +44,10 @@ select{
   margin-bottom: 5px;
 }
 
+textarea{
+  width: 100%;
+}
+
 ul{
   list-style-type: none;
 }

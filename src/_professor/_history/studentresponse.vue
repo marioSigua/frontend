@@ -8,6 +8,16 @@
                     <div v-if="li.type == 'essay'">
                          <h3>Essay</h3>
 
+                         <div>
+                              <input
+                                   class="ptsInput"
+                                   v-model="li.student_score"
+                              />
+                              /
+                              {{ li.question_score }}
+                              <span>pts</span>
+                         </div>
+
                          <p v-if="li.question_type === 'text'">
                               {{ li.question }}
                          </p>
@@ -114,6 +124,32 @@
 
 <script>
      export default {
+          computed: {
+               batchToken() {
+                    return this.$route.params.token
+               },
+
+               idToken() {
+                    return this.$route.params.student_id
+               },
+
+               state() {
+                    return this.$store.state
+               },
+
+               responseList() {
+                    return this.questions
+               },
+
+               listFormNum() {
+                    return this.responseList.map((k) => {
+                         if (k.type === 'essay') {
+                              return k.form_number
+                         }
+                    })
+               },
+          },
+
           data() {
                return {
                     questions: [],
@@ -127,7 +163,34 @@
           },
 
           methods: {
-               submitForm() {},
+               async submitForm() {
+                    try {
+                         const mappedList = this.questions
+                              .filter((v) => v.type === 'essay')
+                              .map((k) => {
+                                   return {
+                                        student_score: parseInt(
+                                             k.student_score
+                                        ),
+                                        form_number: k.form_number,
+                                   }
+                              })
+
+                         const { status } = await this.$axios.patch(
+                              `${this.state.BASE_URL}/essay/score`,
+                              {
+                                   batch_token: this.batchToken,
+                                   id_token: this.idToken,
+                                   formNumber: this.listFormNum,
+                                   formList: mappedList,
+                              }
+                         )
+
+                         if (status === 201) window.location.reload()
+                    } catch (error) {
+                         console.log(error.response)
+                    }
+               },
           },
 
           async mounted() {

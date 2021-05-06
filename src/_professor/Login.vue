@@ -1,7 +1,7 @@
 <template lang="html">
      <main>
           <nav>
-               <div id="button">
+               <div @click="$router.push({ name: 'signup' })" id="button">
                     Sign Up
                </div>
           </nav>

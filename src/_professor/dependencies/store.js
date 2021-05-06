@@ -116,13 +116,13 @@ const DATABASE = {
      // int isOccupied parameters in DB
      // add subject 0 = not taken 1 = already taken
      // limit 1 prof per subj
-     async getSubjects({ commit, state }) {
+     async getSubjects({ state }) {
           try {
-               const subjects = await axios.get(
+               const { data, status } = await axios.get(
                     `${state.BASE_URL}/list/subjects`
                )
-               if (subjects.status === 200) {
-                    commit('getSubjects', subjects)
+               if (status === 200) {
+                    return data
                }
           } catch (error) {
                console.log(error.response)
@@ -244,10 +244,11 @@ const DATABASE = {
   */
      async updateGrade({ state }, payload) {
           try {
-               await axios.patch(
+               const { status } = await axios.patch(
                     `${state.BASE_URL}/subjectGrade/students`,
                     payload
                )
+               return status
           } catch (error) {
                console.log(error.response)
           }
@@ -261,8 +262,8 @@ const DATABASE = {
 export default new Vuex.Store({
      // object
      state: {
-          // BASE_URL: 'http://192.168.1.12:5115/api/p1',
-          BASE_URL: 'http://api.scanolongapo.com/api/p1',
+          BASE_URL: 'http://192.168.1.12:5115/api/p1',
+          // BASE_URL: 'http://api.scanolongapo.com/api/p1',
 
           access_token: '',
           token_name: '',

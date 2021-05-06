@@ -8,70 +8,111 @@
           >
                {{ subject.subject_name }}
           </div>
+
           <div :hide="hide" id="collapse">
                <button type="button" name="button" v-on:click="showModal">
                     Add Student
                </button>
 
                <modal ref="importer">
-                    <template v-slot:header>Add Students</template>
-                    <template v-slot:body>
-                         <div class="modalList">
-                              <ul class="list">
-                                   <label for="SID">Student ID</label>
-                                   <li>
-                                        <input
-                                             v-model="student.student_id"
-                                             type="text"
-                                        />
-                                   </li>
-                                   <label for="fname">First Name</label>
-                                   <li>
-                                        <input
-                                             v-model="student.firstname"
-                                             type="text"
-                                        />
-                                   </li>
-                                   <label for="lname">Last Name</label>
-                                   <li>
-                                        <input
-                                             v-model="student.lastname"
-                                             type="text"
-                                        />
-                                   </li>
-                                   <label for="email">Student Email</label>
-                                   <li>
-                                        <input
-                                             v-model="student.student_email"
-                                             type="text"
-                                        />
-                                   </li>
-                                   <label for="course">Course</label>
-                                   <li>
-                                        <select
-                                             v-model="student.student_course"
-                                        >
-                                             <option value=""
-                                                  >-- Select Course --</option
-                                             >
-                                             <option
-                                                  v-for="(subj,
-                                                  index) in engrCourse"
-                                                  :key="index"
-                                                  :value="subj"
-                                                  >{{ subj }}</option
-                                             >
-                                        </select>
-                                   </li>
-                                   <li>{{ error }}</li>
+                    <template v-slot:header>
+                         <tabs class="tabs">
+                              <tab class="tab" title="Add Existing Student">
+                                   Search:
+                                   <input type="text" v-model="searchQuery" />
 
-                                   <li>
-                                        <button @click="addStudents">
+                                   <div>
+                                        <ul>
+                                             <li
+                                                  v-for="(student,
+                                                  s) in searchListModal"
+                                                  :key="s"
+                                             >
+                                                  <input
+                                                       type="checkbox"
+                                                       @change="
+                                                            getStudentInfo(
+                                                                 $event,
+                                                                 student
+                                                            )
+                                                       "
+                                                       :value="student"
+                                                  />
+                                                  {{
+                                                       student.firstname +
+                                                            ' ' +
+                                                            student.lastname
+                                                  }}
+                                             </li>
+                                        </ul>
+
+                                        <button @click="addOldStudents">
                                              Submit
                                         </button>
-                                   </li>
-                              </ul>
-                         </div>
+                                   </div>
+                              </tab>
+                              <tab class="tab" title="Add New Student">
+                                   <ul>
+                                        <label for="SID">Student ID</label>
+                                        <li>
+                                             <input
+                                                  v-model="student.student_id"
+                                                  type="text"
+                                             />
+                                        </li>
+                                        <label for="fname">First Name</label>
+                                        <li>
+                                             <input
+                                                  v-model="student.firstname"
+                                                  type="text"
+                                             />
+                                        </li>
+                                        <label for="lname">Last Name</label>
+                                        <li>
+                                             <input
+                                                  v-model="student.lastname"
+                                                  type="text"
+                                             />
+                                        </li>
+                                        <label for="email">Student Email</label>
+                                        <li>
+                                             <input
+                                                  v-model="
+                                                       student.student_email
+                                                  "
+                                                  type="text"
+                                             />
+                                        </li>
+                                        <label for="course">Course</label>
+                                        <li>
+                                             <select
+                                                  v-model="
+                                                       student.student_course
+                                                  "
+                                             >
+                                                  <option value=""
+                                                       >-- Select Course
+                                                       --</option
+                                                  >
+                                                  <option
+                                                       v-for="(subj,
+                                                       index) in engrCourse"
+                                                       :key="index"
+                                                       :value="subj"
+                                                       >{{ subj }}</option
+                                                  >
+                                             </select>
+                                        </li>
+                                        <li>{{ error }}</li>
+
+                                        <li>
+                                             <button @click="addStudents">
+                                                  Submit
+                                             </button>
+                                        </li>
+                                   </ul>
+                              </tab>
+                         </tabs>
                     </template>
 
                     <!-- di ko makita tinatago siya -->
@@ -118,9 +159,13 @@
 </template>
 
 <script>
+     import tab from '../_tabs/tab'
+     import tabs from '../_tabs/tabs'
      import modal from '@/modals/empty'
      export default {
           components: {
+               tab,
+               tabs,
                modal,
           },
 
@@ -166,6 +211,25 @@
                                 })
                },
 
+               searchListModal() {
+                    return !this.searchQuery
+                         ? this.modalStudents
+                         : this.modalStudents.filter((item) => {
+                                return this.searchQuery
+                                     .toLowerCase()
+                                     .split(' ')
+                                     .every(
+                                          (v) =>
+                                               item.firstname
+                                                    .toLowerCase()
+                                                    .includes(v) ||
+                                               item.lastname
+                                                    .toLowerCase()
+                                                    .includes(v)
+                                     )
+                           })
+               },
+
                //check if data property of student is empty
                isEmpty() {
                     return Object.values(this.student).every((v) => v === '')
@@ -186,6 +250,8 @@
 
                     students: [],
 
+                    searchQuery: '',
+
                     needs: {
                          student_id: '',
                          created_at: '',
@@ -201,6 +267,10 @@
                          student_course: '',
                     },
 
+                    modalStudents: [],
+
+                    payloadStudent: [],
+
                     emailValidation: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 
                     error: '',
@@ -210,6 +280,25 @@
           methods: {
                showModal() {
                     this.$refs.importer.open()
+                    this.$axios
+                         .get(`${this.$store.state.BASE_URL}/list/all/students`)
+                         .then(({ data }) => {
+                              this.modalStudents = data
+                         })
+               },
+
+               getStudentInfo(e, std) {
+                    console.log(std)
+                    if (e.target.checked) {
+                         this.payloadStudent.push(std)
+                    } else {
+                         this.payloadStudent.splice(
+                              this.payloadStudent.indexOf(std),
+                              1
+                         )
+                    }
+
+                    console.log(this.payloadStudent)
                },
 
                getSubjectCode(code) {
@@ -217,6 +306,33 @@
 
                     this.needs.subject_code = code.subject_code
                     this.needs.subject_sem = code.subject_sem
+               },
+
+               async addOldStudents() {
+                    try {
+                         let dispatch = this.payloadStudent.map((k) => {
+                              return k.student_id
+                         })
+                         const { status } = await this.$axios.post(
+                              `${this.$store.state.BASE_URL}/add/old/students`,
+                              {
+                                   listStudents: dispatch,
+                                   subject_code: this.needs.subject_code,
+                                   subject_sem: this.needs.subject_sem,
+                              }
+                         )
+
+                         if (status === 200) {
+                              this.initEnrolledStudents()
+                              this.$refs.importer.close()
+                         }
+                    } catch (error) {
+                         if (error.response !== undefined) {
+                              alert(
+                                   `Students ${error.response.data.message} are already included in the classroom`
+                              )
+                         }
+                    }
                },
 
                async addStudents() {
@@ -238,6 +354,9 @@
                               )
 
                               if (status === 200) {
+                                   Object.keys(this.student).forEach(
+                                        (k) => (this.student[k] = '')
+                                   )
                                    this.initEnrolledStudents()
                                    this.$refs.importer.close()
                               }
@@ -246,14 +365,18 @@
                          if (error.response !== undefined) {
                               if (
                                    error.response.data.message.includes(
-                                        'Student ID'
+                                        'Student Email'
                                    )
                               ) {
                                    this.error = error.response.data.message
                               } else if (
                                    error.response.data.message.includes(
-                                        'Student Email'
+                                        'Student ID'
                                    )
+                              ) {
+                                   this.error = error.response.data.message
+                              } else if (
+                                   error.response.data.message.includes('class')
                               ) {
                                    this.error = error.response.data.message
                               } else {
@@ -272,12 +395,12 @@
                     if (prompt) {
                          this.needs.student_id = student.student_id
                          this.needs.created_at = student.created_at
+
                          try {
                               const deactStudent = await this.$axios.patch(
                                    `${state.BASE_URL}/drop/students`,
                                    this.needs
                               )
-
                               if (deactStudent.status === 200)
                                    this.initEnrolledStudents()
                          } catch (error) {
@@ -367,6 +490,17 @@
 </script>
 
 <style lang="css" scoped>
+     .tab {
+          border: 8px solid #555;
+          background-color: white;
+          font-size: 18px;
+     }
+
+     .tab li {
+          background-color: white;
+          font-size: 20px;
+     }
+
      .subjects {
           margin: 10px;
           border-radius: 10px;
