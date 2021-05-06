@@ -1,51 +1,57 @@
 <template lang="html">
-     <main>
-          <nav>
-               <img src="@/assets/logo.png" id="logo" alt="" /> Lyceum
-               <router-link :to="{ name: 'home', params: {} }">
-                    Home
-               </router-link>
-               <router-link :to="{ name: 'exam', params: {} }">
-                    Exam
-               </router-link>
-               <router-link :to="{ name: 'calculator', params: {} }">
-                    Calculator
-               </router-link>
-               <button @click="$store.commit('resetState')">Logout</button>
-          </nav>
-          <router-view />
-     </main>
+  <main>
+    <nav>
+      <img src="@/assets/logo.png" id="logo" alt="" /> Lyceum
+      <router-link :to="{ name: 'home', params: {} }">
+        Home
+      </router-link>
+      <router-link :to="{ name: 'exam', params: {} }">
+        Exam
+      </router-link>
+      <router-link :to="{ name: 'calculator', params: {} }">
+        Calculator
+      </router-link>
+      <button @click="$store.commit('resetState')">Logout</button>
+    </nav>
+    <router-view />
+  </main>
 </template>
 
 <script>
-     export default {}
+export default {};
 </script>
 
 <style lang="css" scoped>
-     nav {
-          padding: 10px;
+button {
+  margin-right: 10px;
+  position: absolute;
+  right: 0;
+}
 
-          color: white;
-          font-size: 17px;
-          font-weight: bold;
+nav {
+  padding: 10px;
 
-          background-color: #807669;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
 
-          position: sticky;
-          top: 0;
-          z-index: 3;
-     }
+  background-color: #807669;
 
-     nav a {
-          color: inherit;
-          padding: 10px;
-     }
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
 
-     #logo {
-          height: 50px;
-     }
+nav a {
+  color: inherit;
+  padding: 10px;
+}
 
-     .router-link-exact-active {
-          background: rgba(0, 0, 0, 0.3);
-     }
+#logo {
+  height: 50px;
+}
+
+.router-link-exact-active {
+  background: rgba(0, 0, 0, 0.3);
+}
 </style>
