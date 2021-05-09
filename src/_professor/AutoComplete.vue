@@ -140,6 +140,7 @@ a {
   background: white;
   z-index: 5;
   font-weight: bold;
+  max-height: 200px;
 }
 
 #add {
