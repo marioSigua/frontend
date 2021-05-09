@@ -297,8 +297,6 @@
                               1
                          )
                     }
-
-                    console.log(this.payloadStudent)
                },
 
                getSubjectCode(code) {
@@ -325,6 +323,7 @@
                          if (status === 200) {
                               this.initEnrolledStudents()
                               this.$refs.importer.close()
+                              this.payloadStudent = []
                          }
                     } catch (error) {
                          if (error.response !== undefined) {

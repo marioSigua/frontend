@@ -134,6 +134,7 @@ const DATABASE = {
         "firstname",
         "lastname",
         "students_tbl.student_id",
+        
         "EnrolledSubjects.created_at"
 
     where subject_code isOccupied by current user
