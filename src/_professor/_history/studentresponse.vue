@@ -216,6 +216,10 @@ span {
 }
 
 .ptsInput {
+  border-radius: 10px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
   max-width: 50px;
   max-height: 50px;
   padding: 10px;

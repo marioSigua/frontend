@@ -28,7 +28,9 @@
     <ul v-if="questions.length > 0">
       <li class="backdrop">
         <div v-for="(question, e) in essay" :key="questions.indexOf(question)">
-          <button id="remove" @click="remove(e)">Remove</button>
+          <button id="remove" @click="remove(questions.indexOf(question))">
+            Remove
+          </button>
           <h3>Essay</h3>
 
           <div>
@@ -68,7 +70,9 @@
           v-for="(question, i) in identification"
           :key="questions.indexOf(question)"
         >
-          <button id="remove" @click="remove(i)">Remove</button>
+          <button id="remove" @click="remove(questions.indexOf(question))">
+            Remove
+          </button>
           <h3>Identification</h3>
 
           <div class="topic">
@@ -119,7 +123,9 @@
         </div>
 
         <div v-for="(question, m) in mcq" :key="questions.indexOf(question)">
-          <button id="remove" @click="remove(m)">Remove</button>
+          <button id="remove" @click="remove(questions.indexOf(question))">
+            Remove
+          </button>
           <h3>Multiple Choice</h3>
 
           <div class="topic">
@@ -168,11 +174,17 @@
             <input v-model="choice.value" type="text" />
           </div>
 
-          <button @click="removeChoices(m)">
+          <button
+            class="increment"
+            @click="removeChoices(questions.indexOf(question))"
+          >
             <strong>-</strong>
           </button>
 
-          <button @click="addChoices(m)">
+          <button
+            class="increment"
+            @click="addChoices(questions.indexOf(question))"
+          >
             <strong>+</strong>
           </button>
           <!-- 1st param outer array 2nd param inner array -->
@@ -308,7 +320,9 @@ export default {
       this.$store
         .dispatch("getStudents", this.selectedSubject)
         .then((result) => {
-          this.listStudents = result;
+          this.listStudents = result.filter(
+            (k) => k.EnrolledSubjects.isDropped === 0
+          );
 
           this.$refs.importer.open();
         })
@@ -454,6 +468,12 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.increment {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
 .list input {
   margin: 5px;
   width: 20px;
@@ -474,6 +494,7 @@ span {
 }
 
 .ptsInput {
+  text-align: center;
   max-width: 50px;
   max-height: 50px;
   padding: 10px;

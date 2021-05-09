@@ -112,7 +112,9 @@ export default {
         this.studentList = [];
       } else {
         this.$store.dispatch("getStudents", selected).then((students) => {
-          this.studentList = students;
+          this.studentList = students.filter(
+            (k) => k.EnrolledSubjects.isDropped === 0
+          );
         });
       }
     },

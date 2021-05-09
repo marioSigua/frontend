@@ -1,7 +1,7 @@
 <template lang="html">
   <section>
-    <h1>yawa</h1>
-    <p>{{ description }}</p>
+    <h1>{{ title }}</h1>
+    <p>{{ $route.params.subject_code }}</p>
     <button type="button" name="button" v-on:click="showModal">
       Resend To Students
     </button>
@@ -41,19 +41,24 @@
             <span>pts</span>
           </div>
 
-          <textarea
-            v-if="li.question_type === 'text'"
-            v-model="li.question"
-          ></textarea>
+          Question
+          <div class="wrapper">
+            <textarea
+              v-if="li.question_type === 'text'"
+              v-model="li.question"
+            ></textarea>
 
-          <img
-            v-else
-            class="is-rounded"
-            height="300"
-            width="300"
-            :src="li.question ? li.question : 'https://i.imgur.com/bCOd9N0.jpg'"
-            alt="Placeholder image"
-          />
+            <img
+              v-else
+              class="is-rounded"
+              height="300"
+              width="300"
+              :src="
+                li.question ? li.question : 'https://i.imgur.com/bCOd9N0.jpg'
+              "
+              alt="Placeholder image"
+            />
+          </div>
         </div>
 
         <div v-else-if="li.type == 'identification'">
@@ -126,6 +131,7 @@
           Question Answer
           <div v-for="(choice, c) in li.choices" :key="li.form_number + '' + c">
             <input
+              class="mcqChoice"
               type="radio"
               v-model="li.student_answer"
               :key="c"
@@ -156,6 +162,8 @@ export default {
       listStudents: [],
 
       stdEmail: [],
+
+      title: "",
     };
   },
 
@@ -168,7 +176,9 @@ export default {
       this.$store
         .dispatch("getStudents", this.$route.params.subject_code)
         .then((result) => {
-          this.listStudents = result;
+          this.listStudents = result.filter(
+            (o) => o.EnrolledSubjects.isDropped === 0
+          );
           this.$refs.importer.open();
         })
         .catch((err) => {
@@ -187,7 +197,10 @@ export default {
           }
         );
 
-        if (isSuccess.status === 200) this.$refs.importer.close();
+        if (isSuccess.status === 200) {
+          this.$refs.importer.close();
+          this.stdEmail = [];
+        }
       } catch (error) {
         console.log(error);
       }
@@ -203,13 +216,39 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+
+    this.$store.dispatch("profSubjects").then((res) => {
+      const { subject_name } = res.find(
+        (el) => el.subject_code === this.$route.params.subject_code
+      );
+
+      this.title = subject_name;
+    });
   },
 };
 </script>
 
 <style lang="css" scoped>
+.list {
+  color: white;
+}
+
+.mcqChoice {
+  margin-right: 10px;
+}
+
+.wrapper textarea {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+
 .topic {
-  width: 40%;
+  width: 50%;
+  max-width: 300px;
   margin-bottom: 10px;
 }
 
@@ -218,6 +257,10 @@ span {
 }
 
 .ptsInput {
+  border-radius: 10px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
   max-width: 50px;
   max-height: 50px;
   padding: 10px;

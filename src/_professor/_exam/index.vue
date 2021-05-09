@@ -47,7 +47,7 @@
               alt="Placeholder image"
             />
 
-            <p>Answer:{{ question.form_answer }}</p>
+            <p>Answer: {{ question.form_answer }}</p>
             <button @click="importQuestion(q)">Import</button>
           </li>
         </ul>
