@@ -238,8 +238,6 @@ export default {
     },
 
     updateGrade() {
-      console.log(this.target);
-      console.log(this.calculateGrade);
       if (this.calculateGrade > 0) {
         this.existingGrade = this.calculateGrade;
       }
@@ -255,7 +253,6 @@ export default {
       this.$store
         .dispatch("updateGrade", needs)
         .then((status) => {
-          console.log(status);
           if (status === 200) window.location.reload();
         })
         .catch((err) => {

@@ -230,7 +230,6 @@ export default {
     },
 
     getStudentInfo(e, std) {
-      console.log(std);
       if (e.target.checked) {
         this.payloadStudent.push(std);
       } else {
@@ -265,7 +264,6 @@ export default {
           this.$refs.importer.close();
           this.payloadStudent = [];
           dispatch = [];
-          console.log(this.payloadStudent);
         }
       } catch (error) {
         if (error.response !== undefined) {

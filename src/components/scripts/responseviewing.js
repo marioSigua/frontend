@@ -1,82 +1,77 @@
 export default {
-     computed: {
-          batchToken() {
-               return this.$route.params.token
-          },
+  computed: {
+    batchToken() {
+      return this.$route.params.token;
+    },
 
-          idToken() {
-               return this.$route.params.student_id
-          },
+    idToken() {
+      return this.$route.params.student_id;
+    },
 
-          state() {
-               return this.$store.state
-          },
+    state() {
+      return this.$store.state;
+    },
 
-          student() {
-               return this.profile
-          },
+    student() {
+      return this.profile;
+    },
 
-          responseList() {
-               return this.list
-          },
+    responseList() {
+      return this.list;
+    },
 
-          listFormNum() {
-               return this.responseList.map((k) => {
-                    if (k.type === 'Essay') {
-                         return k.form_number
-                    }
-               })
-          },
-     },
+    listFormNum() {
+      return this.responseList.map((k) => {
+        if (k.type === "Essay") {
+          return k.form_number;
+        }
+      });
+    },
+  },
 
-     data() {
-          return {
-               profile: {},
+  data() {
+    return {
+      profile: {},
 
-               list: [],
+      list: [],
+    };
+  },
+
+  methods: {
+    async submitScore() {
+      try {
+        const mappedList = this.responseList.map((k) => {
+          if (k.type === "Essay") {
+            return parseInt(k.student_score);
           }
-     },
+        });
 
-     methods: {
-          async submitScore() {
-               try {
-                    const mappedList = this.responseList.map((k) => {
-                         if (k.type === 'Essay') {
-                              return parseInt(k.student_score)
-                         }
-                    })
+        await this.$axios.patch(`${this.state.BASE_URL}/essay/score`, {
+          batch_token: this.batchToken,
+          id_token: this.idToken,
+          formNumber: this.listFormNum,
+          formList: mappedList,
+        });
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+  },
 
-                    const updated = await this.$axios.patch(
-                         `${this.state.BASE_URL}/essay/score`,
-                         {
-                              batch_token: this.batchToken,
-                              id_token: this.idToken,
-                              formNumber: this.listFormNum,
-                              formList: mappedList,
-                         }
-                    )
+  async mounted() {
+    try {
+      const { data, status } = await this.$axios.get(
+        `${this.state.BASE_URL}/viewing/student/form/${this.batchToken}/${this.idToken}`
+      );
 
-                    console.log(updated)
-               } catch (error) {
-                    console.log(error.response)
-               }
-          },
-     },
+      console.log(data);
 
-     async mounted() {
-          try {
-               const { data, status } = await this.$axios.get(
-                    `${this.state.BASE_URL}/viewing/student/form/${this.batchToken}/${this.idToken}`
-               )
-
-               console.log(data)
-
-               if (status === 200) {
-                    this.list = data.list
-                    this.profile = data.profile
-               }
-          } catch (error) {
-               console.log(error.response)
-          }
-     },
-}
+      if (status === 200) {
+        this.list = data.list;
+        this.profile = data.profile;
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  },
+};

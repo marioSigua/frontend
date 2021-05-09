@@ -82,7 +82,6 @@
           <div v-for="(choice, c) in li.choices" :key="li.form_number + '' + c">
             <input
               class="mcqChoice"
-              @change="getChoiceValue($event)"
               type="radio"
               v-model="li.student_answer"
               :key="c"
@@ -114,11 +113,6 @@ export default {
   },
 
   methods: {
-    getChoiceValue(e) {
-      let selected = e.target.value;
-      console.log(selected);
-    },
-
     async submitForm() {
       const { state } = this.$store;
 

@@ -312,7 +312,7 @@ export default new Vuex.Store({
     resetState(state) {
       Cookies.remove(state.token_name, {
         path: "/",
-        domain: "localhost",
+        domain: "lsb.scanolongapo.com",
       });
       const logoutUser = logout();
 
@@ -401,7 +401,7 @@ export default new Vuex.Store({
     remove_cookie(state) {
       Cookies.remove(state.token_name, {
         path: "/",
-        domain: "localhost",
+        domain: "lsb.scanolongapo.com",
       });
     },
 

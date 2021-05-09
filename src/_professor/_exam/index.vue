@@ -156,10 +156,7 @@ export default {
     },
   },
   mounted() {
-    console.log("Mounted");
-
     // questions for getting the topic
-
     /*
           fetch nyo subjects para pag nag import may pagpilian
           save nyo sa this.subjects
