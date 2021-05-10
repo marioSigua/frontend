@@ -1,36 +1,12 @@
 <template lang="html">
      <main>
           <nav>
-<<<<<<< HEAD
-               <div id="button">
-                    Sign Up
-=======
                <div @click="$router.push({ name: 'usersLogin' })" id="button">
                     Login
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
                </div>
           </nav>
 
           <section id="form" class="backdrop">
-<<<<<<< HEAD
-               <h1>Login</h1>
-               <p v-show="error != ''">{{ error }}</p>
-               <label for="username">Username</label>
-               <input
-                    type="text"
-                    name=""
-                    placeholder="username"
-                    v-model="email"
-                    @input="loginValidate('email')"
-               />
-               <label for="password">Password</label>
-               <input
-                    @input="loginValidate('password')"
-                    type="password"
-                    name="password"
-                    placeholder="password"
-                    v-model="password"
-=======
                <h1>Sign Up</h1>
                <p v-show="error != ''">{{ error }}</p>
                <label for="username">Email</label>
@@ -46,18 +22,10 @@
                     v-model="payload.password"
                     type="password"
                     placeholder="Enter your Password"
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
                />
 
                <label for="password">Confirm Password</label>
                <input
-<<<<<<< HEAD
-                    @input="loginValidate('password')"
-                    type="password"
-                    name="password"
-                    placeholder="password"
-                    v-model="password"
-=======
                     v-model="confirm"
                     type="password"
                     placeholder="Re-enter Password"
@@ -75,22 +43,14 @@
                     v-model="payload.lastname"
                     type="text"
                     placeholder="Enter your Lastname"
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
                />
 
                <div class="right">
                     <button
-<<<<<<< HEAD
-                         :disabled="!email && !password"
-                         type="button"
-                         name="button"
-                         @click="login"
-=======
                          @click="createAccount"
                          type="button"
                          name="button"
                          :disabled="checkPayload"
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
                     >
                          Login
                     </button>
@@ -100,49 +60,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-     import validate from '../validations/validate'
-
-     export default {
-          data() {
-               return {
-                    yupOptions: { abortEarly: false, strict: false },
-
-                    email: '',
-                    password: '',
-
-                    error: '',
-
-                    formValidation: validate,
-               }
-          },
-          methods: {
-               loginValidate: async function(field) {
-                    let { validateLogin } = this.formValidation
-                    try {
-                         await validateLogin.validateAt(
-                              field,
-                              { email: this.email, password: this.password },
-                              this.yupOptions
-                         )
-
-                         this.error = ''
-                    } catch (err) {
-                         err.inner.forEach((error) => {
-                              this.error = error.message
-                         })
-                    }
-               },
-
-               async login() {
-                    try {
-                         const res = await this.$axios.post(
-                              `${this.$store.state.BASE_URL}/accounts/login`,
-                              { email: this.email, password: this.password }
-                         )
-                         if (res.status === 200) {
-                              this.$store.commit('set_cookie', res.data)
-=======
      export default {
           computed: {
                checkPayload() {
@@ -202,7 +119,6 @@
 
                          if (status === 200) {
                               this.$router.push({ name: 'usersLogin' })
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
                          }
                     } catch (error) {
                          if (error.response !== undefined) {
@@ -211,23 +127,6 @@
                     }
                },
           },
-<<<<<<< HEAD
-          watch: {
-               email(val) {
-                    if (val == '') {
-                         this.error = 'Username is required'
-                    } else {
-                         this.error = ''
-                    }
-               },
-
-               password(val) {
-                    if (val == '') {
-                         this.error = 'Password is required'
-                    } else {
-                         this.error = ''
-                    }
-=======
 
           watch: {
                'payload.email'(val) {
@@ -282,7 +181,6 @@
                     }
 
                     this.error = ''
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
                },
           },
      }
@@ -297,20 +195,12 @@
      #button {
           color: white;
           text-align: center;
-<<<<<<< HEAD
-
-=======
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
           display: inline-block;
           background: black;
           width: 100px;
           padding: 10px;
           border-radius: 10px;
      }
-<<<<<<< HEAD
-
-=======
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
      #form {
           padding: 30px;
           border-radius: 10px;
@@ -318,50 +208,25 @@
           color: white;
           -webkit-blur: 10px;
           /* blur: 10px; */
-<<<<<<< HEAD
-
-=======
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
           margin-top: 100px;
           margin-left: 100px;
           background: rgba(0, 0, 0, 0.3);
      }
-<<<<<<< HEAD
-
-=======
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
      label,
      button {
           margin-top: 20px;
           min-width: 70px;
      }
-<<<<<<< HEAD
-
-=======
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
      @media only screen and (max-width: 540px) {
           #form {
                width: 90%;
                margin: 30px auto;
           }
      }
-<<<<<<< HEAD
-
-=======
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
      @media only screen and (max-width: 720px) {
           #form {
                width: 90%;
                margin: 30px auto;
           }
      }
-<<<<<<< HEAD
-
-
-     
 </style>
-
-
-=======
-</style>
->>>>>>> e44ad5ada8cfe1732b873085e1b697ca62dbc4bb
