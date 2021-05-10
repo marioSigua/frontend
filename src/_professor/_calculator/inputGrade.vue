@@ -9,6 +9,10 @@
       </option>
     </select>
 
+    <div class="error">
+      <p v-show="error != ''">{{ error + ", current total is " + getMul }}</p>
+    </div>
+
     <article>
       Quiz:
       <input
@@ -156,6 +160,8 @@ export default {
       terms: ["Prelims", "Midterm", "Finals"],
       selectedTerm: "",
 
+      error: "",
+
       existingGrade: "",
 
       inputGrade: "",
@@ -176,10 +182,26 @@ export default {
       grade: "",
 
       // temporary storage of old data during verification
-      previousPrice: null,
+      previousQuiz: null,
+      previousExam: null,
+      previousExtra: null,
+
+      previousmQuiz: null,
+      previousmExam: null,
+      previousmExtra: null,
     };
   },
   watch: {
+    getMul(val) {
+      console.log(val);
+      if (val > 1) {
+        this.error = "Multipliers total should not exceed 1 (100%)";
+      } else if (val < 1) {
+        this.error = "Multipliers total should amount to 1 (100%)";
+      } else {
+        this.error = "";
+      }
+    },
     // watch changes in target
     // change in target means change in student
     // target() {
@@ -192,10 +214,35 @@ export default {
     handleInput(e) {
       let stringValue = e.target.value.toString();
       let regex = /^\d*(\.\d{1,2})?$/;
-      if (!stringValue.match(regex) && this.mQuiz !== "") {
-        this.criterias.mQuiz = this.previousPrice;
+      if (!stringValue.match(regex) && this.criterias.quiz !== "") {
+        this.criterias.quiz = this.previousQuiz;
       }
-      this.previousPrice = this.criterias.mQuiz;
+      this.previousQuiz = this.criterias.quiz;
+
+      if (!stringValue.match(regex) && this.criterias.exam !== "") {
+        this.criterias.exam = this.previousExam;
+      }
+      this.previousExam = this.criterias.exam;
+
+      if (!stringValue.match(regex) && this.criterias.extra !== "") {
+        this.criterias.extra = this.previousExtra;
+      }
+      this.previousExtra = this.criterias.extra;
+
+      if (!stringValue.match(regex) && this.criterias.mQuiz !== "") {
+        this.criterias.mQuiz = this.previousmQuiz;
+      }
+      this.previousmQuiz = this.criterias.mQuiz;
+
+      if (!stringValue.match(regex) && this.criterias.mExam !== "") {
+        this.criterias.mExam = this.previousmExam;
+      }
+      this.previousmExam = this.criterias.mExam;
+
+      if (!stringValue.match(regex) && this.criterias.mExtra !== "") {
+        this.criterias.mExtra = this.previousmExtra;
+      }
+      this.previousmExtra = this.criterias.mExtra;
       // // new input means new data, and new grade to compute
       //  this.calculateGrade;
     },
@@ -262,6 +309,22 @@ export default {
   },
 
   computed: {
+    getMul() {
+      if (
+        this.criterias.mQuiz != "" &&
+        this.criterias.mExam != "" &&
+        this.criterias.mExtra != ""
+      ) {
+        return (
+          this.criterias.mQuiz +
+          this.criterias.mExam +
+          this.criterias.mExtra
+        ).toFixed(2);
+      } else {
+        return "";
+      }
+    },
+
     remarks() {
       if (this.calculateGrade >= 75) {
         return "passed";
@@ -282,8 +345,8 @@ export default {
           ((this.criterias.exam / this.criterias.tExam) * 50 + 50) *
             this.criterias.mExam +
           ((this.criterias.extra / this.criterias.tExtra) * 50 + 50) *
-            this.criterias.mExtra.toFixed(2)
-        );
+            this.criterias.mExtra
+        ).toFixed(2);
       }
     },
   },
@@ -291,6 +354,12 @@ export default {
 </script>
 
 <style scoped>
+.error p {
+  margin-top: 5px;
+  color: white;
+  font-size: 20px;
+}
+
 article {
   padding: 10px;
   border-bottom: 1px white solid;

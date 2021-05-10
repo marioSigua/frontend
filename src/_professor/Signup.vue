@@ -52,7 +52,7 @@
           name="button"
           :disabled="checkPayload"
         >
-          Login
+          Sign Up
         </button>
       </div>
     </section>
