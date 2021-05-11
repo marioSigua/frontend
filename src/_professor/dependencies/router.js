@@ -61,10 +61,6 @@ const professor = {
 const routes = [
   {
     path: "/",
-    redirect: "/login",
-  },
-  {
-    path: "/Login",
     name: "usersLogin",
     component: () => import("@/_professor/Login.vue"),
   },
