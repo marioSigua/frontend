@@ -1,27 +1,27 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import * as Cookies from "js-cookie";
-import router from "@/_professor/dependencies/router";
-import createPersistedState from "vuex-persistedstate";
-import axios from "axios";
-Vue.use(Vuex);
+import Vue from 'vue'
+import Vuex from 'vuex'
+import * as Cookies from 'js-cookie'
+import router from '@/_professor/dependencies/router'
+import createPersistedState from 'vuex-persistedstate'
+import axios from 'axios'
+Vue.use(Vuex)
 
 const logout = () => {
-  return {
-    access_token: "",
-    isAuth: false,
-    userProfile: {},
-    token_name: "",
-  };
-};
+     return {
+          access_token: '',
+          isAuth: false,
+          userProfile: {},
+          token_name: '',
+     }
+}
 
 const routeNames = {
-  calculator: "calculator",
-  exam: "usersExam",
-  studentList: "studentList",
-  HistoryForm: "HistoryForm",
-  examform: "examform",
-};
+     calculator: 'calculator',
+     exam: 'usersExam',
+     studentList: 'studentList',
+     HistoryForm: 'HistoryForm',
+     examform: 'examform',
+}
 
 // Database ------------------------------------
 // Database ------------------------------------
@@ -163,7 +163,7 @@ const DATABASE = {
 export default new Vuex.Store({
      // object
      state: {
-          BASE_URL: 'http://192.168.100.4:5115/api/p1',
+          BASE_URL: 'http://192.168.1.12:5115/api/p1',
           // BASE_URL: "https://api.scanolongapo.com//api/p1",
 
           access_token: '',

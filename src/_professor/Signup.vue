@@ -59,7 +59,7 @@
                          @click="createAccount"
                          type="button"
                          name="button"
-                         :disabled="checkPayload"
+                         :disabled="checkPayload || isSent"
                     >
                          Sign Up
                     </button>
@@ -82,6 +82,10 @@
                checkEmail() {
                     return this.emailValidation.test(this.payload.email)
                },
+
+               checkIfMatch() {
+                    return this.payload.password !== this.confirm
+               },
           },
 
           data() {
@@ -94,6 +98,8 @@
                          firstname: '',
                          lastname: '',
                     },
+
+                    isSent: false,
 
                     confirm: '',
 
@@ -115,7 +121,12 @@
                               this.error = 'Please Enter a valid Email'
                               return
                          } else if (!this.checkPass) {
-                              this.error = this.passwordErr
+                              this.error = `password must contain Minimum eight characters,
+     at least one uppercase letter,
+     one lowercase letter and one number`
+                              return
+                         } else if (this.checkIfMatch) {
+                              this.error = 'Password doesnt match'
                               return
                          }
 
@@ -124,13 +135,19 @@
                               this.payload
                          )
 
+                         this.isSent = true
+
                          if (status === 200) {
+                              this.isSent = false
                               this.$router.push({ name: 'usersLogin' })
                          }
                     } catch (error) {
                          if (error.response !== undefined) {
                               this.error = error.response.data.message
+                              this.isSent = false
                          }
+
+                         console.log(error.response)
                     }
                },
 
