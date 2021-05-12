@@ -25,6 +25,9 @@
         <option value="Midterm">-- Exam --</option>
       </select>
 
+     
+      <input type="datetime-local" id="" name="" class="clock">
+
       <button type="button" @click="$router.push({ name: 'history' })">
         History
       </button>
@@ -546,6 +549,20 @@ input {
   font-family: inherit;
   font-size: inherit;
   width: 100%;
+  margin-bottom: 5px;
+}
+
+.clock {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: inherit;
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  border: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
   margin-bottom: 5px;
 }
 </style>
