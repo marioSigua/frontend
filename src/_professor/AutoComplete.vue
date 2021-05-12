@@ -20,7 +20,11 @@
                     v-bind:class="{ 'is-active': isActive(s) }"
                     @click="suggestionClick(s)"
                >
-                    <a href="#">{{ suggestion.subject_name }}</a>
+                    <a href="#">{{
+                         suggestion.subject_name +
+                              ' Section ' +
+                              suggestion.subject_code.split('-')[1]
+                    }}</a>
                </li>
           </ul>
      </div>
@@ -143,11 +147,16 @@
 </script>
 
 <style lang="css" scoped>
+     a {
+          color: black;
+          text-decoration: none;
+     }
+
      .suggest {
           background: white;
           z-index: 5;
-          color: black;
           font-weight: bold;
+          max-height: 200px;
      }
 
      #add {
@@ -155,9 +164,14 @@
           padding: 10px;
      }
 
-     .is-active {
+     ul li:hover {
           background: grey;
+          cursor: pointer;
      }
+
+     /* .is-active:hover {
+  background: grey;
+} */
 
      #collapse {
           height: auto;

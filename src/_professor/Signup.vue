@@ -8,7 +8,13 @@
 
           <section id="form" class="backdrop">
                <h1>Sign Up</h1>
-               <p v-show="error != ''">{{ error }}</p>
+               <p v-show="error != ''">
+                    {{ error }}
+               </p>
+
+               <p v-show="passwordErr !== ''">
+                    {{ passwordErr }}
+               </p>
                <label for="username">Email</label>
                <input
                     v-model="payload.email"
@@ -19,6 +25,9 @@
 
                <label for="password">Password</label>
                <input
+                    @click="showHint()"
+                    @focus="showHint()"
+                    @blur="removeHint()"
                     v-model="payload.password"
                     type="password"
                     placeholder="Enter your Password"
@@ -52,7 +61,7 @@
                          name="button"
                          :disabled="checkPayload"
                     >
-                         Login
+                         Sign Up
                     </button>
                </div>
           </section>
@@ -90,9 +99,7 @@
 
                     emailValidation: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                     passValidation: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-                    passwordErr: `password must contain Minimum eight characters,
-     at least one uppercase letter,
-     one lowercase letter and one number`,
+                    passwordErr: '',
 
                     state: this.$store.state,
                }
@@ -126,6 +133,16 @@
                          }
                     }
                },
+
+               showHint() {
+                    this.passwordErr = `password must contain Minimum eight characters,
+     at least one uppercase letter,
+     one lowercase letter and one number`
+               },
+
+               removeHint() {
+                    this.passwordErr = ''
+               },
           },
 
           watch: {
@@ -144,9 +161,6 @@
                'payload.password'(val) {
                     if (!val) {
                          this.error = 'Password is required'
-                         return
-                    } else if (!this.passValidation.test(val)) {
-                         this.error = this.passwordErr
                          return
                     }
 
@@ -187,7 +201,12 @@
 </script>
 
 <style lang="css" scoped>
+     .right button {
+          cursor: pointer;
+     }
+
      nav {
+          cursor: pointer;
           text-align: right;
           padding: right;
           padding: 10px;
