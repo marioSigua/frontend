@@ -22,35 +22,6 @@ export default {};
 </script>
 
 <style lang="css" scoped>
-<<<<<<< HEAD
-     nav {
-          padding: 10px;
-
-          color: white;
-          font-size: 17px;
-          font-weight: bold;
-
-          background-color: #807669;
-
-          position: sticky;
-          top: 0;
-          z-index: 3;
-     }
-
-     nav a {
-          color: inherit;
-          padding: 10px;
-          vertical-align: auto;
-     }
-
-     #logo {
-          height: 50px;
-     }
-
-     .router-link-exact-active {
-          background: rgba(0, 0, 0, 0.3);
-     }
-=======
 button {
   margin-right: 10px;
   position: absolute;
@@ -83,5 +54,4 @@ nav a {
 .router-link-exact-active {
   background: rgba(0, 0, 0, 0.3);
 }
->>>>>>> 141e8e4eb60dff1bbe3e2503b8f00165e257a1e6
 </style>

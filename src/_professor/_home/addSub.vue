@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="backdrop" id="add">
     <button type="button" name="button" @click="hide = !hide">
-      + Add Subject
+      + Select Subject
     </button>
 
     <div :hide="hide" id="collapse">
@@ -58,6 +58,11 @@
         name="year"
         value=""
         disabled
+      />
+
+      <label for="name">Section</label>
+      <input
+        type="text"
       />
       <!-- <select class="" name="">
                     <option v-for="(year, y) in years" :key="y">{{

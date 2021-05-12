@@ -110,58 +110,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-<<<<<<< HEAD
-     nav {
-          text-align: right;
-          padding: right;
-          padding: 10px;
-     }
-     #button {
-          color: white;
-          text-align: center;
-
-          display: inline-block;
-          background: black;
-          width: 100px;
-          padding: 10px;
-          border-radius: 10px;
-     }
-
-     #form {
-          padding: 30px;
-          border-radius: 10px;
-          width: 500px;
-          color: white;
-          -webkit-blur: 10px;
-          /* blur: 10px; */
-
-          margin-top: 100px;
-          margin-left: 100px;
-          background: rgba(0, 0, 0, 0.3);
-     }
-
-     label,
-     button {
-          margin-top: 20px;
-          min-width: 70px;
-     }
-
-     @media only screen and (max-width: 540px) {
-          #form {
-               width: 90%;
-               margin: 30px auto;
-          }
-     }
-
-     @media only screen and (max-width: 720px) {
-          #form {
-               width: 90%;
-               margin: 30px auto;
-          }
-     }
-
-     
-=======
 .right button {
   cursor: pointer;
 }
@@ -215,7 +163,6 @@ button {
     margin: 30px auto;
   }
 }
->>>>>>> 141e8e4eb60dff1bbe3e2503b8f00165e257a1e6
 </style>
 
 

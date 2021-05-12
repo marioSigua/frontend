@@ -8,6 +8,7 @@
         <option value="Pre-Finals">-- Pre-Finals --</option>
         <option value="Finals">-- Finals --</option>
       </select>
+
       <select v-model="selectedSubject">
         <option value="" hidden>-- Select Subject --</option>
         <option
@@ -17,11 +18,18 @@
           >{{ subj.subject_name }}</option
         >
       </select>
+
+      <select v-model="selectedTerm">
+        <option value="" hidden>-- Select Type of test --</option>
+        <option value="Preliminary">-- Quiz --</option>
+        <option value="Midterm">-- Exam --</option>
+      </select>
+
       <button type="button" @click="$router.push({ name: 'history' })">
         History
       </button>
 
-      <button @click="importQuestion">Import Question</button>
+      <button @click="importQuestion">Select Question</button>
     </div>
     <br />
 
