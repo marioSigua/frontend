@@ -55,6 +55,12 @@ const professor = {
       name: "reponseviewing",
       component: () => import("@/_professor/_history/studentresponse.vue"),
     },
+
+    {
+      path: "admin",
+      name: "adminHome",
+      component: () => import("@/_professor/_admin/index.vue"),
+    },
   ],
 };
 
