@@ -35,7 +35,7 @@ nav {
   font-size: 17px;
   font-weight: bold;
 
-  background-color: #807669;
+  background-color: rgb(143,32,29);
 
   position: sticky;
   top: 0;

@@ -82,8 +82,10 @@ export default {
 
 .card {
   height: 400px;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(83, 78, 78, 0.7);
   padding: 10px;
+  color: white;
+  border-radius: 5%;
 }
 
 @media only screen and (max-width: 1140px) {

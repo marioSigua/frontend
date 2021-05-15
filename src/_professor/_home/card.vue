@@ -41,4 +41,5 @@ export default {
 .card {
   cursor: pointer;
 }
+
 </style>

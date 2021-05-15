@@ -557,7 +557,7 @@ input {
   padding: 10px;
   border-radius: 10px;
   font-size: inherit;
-  background-color: rgba(0,0,0,0.7);
+  background-color: #C3244C;
   color: white;
   border: none;
   -moz-appearance: none;
