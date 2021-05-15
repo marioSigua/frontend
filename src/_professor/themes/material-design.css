@@ -5,15 +5,18 @@
 }
 
 body{
-  background: url('../../assets/bg.jpg');
-  color: white;
+background-image: url(https://i.imgur.com/C1PKq7m.jpg);
+height: 100vh;
+width: 100%;
+background-size: cover;
+overflow:-moz-hidden-unscrollable;
 
 }
 
 button{
   padding: 10px;
   border-radius: 10px;
-  background-color: rgba(0,0,0,0.7);
+  background-color: #C3244C;
   color: white;
   border: none;
 }
@@ -24,8 +27,8 @@ input[type=text], input[type=password]{
   padding: 10px;
   border-radius: 10px;
   font-size: inherit;
-  background-color: rgba(0,0,0,0.7);
-  color: white;
+  background-color: rgba(255, 255, 255);
+  color: rgb(0, 0, 0);
   border: none;
 }
 
@@ -35,7 +38,7 @@ select{
   padding: 10px;
   border-radius: 10px;
   font-size: inherit;
-  background-color: rgba(0,0,0,0.7);
+  background-color: #C3244C;
   color: white;
   border: none;
   -moz-appearance: none;
@@ -84,3 +87,9 @@ hr{
 .backdrop{
   backdrop-filter: blur(3px);
 }
+
+option{
+  background-color: white;
+  color: #000;
+}
+
