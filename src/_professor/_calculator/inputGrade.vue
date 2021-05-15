@@ -13,6 +13,10 @@
       <p v-show="error != ''">{{ error + ", current total is " + getMul }}</p>
     </div>
 
+    <div class="error">
+      <p v-show="tError != ''">{{ tError }}</p>
+    </div>
+
     <article>
       Quiz:
       <input
@@ -91,13 +95,13 @@
       <h4>Calculated Grade</h4>
       <p v-if="calculateGrade === 0">
         TOTAL GRADE:
-        <input v-model="existingGrade" />
+        <input v-model="existingGrade" disabled />
       </p>
 
       <p v-else>
         TOTAL GRADE:
 
-        <input :value="calculateGrade" />
+        <input :value="calculateGrade" disabled />
       </p>
 
       <p>
@@ -106,7 +110,9 @@
       </p>
     </div>
 
-    <button type="button" @click="updateGrade">SAVE</button>
+    <button type="button" :disabled="isDisabled" @click="updateGrade">
+      SAVE
+    </button>
   </div>
 </template>
 
@@ -161,6 +167,7 @@ export default {
       selectedTerm: "",
 
       error: "",
+      tError: "",
 
       existingGrade: "",
 
@@ -192,8 +199,31 @@ export default {
     };
   },
   watch: {
+    errorsQ(val) {
+      if (val > 1) {
+        this.tError = "Sum of quiz score should not exceed total quiz";
+      } else {
+        this.tError = "";
+      }
+    },
+
+    errorsE(val) {
+      if (val > 1) {
+        this.tError = "Sum of exam score should not exceed total exam";
+      } else {
+        this.tError = "";
+      }
+    },
+
+    errorsEx(val) {
+      if (val > 1) {
+        this.tError = "Sum of extra score should not exceed total extra";
+      } else {
+        this.tError = "";
+      }
+    },
+
     getMul(val) {
-      console.log(val);
       if (val > 1) {
         this.error = "Multipliers total should not exceed 1 (100%)";
       } else if (val < 1) {
@@ -309,6 +339,43 @@ export default {
   },
 
   computed: {
+    isDisabled() {
+      return this.calculateGrade == 0;
+    },
+
+    errorsQ() {
+      if (
+        this.criterias.quiz > this.criterias.tQuiz &&
+        this.criterias.tQuiz != ""
+      ) {
+        return this.criterias.quiz / this.criterias.tQuiz;
+      } else {
+        return "";
+      }
+    },
+
+    errorsE() {
+      if (
+        this.criterias.exam > this.criterias.tExam &&
+        this.criterias.tExam != ""
+      ) {
+        return this.criterias.exam / this.criterias.tExam;
+      } else {
+        return "";
+      }
+    },
+
+    errorsEx() {
+      if (
+        this.criterias.extra > this.criterias.tExtra &&
+        this.criterias.tExtra != ""
+      ) {
+        return this.criterias.extra / this.criterias.tExtra;
+      } else {
+        return "";
+      }
+    },
+
     getMul() {
       if (
         this.criterias.mQuiz != "" &&
@@ -337,16 +404,29 @@ export default {
 
     calculateGrade() {
       if (Object.values(this.criterias).some((v) => !v)) {
-        return 0;
+        return "";
       } else {
-        return (
-          ((this.criterias.quiz / this.criterias.tQuiz) * 50 + 50) *
-            this.criterias.mQuiz +
-          ((this.criterias.exam / this.criterias.tExam) * 50 + 50) *
-            this.criterias.mExam +
-          ((this.criterias.extra / this.criterias.tExtra) * 50 + 50) *
-            this.criterias.mExtra
-        ).toFixed(2);
+        if (
+          (
+            ((this.criterias.quiz / this.criterias.tQuiz) * 50 + 50) *
+              this.criterias.mQuiz +
+            ((this.criterias.exam / this.criterias.tExam) * 50 + 50) *
+              this.criterias.mExam +
+            ((this.criterias.extra / this.criterias.tExtra) * 50 + 50) *
+              this.criterias.mExtra
+          ).toFixed(2) <= 100
+        ) {
+          return (
+            ((this.criterias.quiz / this.criterias.tQuiz) * 50 + 50) *
+              this.criterias.mQuiz +
+            ((this.criterias.exam / this.criterias.tExam) * 50 + 50) *
+              this.criterias.mExam +
+            ((this.criterias.extra / this.criterias.tExtra) * 50 + 50) *
+              this.criterias.mExtra
+          ).toFixed(2);
+        } else {
+          return "";
+        }
       }
     },
   },
@@ -354,15 +434,20 @@ export default {
 </script>
 
 <style scoped>
+button:disabled,
+button[disabled] {
+  background-color: rgb(58, 3, 1);
+}
+
 .error p {
   margin-top: 5px;
-  color: white;
+  color: rgb(58, 3, 1);
   font-size: 20px;
 }
 
 article {
   padding: 10px;
-  border-bottom: 1px white solid;
+  border-bottom: 1px black solid;
 }
 
 input {

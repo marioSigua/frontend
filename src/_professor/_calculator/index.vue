@@ -139,7 +139,13 @@ export default {
   grid-area: main;
 }
 
+li:hover {
+  cursor: pointer;
+}
+
 .color-li {
-  background-color: #555;
+  border-radius: 10px;
+  background-color: rgb(58, 3, 1);
+  color: white;
 }
 </style>

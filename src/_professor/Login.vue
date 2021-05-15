@@ -31,7 +31,6 @@
           type="button"
           name="button"
           @click="login"
-          
         >
           Login
         </button>
@@ -113,15 +112,15 @@ export default {
 <style lang="css" scoped>
 .right button {
   cursor: pointer;
-  background-color: rgb(143,32,29);
+  background-color: rgb(143, 32, 29);
 }
 
-button:hover{
-  background-color:#5C1C1C;
+button:hover {
+  background-color: #5c1c1c;
 }
 
-#button:hover{
-  background-color:#4C040C;
+#button:hover {
+  background-color: #4c040c;
 }
 
 nav {
@@ -135,19 +134,19 @@ nav {
   text-align: center;
 
   display: inline-block;
-  background: #5C1C1C;
+  background: #5c1c1c;
   width: 100px;
   padding: 10px;
   border-radius: 10px;
 }
 
-main{
- background: url(https://i.imgur.com/zrr075Y.jpg);
- height: 100vh;
-width: 100%;
-background-size: cover;
-object-fit: cover;
-overflow: scroll;
+main {
+  background: url(https://i.imgur.com/zrr075Y.jpg);
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  object-fit: cover;
+  overflow: hidden;
 }
 
 #form {

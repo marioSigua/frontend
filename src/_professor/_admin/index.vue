@@ -1,5 +1,5 @@
 <template lang="html">
-  <section id="home">
+  <section id="adminHome">
     <h1>Home</h1>
     <addSub :profSubjs="subjects"></addSub>
 
