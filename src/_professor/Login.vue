@@ -75,12 +75,19 @@ export default {
 
     async login() {
       try {
-        const res = await this.$axios.post(
-          `${this.$store.state.BASE_URL}/accounts/login`,
-          { email: this.email, password: this.password }
-        );
-        if (res.status === 200) {
-          this.$store.commit("set_cookie", res.data);
+        if (this.error !== "") {
+          return;
+        } else {
+          const res = await this.$axios.post(
+            `${this.$store.state.BASE_URL}/accounts/login`,
+            {
+              email: this.email,
+              password: this.password,
+            }
+          );
+          if (res.status === 200) {
+            this.$store.commit("set_cookie", res.data);
+          }
         }
       } catch (error) {
         if (error.response !== undefined) {
