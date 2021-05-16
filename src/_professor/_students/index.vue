@@ -6,7 +6,10 @@
                :key="s"
                @click="getSubjectCode(subject)"
           >
-               {{ subject.subject_name }}
+               {{
+                    subject.subject_name +
+                         ` Section ${subject.subject_code.split('-')[1]}`
+               }}
           </div>
 
           <div :hide="hide" id="collapse">
@@ -126,41 +129,41 @@
                               Submit
                          </button>
                     </template> -->
-      </modal>
-    </div>
-    <div :hide="hide" id="collapse">
-      <table>
-        <tr>
-          <th>Student ID</th>
-          <th>Last Name</th>
-          <th>First Name</th>
-          <th>Course</th>
-          <th>Prelim</th>
-          <th>Midterm</th>
-          <th>Finals</th>
-          <th>GWA</th>
-          <th>Remarks</th>
-          <th>Drop</th>
-        </tr>
-        <tr v-for="(student, s) in studentList" :key="s">
-          <td>{{ student.student_id }}</td>
-          <td>{{ student.lastname }}</td>
-          <td>{{ student.firstname }}</td>
-          <td>{{ student.student_course }}</td>
-          <td>{{ student.prelim_grade }}</td>
-          <td>{{ student.midterm_grade }}</td>
-          <td>{{ student.finals_grade }}</td>
-          <td>{{ student.gwa }}</td>
-          <td>{{ student.remarks }}</td>
-          <td>
-            <button @click="dropStudent(student)">
-              Drop
-            </button>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
+               </modal>
+          </div>
+          <div :hide="hide" id="collapse">
+               <table>
+                    <tr>
+                         <th>Student ID</th>
+                         <th>Last Name</th>
+                         <th>First Name</th>
+                         <th>Course</th>
+                         <th>Prelim</th>
+                         <th>Midterm</th>
+                         <th>Finals</th>
+                         <th>GWA</th>
+                         <th>Remarks</th>
+                         <th>Drop</th>
+                    </tr>
+                    <tr v-for="(student, s) in studentList" :key="s">
+                         <td>{{ student.student_id }}</td>
+                         <td>{{ student.lastname }}</td>
+                         <td>{{ student.firstname }}</td>
+                         <td>{{ student.student_course }}</td>
+                         <td>{{ student.prelim_grade }}</td>
+                         <td>{{ student.midterm_grade }}</td>
+                         <td>{{ student.finals_grade }}</td>
+                         <td>{{ student.gwa }}</td>
+                         <td>{{ student.remarks }}</td>
+                         <td>
+                              <button @click="dropStudent(student)">
+                                   Drop
+                              </button>
+                         </td>
+                    </tr>
+               </table>
+          </div>
+     </div>
 </template>
 
 <script>
@@ -216,6 +219,13 @@
                                 })
                },
 
+               openCollapse() {
+                    return (
+                         this.$store.state.openAccordion ===
+                         this.needs.subject_code
+                    )
+               },
+
                searchListModal() {
                     return !this.searchQuery
                          ? this.modalStudents
@@ -244,6 +254,7 @@
           data() {
                return {
                     hide: true,
+
                     engrCourse: [
                          'BSCpE',
                          'BSEE',

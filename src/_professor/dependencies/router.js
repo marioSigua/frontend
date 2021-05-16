@@ -4,7 +4,6 @@ import store from '@/_professor/dependencies/store'
 Vue.use(VueRouter)
 
 let authenticate = (to, from, next) => {
-     console.log(store.state.isAuth)
      if (store.state.isAuth) {
           next()
      } else {
