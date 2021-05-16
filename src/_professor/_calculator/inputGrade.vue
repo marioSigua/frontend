@@ -165,7 +165,7 @@
 
           data() {
                return {
-                    terms: ['Prelims', 'Midterm', 'Finals'],
+                    terms: ['Prelims', 'Midterm', 'Pre-Finals', 'Finals'],
                     selectedTerm: '',
 
                     error: '',
