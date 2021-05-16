@@ -26,7 +26,7 @@ const routeNames = {
 export default new Vuex.Store({
   // object
   state: {
-    BASE_URL: "http://192.168.1.12:5115/api/p1",
+    BASE_URL: "http://192.168.18.7:5115/api/p1",
     access_token: "",
     token_name: "",
     isAuth: false,
