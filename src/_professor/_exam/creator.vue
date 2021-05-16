@@ -3,7 +3,7 @@
           <div class="selection">
                <select v-model="selectedTerm">
                     <option value="" hidden>-- Select Term --</option>
-                    <option value="Preliminary"> Prelims </option>
+                    <option value="Prelims"> Prelims </option>
                     <option value="Midterm"> Midterm </option>
                     <option value="Pre-Finals"> Pre-Finals </option>
                     <option value="Finals"> Finals </option>
@@ -21,8 +21,8 @@
 
                <select v-model="selectedPurpose">
                     <option value="" hidden>-- Select Type of test --</option>
-                    <option value="Preliminary"> Quiz </option>
-                    <option value="Midterm"> Exam </option>
+                    <option value="Quiz"> Quiz </option>
+                    <option value="Exam"> Exam </option>
                </select>
 
                <input
