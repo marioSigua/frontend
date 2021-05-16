@@ -22,13 +22,27 @@
             alt="Placeholder image"
           />
 
-          <input
-            type="text"
-            name=""
-            value=""
-            placeholder="Your answer"
-            v-model="li.student_answer"
-          />
+          <tabs :mode="mode">
+            <tab title="Text">
+              <input
+                type="text"
+                name=""
+                value=""
+                placeholder="Your answer"
+                v-model="li.student_answer"
+              />
+            </tab>
+
+            <tab title="Image">
+              <img
+                class="is-rounded"
+                height="300"
+                width="300"
+                alt="Placeholder image"
+                @click="$refs.file[e].click()"
+              />
+            </tab>
+          </tabs>
         </div>
 
         <div v-else-if="li.type == 'identification'">
@@ -99,7 +113,15 @@
 </template>
 
 <script>
+import Tab from "../_tabs/tab";
+import Tabs from "../_tabs/tabs";
+
 export default {
+  components: {
+    Tab,
+    Tabs,
+  },
+
   data() {
     return {
       questions: [],
