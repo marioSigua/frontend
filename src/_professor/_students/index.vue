@@ -16,6 +16,10 @@
         Add Student
       </button>
 
+      <button class="addBtn">
+        Export Table
+      </button>
+
       <modal ref="importer">
         <template v-slot:header>
           <tabs class="tabs">
