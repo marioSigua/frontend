@@ -93,7 +93,11 @@
 
           Choices:
           <div></div>
-          <div v-for="(choice, c) in li.choices" :key="li.form_number + '' + c">
+          <div
+            class="thisChoices"
+            v-for="(choice, c) in li.choices"
+            :key="li.form_number + '' + c"
+          >
             <input
               class="mcqChoice"
               type="radio"
@@ -198,6 +202,15 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.thisChoices {
+  -webkit-user-select: none; /* Safari */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  -moz-user-select: none; /* Old versions of Firefox */
+  user-select: none; /* Non-prefixed version*/
+}
+
 .backdrop {
   background: rgba(0, 0, 0, 0.7);
   box-sizing: content-box;
