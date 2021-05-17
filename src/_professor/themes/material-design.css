@@ -10,7 +10,7 @@ height: 100vh;
 width: 100%;
 background-size: cover;
 overflow:-moz-hidden-unscrollable;
-
+background-attachment: fixed;
 }
 
 button{
