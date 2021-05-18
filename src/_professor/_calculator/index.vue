@@ -148,7 +148,7 @@
 
      .color-li {
           border-radius: 10px;
-          background-color: rgb(58, 3, 1);
+          background-color: rgb(56,142,255);
           color: white;
      }
 </style>

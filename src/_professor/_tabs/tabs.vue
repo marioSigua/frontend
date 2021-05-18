@@ -125,16 +125,16 @@ ul.tabs__header > li.tab__selected {
 }
 
 .tabs__light .tab {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgb(195,36,76);
 }
 
 .tabs__light li {
-  background: rgba(0, 0, 0, 0.3);
-  color: black;
+  background: rgb(201, 201, 201);
+  color: rgb(0, 0, 0);
 }
 
 .tabs__light li.tab__selected {
-  background-color: #555;
+  background-color: rgb(195,36,76);
   color: white;
 }
 </style>

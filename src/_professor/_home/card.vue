@@ -42,4 +42,7 @@ export default {
   cursor: pointer;
 }
 
+.card:hover{
+  background-color: rgb(143,32,29);
+}
 </style>

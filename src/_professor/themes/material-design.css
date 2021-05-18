@@ -21,6 +21,9 @@ button{
   border: none;
 }
 
+button:hover{
+  background-color:rgb(143,32,29) ;
+}
 
 input[type=text], input[type=password]{
   width: 100%;
@@ -45,6 +48,11 @@ select{
   -webkit-appearance: none;
   appearance: none;
   margin-bottom: 5px;
+}
+
+select:hover{
+  background-color: rgb(143,32,29);
+  cursor: pointer;
 }
 
 textarea{

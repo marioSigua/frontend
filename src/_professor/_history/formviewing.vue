@@ -67,7 +67,7 @@
                                    :src="
                                         li.question
                                              ? li.question
-                                             : 'https://i.imgur.com/bCOd9N0.jpg'
+                                             : 'https://i.imgur.com/2B4lre6.png'
                                    "
                                    alt="Placeholder image"
                               />
@@ -105,7 +105,7 @@
                                    :src="
                                         li.question
                                              ? li.question
-                                             : 'https://i.imgur.com/bCOd9N0.jpg'
+                                             : 'https://i.imgur.com/2B4lre6.png'
                                    "
                                    alt="Placeholder image"
                               />
@@ -150,7 +150,7 @@
                                    :src="
                                         li.question
                                              ? li.question
-                                             : 'https://i.imgur.com/bCOd9N0.jpg'
+                                             : 'https://i.imgur.com/2B4lre6.png'
                                    "
                                    alt="Placeholder image"
                               />

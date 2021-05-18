@@ -31,11 +31,11 @@
                     class="clock"
                />
 
-               <button type="button" @click="$router.push({ name: 'history' })">
+               <button type="button" @click="$router.push({ name: 'history' })" class="ck">
                     History
                </button>
 
-               <button @click="importQuestion">Select Question</button>
+               <button @click="importQuestion" class="ck">Select Question</button>
           </div>
           <br />
 
@@ -78,7 +78,7 @@
                                         :src="
                                              question.question
                                                   ? question.question
-                                                  : 'https://i.imgur.com/bCOd9N0.jpg'
+                                                  : 'https://i.imgur.com/2B4lre6.png'
                                         "
                                         alt="Placeholder image"
                                         @click="$refs.file[e].click()"
@@ -142,7 +142,7 @@
                                              :src="
                                                   question.question
                                                        ? question.question
-                                                       : 'https://i.imgur.com/bCOd9N0.jpg'
+                                                       : 'https://i.imgur.com/2B4lre6.png'
                                              "
                                              alt="Placeholder image"
                                              @click="$refs.iFile[i].click()"
@@ -217,7 +217,7 @@
                                              :src="
                                                   question.question
                                                        ? question.question
-                                                       : 'https://i.imgur.com/bCOd9N0.jpg'
+                                                       : 'https://i.imgur.com/2B4lre6.png'
                                              "
                                              alt="Placeholder image"
                                              @click="$refs.mcqFile[m].click()"
@@ -680,13 +680,33 @@
           -webkit-appearance: none;
           appearance: none;
           margin-bottom: 5px;
+          cursor: pointer;
+     }
+
+     .clock:hover{
+          background-color: rgb(143,32,29);
      }
 
      #IF{
           background-color: rgb(56,142,255);
      }
+     #IF:hover{
+          background-color: rgb(25, 82, 158);
+     }
 
      .OF{
           background-color: rgba(128, 24, 55, 0.7);
+     }
+
+     .OF:hover{
+       background-color: rgb(143,32,29);
+     }
+
+     .ck{
+          background-color: rgba(151, 45, 45, 0.966);
+     }
+
+     .ck:hover{
+       background-color: rgb(143,32,29);
      }
 </style>

@@ -24,7 +24,7 @@
             class="is-rounded"
             height="300"
             width="300"
-            :src="li.question ? li.question : 'https://i.imgur.com/bCOd9N0.jpg'"
+            :src="li.question ? li.question : 'https://i.imgur.com/2B4lre6.png'"
             alt="Placeholder image"
           />
 
@@ -52,7 +52,7 @@
               height="300"
               width="300"
               :src="
-                li.question ? li.question : 'https://i.imgur.com/bCOd9N0.jpg'
+                li.question ? li.question : 'https://i.imgur.com/2B4lre6.png'
               "
               alt="Placeholder image"
             />
@@ -81,7 +81,7 @@
               height="300"
               width="300"
               :src="
-                li.question ? li.question : 'https://i.imgur.com/bCOd9N0.jpg'
+                li.question ? li.question : 'https://i.imgur.com/2B4lre6.png'
               "
               alt="Placeholder image"
             />

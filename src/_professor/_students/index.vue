@@ -115,7 +115,7 @@
                                                   >
                                              </select>
                                         </li>
-                                        <li>{{ error }}</li>
+                                        <li id="errors">{{ error }}</li>
 
                                         <li>
                                              <button @click="addStudents">
@@ -622,8 +622,12 @@
           font-size: 20px;
      }
 
+     #errors{
+          color: red;
+     }
+
      .tab {
-          border: 8px solid #555;
+          border: 8px solid rgb(195,36,76);
           background-color: white;
           font-size: 18px;
      }
@@ -642,6 +646,11 @@
           background: rgba(128, 24, 55, 0.7);
           color: white;
      }
+
+     .subjects:hover{
+          background-color: rgb(143,32,29);
+     }
+
      #collapse {
           height: auto;
           overflow: hidden;
@@ -665,5 +674,9 @@
      tr:nth-child(even) {
           background-color: #dddddd;
           color: black;
+     }
+
+     input{
+          background-color: rgba(230, 230, 230, 0.7);
      }
 </style>

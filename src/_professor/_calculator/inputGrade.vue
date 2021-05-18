@@ -112,7 +112,7 @@
                </p>
           </div>
 
-          <button type="button" :disabled="isDisabled" @click="updateGrade">
+          <button type="button" :disabled="isDisabled" @click="updateGrade" id="save">
                SAVE
           </button>
      </div>
@@ -534,5 +534,14 @@
      ::-ms-input-placeholder {
           color: #8f8475;
           font-style: italic;
+     }
+
+     #save{
+          background-color:rgb(56,142,255);
+          cursor: pointer;
+     }
+
+     #save:hover{
+          background-color: rgb(25, 82, 158);
      }
 </style>
