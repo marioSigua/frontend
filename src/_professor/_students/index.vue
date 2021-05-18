@@ -381,6 +381,11 @@
                                    header: 'Remarks',
                                    dataKey: 'remarks',
                               },
+
+                              {
+                                   header: 'GPE',
+                                   dataKey: 'gpe',
+                              },
                          ],
                          margin: { top: 20 },
                          didDrawPage: header,
@@ -517,7 +522,6 @@
                     this.$store
                          .dispatch('getEnrolledStudents')
                          .then((result) => {
-                              console.log(result)
                               this.subjectList = result
                          })
                          .catch((err) => {

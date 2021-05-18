@@ -172,6 +172,8 @@ export default new Vuex.Store({
 
           userProfile: {},
 
+          account_type: '',
+
           // to isolate
           calculator: {
                listStudents: [],
@@ -273,13 +275,19 @@ export default new Vuex.Store({
           set_cookie(state, payload) {
                state.access_token = payload.token
                state.token_name = payload.name
+               state.account_type = payload.type
                state.isAuth = true
                state.userProfile = { ...payload.profile }
 
                Cookies.set(state.token_name, state.access_token, {
                     expires: 1,
                })
-               router.push({ name: 'home' })
+
+               if (state.account_type === 'Admin') {
+                    router.push({ name: 'adminHome' })
+               } else {
+                    router.push({ name: 'home' })
+               }
           },
      },
      // mga functions

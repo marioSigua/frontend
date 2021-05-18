@@ -56,13 +56,14 @@ const professor = {
                component: () =>
                     import('@/_professor/_history/studentresponse.vue'),
           },
-
-          {
-               path: 'admin',
-               name: 'adminHome',
-               component: () => import('@/_professor/_admin/index.vue'),
-          },
      ],
+}
+
+const admin = {
+     path: '/auth/admin/home',
+     name: 'adminHome',
+     component: () => import('@/_professor/_admin/index.vue'),
+     beforeEnter: authenticate,
 }
 
 const routes = [
@@ -100,6 +101,7 @@ const routes = [
      },
 
      professor,
+     admin,
 ]
 
 const router = new VueRouter({
