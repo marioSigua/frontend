@@ -147,6 +147,7 @@
                          <th>Tentative Final Grade</th>
                          <th>Final Grade</th>
                          <th>Remarks</th>
+                         <th>GPE</th>
                          <th>Drop</th>
                     </tr>
                     <tr v-for="(student, s) in studentList" :key="s">
@@ -159,6 +160,7 @@
                          <td>{{ student.finals_grade }}</td>
                          <td>{{ student.gwa }}</td>
                          <td>{{ student.remarks }}</td>
+                         <td>{{ student.gpe }}</td>
                          <!-- Ganto sana katabi ng remarks yung lalabas na gpe -->
                          <!-- gpe nasa watch at data -->
                          <!-- <td>{{ student.remarks + " " + gpe }}</td> -->
@@ -224,6 +226,7 @@
                                                     : isGradeEmpty
                                                     ? null
                                                     : 'Failed',
+                                          gpe: this.getGwa(computeGwa),
                                      }
                                 })
                },
@@ -514,11 +517,40 @@
                     this.$store
                          .dispatch('getEnrolledStudents')
                          .then((result) => {
+                              console.log(result)
                               this.subjectList = result
                          })
                          .catch((err) => {
                               console.log(err)
                          })
+               },
+
+               getGwa(val) {
+                    if (val >= 97 && val <= 100) {
+                         this.gpe = 1.0
+                    } else if (val >= 94.25 && val <= 96.99) {
+                         this.gpe = 1.25
+                    } else if (val >= 91.5 && val <= 94.24) {
+                         this.gpe = 1.5
+                    } else if (val >= 88.75 && val <= 91.49) {
+                         this.gpe = 1.75
+                    } else if (val >= 86 && val <= 88.74) {
+                         this.gpe = 2.0
+                    } else if (val >= 83.25 && val <= 85.99) {
+                         this.gpe = 2.25
+                    } else if (val >= 80.5 && val <= 83.24) {
+                         this.gpe = 2.5
+                    } else if (val >= 77.75 && val <= 80.49) {
+                         this.gpe = 2.75
+                    } else if (val >= 75 && val <= 77.74) {
+                         this.gpe = 3.0
+                    } else if (val < 75) {
+                         this.gpe = 5.0
+                    } else {
+                         this.gpe = ''
+                    }
+
+                    return this.gpe
                },
           },
 
@@ -528,31 +560,6 @@
 
           watch: {
                // Lils paganahin mo nga to HAHAHA
-               // computeGwa(val) {
-               //   if (val >= 97 && val <= 100) {
-               //     this.gpe = 1.0;
-               //   } else if (val >= 94.25 && val <= 96.99) {
-               //     this.gpe = 1.25;
-               //   } else if (val >= 91.5 && val <= 94.24) {
-               //     this.gpe = 1.5;
-               //   } else if (val >= 88.75 && val <= 91.49) {
-               //     this.gpe = 1.75;
-               //   } else if (val >= 86 && val <= 88.74) {
-               //     this.gpe = 2.0;
-               //   } else if (val >= 83.25 && val <= 85.99) {
-               //     this.gpe = 2.25;
-               //   } else if (val >= 80.5 && val <= 83.24) {
-               //     this.gpe = 2.5;
-               //   } else if (val >= 77.75 && val <= 80.49) {
-               //     this.gpe = 2.75;
-               //   } else if (val >= 75 && val <= 77.74) {
-               //     this.gpe = 3.0;
-               //   } else if (val < 75) {
-               //     this.gpe = 5.0;
-               //   } else {
-               //     this.gpe = "";
-               //   }
-               // },
 
                'student.student_id'(val) {
                     if (!val) {
