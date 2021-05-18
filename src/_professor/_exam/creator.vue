@@ -270,16 +270,16 @@
           </ul>
 
           <div class="selection">
-               <select v-model="newItem">
+               <select v-model="newItem" class="OF">
                     <option value="" hidden>-- New Item --</option>
                     <option value="essay">Essay</option>
                     <option value="identification">Identification</option>
                     <option value="mcq">Multiple Choice</option>
                </select>
-               <button type="button" @click="add">Add</button>
+               <button type="button" @click="add" class="OF">Add</button  >
 
                <div></div>
-               <button type="button" name="button" v-on:click="showModal">
+               <button type="button" name="button" v-on:click="showModal" id="IF">
                     Create Form
                </button>
 
@@ -633,9 +633,9 @@
 
      li {
           padding: 10px;
-          background: rgba(0, 0, 0, 0.7);
+          background: rgba(255, 255, 255, 0.7);
           border-radius: 10px;
-          margin: 10px auto;
+          margin: 20px auto;
      }
 
      textarea,
@@ -643,8 +643,8 @@
           padding: 10px;
           border: 1px solid #aaa;
           border-radius: 10px;
-          background: rgba(0, 0, 0, 0.3);
-          color: white;
+          background: rgba(250, 232, 232, 0.3);
+          color: rgb(0, 0, 0);
           font-family: inherit;
           font-size: inherit;
           width: 100%;
@@ -663,5 +663,13 @@
           -webkit-appearance: none;
           appearance: none;
           margin-bottom: 5px;
+     }
+
+     #IF{
+          background-color: rgb(56,142,255);
+     }
+
+     .OF{
+          background-color: rgba(128, 24, 55, 0.7);
      }
 </style>

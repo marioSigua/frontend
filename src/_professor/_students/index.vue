@@ -530,7 +530,8 @@
           text-align: center;
           font-size: 30px;
           padding: 10px;
-          background: rgba(0, 0, 0, 0.7);
+          background: rgba(128, 24, 55, 0.7);
+          color: white;
      }
      #collapse {
           height: auto;
