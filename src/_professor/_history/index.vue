@@ -1,273 +1,333 @@
 <template lang="html">
-  <section>
-    <h1>History</h1>
+     <section>
+          <h1>History</h1>
 
-    <div class="">
-      <aside class="">
-        Filter by:
-        <div>
-          <select>
-            <option hidden>-- Term --</option>
-            <option>Prelims</option>
-            <option>Midterms</option>
-            <option>Pre-Finals</option>
-            <option>Finals</option>
-          </select>
-          <select>
-            <option hidden>-- Type of Form --</option>
-            <option>Quiz</option>
-            <option>Exam</option>
-          </select>
-        </div>
+          <div class="">
+               <aside class="">
+                    Filter by:
+                    <div>
+                         <select v-model="selectedTerm">
+                              <option value="">-- Term --</option>
+                              <option>Prelims</option>
+                              <option>Midterms</option>
+                              <option>Pre-Finals</option>
+                              <option>Finals</option>
+                         </select>
+                         <select v-model="selectedPurpose">
+                              <option value="">-- Type of Form --</option>
+                              <option>Quiz</option>
+                              <option>Exam</option>
+                         </select>
+                    </div>
 
-        <select v-model="subjectSelected">
-          <!-- subjectSelected is being watched (more details in watch function )-->
+                    <select v-model="subjectSelected">
+                         <!-- subjectSelected is being watched (more details in watch function )-->
 
-          <option value="">-- Select Subject --</option>
-          <!-- Loop for subjects after fetching from database (check mounted function for details) -->
-          <option v-for="(subject, s) in subjectList" :key="s" :value="subject">
-            {{ subject.subject_name }}</option
-          >
-        </select>
+                         <option value="">-- Select Subject --</option>
+                         <!-- Loop for subjects after fetching from database (check mounted function for details) -->
+                         <option
+                              v-for="(subject, s) in subjectList"
+                              :key="s"
+                              :value="subject"
+                         >
+                              {{ subject.subject_name }}</option
+                         >
+                    </select>
 
-        <ul>
-          <!-- Loop for history after changing the subject -->
-          <li
-            v-for="(form, i) in historyList"
-            :key="i"
-            @click="selectForm(form)"
-          >
-            <h3>{{ form.subject_name }}</h3>
-            <span>{{ form.date_end + " " + form.time_end }}</span>
-            <br />
-            <em>{{ form.term }}</em>
-            <hr />
-            <p>{{ form.description }}</p>
-          </li>
-        </ul>
-      </aside>
+                    <ul>
+                         <!-- Loop for history after changing the subject -->
+                         <li
+                              v-for="(form, i) in filterHistory"
+                              :key="i"
+                              @click="selectForm(form)"
+                         >
+                              <h3>{{ form.subject_name }}</h3>
+                              <span>{{
+                                   form.date_end + ' ' + form.time_end
+                              }}</span>
+                              <br />
+                              <em>{{ form.term }}</em>
+                              <hr />
+                              <p>{{ form.description }}</p>
+                         </li>
+                    </ul>
+               </aside>
 
-      <article class="">
-        <a @click="$router.go(-1)">x</a>
-        <div class="right">
-          <button @click="checkForm()" :disabled="!link.token">
-            Form Link
-          </button>
-        </div>
-        <table>
-          <tr>
-            <th>Student Id</th>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Score</th>
-            <th>Status</th>
-            <th>Email Sent</th>
-            <th>View</th>
-          </tr>
+               <article class="">
+                    <a @click="$router.go(-1)">x</a>
+                    <div class="right">
+                         <button @click="checkForm()" :disabled="!link.token">
+                              Form Link
+                         </button>
+                    </div>
+                    <table>
+                         <tr>
+                              <th>Student Id</th>
+                              <th>Last Name</th>
+                              <th>First Name</th>
+                              <th>Score</th>
+                              <th>Status</th>
+                              <th>Email Sent</th>
+                              <th>View</th>
+                         </tr>
 
-          <tr v-for="(student, s) in table" :key="s">
-            <td>{{ student.student_id }}</td>
-            <td>{{ student.lastname }}</td>
-            <td>{{ student.firstname }}</td>
-            <td>{{ student.score }}</td>
-            <td>
-              {{ student.isTaken ? "Submitted" : "Not Submitted" }}
-            </td>
+                         <tr v-for="(student, s) in table" :key="s">
+                              <td>{{ student.student_id }}</td>
+                              <td>{{ student.lastname }}</td>
+                              <td>{{ student.firstname }}</td>
+                              <td>{{ student.score }}</td>
+                              <td>
+                                   {{
+                                        student.isTaken
+                                             ? 'Submitted'
+                                             : 'Not Submitted'
+                                   }}
+                              </td>
 
-            <td>
-              {{ student.emailStat }}
-            </td>
-            <td>
-              <button
-                v-if="student.isTaken"
-                @click="checkResponse(student.student_token)"
-              >
-                Check Form
-              </button>
-            </td>
-          </tr>
-        </table>
-      </article>
-    </div>
-  </section>
+                              <td>
+                                   {{ student.emailStat }}
+                              </td>
+                              <td>
+                                   <button
+                                        v-if="student.isTaken"
+                                        @click="
+                                             checkResponse(
+                                                  student.student_token
+                                             )
+                                        "
+                                   >
+                                        Check Form
+                                   </button>
+                              </td>
+                         </tr>
+                    </table>
+               </article>
+          </div>
+     </section>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      // subjectList: [{ name: 'Memory IO', code: 'MEMIO' }],
-      subjectList: [],
-      subjectSelected: "",
+     export default {
+          computed: {
+               filterHistory() {
+                    let filter = (term, purp) => {
+                         if (term && purp) {
+                              return this.historyList.filter(
+                                   (k) =>
+                                        k.term === term &&
+                                        k.exam_purpose === purp
+                              )
+                         } else if (!term && purp) {
+                              return this.historyList.filter(
+                                   (k) => k.exam_purpose === purp
+                              )
+                         } else if (term && !purp) {
+                              return this.historyList.filter(
+                                   (k) => k.term === term
+                              )
+                         }
+                    }
+                    return !this.selectedTerm && !this.selectedPurpose
+                         ? this.historyList
+                         : filter(this.selectedTerm, this.selectedPurpose)
+               },
+          },
 
-      historyList: [],
+          data() {
+               return {
+                    // subjectList: [{ name: 'Memory IO', code: 'MEMIO' }],
+                    subjectList: [],
+                    subjectSelected: '',
 
-      link: {
-        token: "",
-        batch: "",
-        subject_code: "",
-      },
+                    historyList: [],
 
-      table: [],
+                    link: {
+                         token: '',
+                         batch: '',
+                         subject_code: '',
+                    },
 
-      temp_studentResponse: [],
+                    table: [],
 
-      temp_email: [],
-    };
-  },
+                    selectedTerm: '',
+                    selectedPurpose: '',
 
-  methods: {
-    selectForm(i) {
-      this.link.batch = i.batch_number;
-      this.link.token = i.url;
-      this.link.subject_code = i.subject_code;
+                    temp_studentResponse: [],
 
-      this.getStudents(this.subjectSelected);
-    },
+                    temp_email: [],
+               }
+          },
 
-    checkForm() {
-      let routeData = this.$router.resolve({
-        name: "HistoryForm",
-        params: { ...this.link },
-      });
-      window.open(routeData.href, "_blank");
-    },
+          methods: {
+               selectForm(i) {
+                    this.link.batch = i.batch_number
+                    this.link.token = i.url
+                    this.link.subject_code = i.subject_code
 
-    checkResponse(token) {
-      console.log(token);
-      let routeData = this.$router.resolve({
-        name: "reponseviewing",
-        params: { token: this.link.token, student_id: token },
-      });
+                    this.getStudents(this.subjectSelected)
+               },
 
-      window.open(routeData.href, "_blank");
-    },
+               checkForm() {
+                    let routeData = this.$router.resolve({
+                         name: 'HistoryForm',
+                         params: { ...this.link },
+                    })
+                    window.open(routeData.href, '_blank')
+               },
 
-    getStudents(sub) {
-      this.$store.dispatch("getStudents", sub.subject_code).then((students) => {
-        const responses = students
-          .filter((o) => o.EnrolledSubjects.isDropped === 0)
-          .map((k) => {
-            let foundData = this.temp_studentResponse.find(
-              (el) =>
-                el.student_id === k.student_id &&
-                el.batch_number === this.link.batch
-            );
+               checkResponse(token) {
+                    let routeData = this.$router.resolve({
+                         name: 'reponseviewing',
+                         params: { token: this.link.token, student_id: token },
+                    })
 
-            let isEmailSent = this.temp_email.find(
-              (dt) =>
-                dt.student_id === k.student_id &&
-                dt.batch_number === this.link.batch
-            );
+                    window.open(routeData.href, '_blank')
+               },
 
-            return {
-              student_id: k.student_id,
-              firstname: k.firstname,
-              lastname: k.lastname,
-              score: foundData ? foundData.score : "",
+               getStudents(sub) {
+                    this.$store
+                         .dispatch('getStudents', sub.subject_code)
+                         .then((students) => {
+                              const responses = students
+                                   .filter(
+                                        (o) =>
+                                             o.EnrolledSubjects.isDropped === 0
+                                   )
+                                   .map((k) => {
+                                        let foundData = this.temp_studentResponse.find(
+                                             (el) =>
+                                                  el.student_id ===
+                                                       k.student_id &&
+                                                  el.batch_number ===
+                                                       this.link.batch
+                                        )
 
-              student_token: foundData ? foundData.student_token : "",
+                                        let isEmailSent = this.temp_email.find(
+                                             (dt) =>
+                                                  dt.student_id ===
+                                                       k.student_id &&
+                                                  dt.batch_number ===
+                                                       this.link.batch
+                                        )
 
-              isTaken: foundData ? foundData.isTaken : false,
+                                        return {
+                                             student_id: k.student_id,
+                                             firstname: k.firstname,
+                                             lastname: k.lastname,
+                                             score: foundData
+                                                  ? foundData.score
+                                                  : '',
 
-              emailStat: isEmailSent ? "Sent" : "Not Sent",
-            };
-          });
-        this.table = responses;
-      });
-    },
-  },
-  mounted() {
-    // call subjects then handle data here
-    this.$store.dispatch("profSubjects").then((subjects) => {
-      // save locally
-      this.subjectList = subjects;
-    });
-  },
-  watch: {
-    subjectSelected(sub) {
-      // if nothing selected, clear all data
-      if (sub === "") {
-        // uncomment code if connected to database
-        this.historyList = [];
-        // this.link=''
-        this.table = [];
-        return;
-      }
-      this.table = [];
+                                             student_token: foundData
+                                                  ? foundData.student_token
+                                                  : '',
 
-      this.$axios
-        .get(`${this.$store.state.BASE_URL}/exam/history`, {
-          params: { subject_code: sub.subject_code },
-        })
-        .then(({ data }) => {
-          this.historyList = data.history.map((k) => {
-            return {
-              ...k,
-              subject_name: sub.subject_name,
-            };
-          });
+                                             isTaken: foundData
+                                                  ? foundData.isTaken
+                                                  : false,
 
-          this.temp_email = data.emailStatus;
-          this.temp_studentResponse = data.studentResponse;
-        });
-    },
-  },
-};
+                                             emailStat: isEmailSent
+                                                  ? 'Sent'
+                                                  : 'Not Sent',
+                                        }
+                                   })
+                              this.table = responses
+                         })
+               },
+          },
+          mounted() {
+               // call subjects then handle data here
+               this.$store.dispatch('profSubjects').then((subjects) => {
+                    // save locally
+                    this.subjectList = subjects
+               })
+          },
+          watch: {
+               subjectSelected(sub) {
+                    // if nothing selected, clear all data
+                    if (sub === '') {
+                         // uncomment code if connected to database
+                         this.historyList = []
+                         // this.link=''
+                         this.table = []
+                         return
+                    }
+                    this.table = []
+
+                    this.$axios
+                         .get(`${this.$store.state.BASE_URL}/exam/history`, {
+                              params: { subject_code: sub.subject_code },
+                         })
+                         .then(({ data }) => {
+                              this.historyList = data.history.map((k) => {
+                                   return {
+                                        ...k,
+                                        subject_name: sub.subject_name,
+                                   }
+                              })
+
+                              console.log(this.historyList.length)
+
+                              this.temp_email = data.emailStatus
+                              this.temp_studentResponse = data.studentResponse
+                         })
+               },
+          },
+     }
 </script>
 
 <style lang="css" scoped>
-select:hover,
-button:hover,
-li:hover {
-  cursor: pointer;
-}
+     select:hover,
+     button:hover,
+     li:hover {
+          cursor: pointer;
+     }
 
-div {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-gap: 10px;
-}
+     div {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          grid-gap: 10px;
+     }
 
-aside {
-  border-radius: 10px;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.7);
-}
+     aside {
+          border-radius: 10px;
+          padding: 10px;
+          background: rgba(0, 0, 0, 0.7);
+     }
 
-li {
-  background: white;
-  color: #444;
-  border-radius: 10px;
-}
-li:hover {
-  background: rgba(255, 255, 255, 0.9);
-}
-li > span {
-  font-weight: 300;
-}
+     li {
+          background: white;
+          color: #444;
+          border-radius: 10px;
+     }
+     li:hover {
+          background: rgba(255, 255, 255, 0.9);
+     }
+     li > span {
+          font-weight: 300;
+     }
 
-article {
-  border-radius: 10px;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.7);
-}
+     article {
+          border-radius: 10px;
+          padding: 10px;
+          background: rgba(0, 0, 0, 0.7);
+     }
 
-table {
-  width: 100%;
-}
+     table {
+          width: 100%;
+     }
 
-a {
-  text-align: center;
-  width: 30px;
-  height: 30px;
-  float: right;
-  font-size: 20px;
-}
+     a {
+          text-align: center;
+          width: 30px;
+          height: 30px;
+          float: right;
+          font-size: 20px;
+     }
 
-a:hover {
-  border-radius: 50%;
-  background: rgba(44, 44, 44, 0.9);
-  cursor: pointer;
-}
+     a:hover {
+          border-radius: 50%;
+          background: rgba(44, 44, 44, 0.9);
+          cursor: pointer;
+     }
 </style>
