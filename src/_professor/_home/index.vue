@@ -2,7 +2,9 @@
      <section id="home">
           <h1>Home</h1>
           <addSub :profSubjs="subjects"></addSub>
-
+          <button type="button" @click="endSem" name="button">
+               End Sem
+          </button>
           <div id="cards">
                <card
                     v-for="subj in subjects"
@@ -67,6 +69,32 @@
                }
           },
           methods: {
+               endSem() {
+                    const account_id = this.$store.state.token_name.split(
+                         '-'
+                    )[1]
+
+                    const answer = window.confirm(
+                         `Do you really want to End the Current Semester of ${new Date().getFullYear()}?`
+                    )
+
+                    if (answer) {
+                         this.$axios
+                              .patch(
+                                   `${this.$store.state.BASE_URL}/students/dropall`,
+                                   {
+                                        account_id,
+                                   }
+                              )
+                              .then(() => {
+                                   window.location.reload()
+                              })
+                              .catch((err) => {
+                                   console.log(err.response)
+                              })
+                    }
+               },
+
                sendToStudentList(id) {
                     this.$store.state.openAccordion = id
                },

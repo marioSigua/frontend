@@ -4,6 +4,22 @@
 
           <div class="">
                <aside class="">
+                    Filter by:
+                    <div>
+                         <select v-model="selectedTerm">
+                              <option value="">-- Term --</option>
+                              <option>Prelims</option>
+                              <option>Midterms</option>
+                              <option>Pre-Finals</option>
+                              <option>Finals</option>
+                         </select>
+                         <select v-model="selectedPurpose">
+                              <option value="">-- Type of Form --</option>
+                              <option>Quiz</option>
+                              <option>Exam</option>
+                         </select>
+                    </div>
+
                     <select v-model="subjectSelected">
                          <!-- subjectSelected is being watched (more details in watch function )-->
 
@@ -21,7 +37,7 @@
                     <ul>
                          <!-- Loop for history after changing the subject -->
                          <li
-                              v-for="(form, i) in historyList"
+                              v-for="(form, i) in filterHistory"
                               :key="i"
                               @click="selectForm(form)"
                          >
@@ -92,6 +108,31 @@
 
 <script>
      export default {
+          computed: {
+               filterHistory() {
+                    let filter = (term, purp) => {
+                         if (term && purp) {
+                              return this.historyList.filter(
+                                   (k) =>
+                                        k.term === term &&
+                                        k.exam_purpose === purp
+                              )
+                         } else if (!term && purp) {
+                              return this.historyList.filter(
+                                   (k) => k.exam_purpose === purp
+                              )
+                         } else if (term && !purp) {
+                              return this.historyList.filter(
+                                   (k) => k.term === term
+                              )
+                         }
+                    }
+                    return !this.selectedTerm && !this.selectedPurpose
+                         ? this.historyList
+                         : filter(this.selectedTerm, this.selectedPurpose)
+               },
+          },
+
           data() {
                return {
                     // subjectList: [{ name: 'Memory IO', code: 'MEMIO' }],
@@ -107,6 +148,9 @@
                     },
 
                     table: [],
+
+                    selectedTerm: '',
+                    selectedPurpose: '',
 
                     temp_studentResponse: [],
 
@@ -132,7 +176,6 @@
                },
 
                checkResponse(token) {
-                    console.log(token)
                     let routeData = this.$router.resolve({
                          name: 'reponseviewing',
                          params: { token: this.link.token, student_id: token },
@@ -223,6 +266,8 @@
                                    }
                               })
 
+                              console.log(this.historyList.length)
+
                               this.temp_email = data.emailStatus
                               this.temp_studentResponse = data.studentResponse
                          })
@@ -232,6 +277,12 @@
 </script>
 
 <style lang="css" scoped>
+     select:hover,
+     button:hover,
+     li:hover {
+          cursor: pointer;
+     }
+
      div {
           display: grid;
           grid-template-columns: 1fr 2fr;

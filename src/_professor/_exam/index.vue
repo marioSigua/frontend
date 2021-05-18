@@ -2,9 +2,10 @@
      <section @click="isModalClosed">
           <h1>Exam</h1>
           <creator v-on:import="showModal" ref="creator"></creator>
+
           <modal ref="importer">
                <template v-slot:header>
-                    Import
+                    Select
                </template>
                <template v-slot:body>
                     <div class="nav">

@@ -10,20 +10,24 @@
                <h1>Login</h1>
                <p v-show="error != ''">{{ error }}</p>
                <label for="email">Email</label>
+               <!-- @input="loginValidate('email')" -->
+
                <input
                     type="text"
                     name=""
                     placeholder="email"
                     v-model="email"
-                    @input="loginValidate('email')"
+                    v-on:keyup.enter="login"
                />
                <label for="password">Password</label>
+               <!-- @input="loginValidate('password')" -->
+
                <input
-                    @input="loginValidate('password')"
                     type="password"
                     name="password"
                     placeholder="password"
                     v-model="password"
+                    v-on:keyup.enter="login"
                />
                <div class="right">
                     <button
@@ -56,22 +60,22 @@
                }
           },
           methods: {
-               loginValidate: async function(field) {
-                    let { validateLogin } = this.formValidation
-                    try {
-                         await validateLogin.validateAt(
-                              field,
-                              { email: this.email, password: this.password },
-                              this.yupOptions
-                         )
+               // loginValidate: async function(field) {
+               //      let { validateLogin } = this.formValidation
+               //      try {
+               //           await validateLogin.validateAt(
+               //                field,
+               //                { email: this.email, password: this.password },
+               //                this.yupOptions
+               //           )
 
-                         this.error = ''
-                    } catch (err) {
-                         err.inner.forEach((error) => {
-                              this.error = error.message
-                         })
-                    }
-               },
+               //           this.error = ''
+               //      } catch (err) {
+               //           err.inner.forEach((error) => {
+               //                this.error = error.message
+               //           })
+               //      }
+               // },
 
                async login() {
                     try {

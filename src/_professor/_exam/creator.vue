@@ -45,6 +45,8 @@
                          v-for="(question, e) in essay"
                          :key="questions.indexOf(question)"
                     >
+                         {{ questions.indexOf(question) + 1 }}
+
                          <button
                               id="remove"
                               @click="remove(questions.indexOf(question))"
@@ -100,6 +102,8 @@
                          v-for="(question, i) in identification"
                          :key="questions.indexOf(question)"
                     >
+                         {{ questions.indexOf(question) + 1 }}
+
                          <button
                               id="remove"
                               @click="remove(questions.indexOf(question))"
@@ -174,6 +178,7 @@
                          v-for="(question, m) in mcq"
                          :key="questions.indexOf(question)"
                     >
+                         {{ questions.indexOf(question) + 1 }}
                          <button
                               id="remove"
                               @click="remove(questions.indexOf(question))"
@@ -341,6 +346,15 @@
                          (k) => k.type === 'identification'
                     )
                },
+
+               essentials() {
+                    return {
+                         term: this.selectedTerm,
+                         subject: this.selectedSubject,
+                         purpose: this.selectedPurpose,
+                         dateTime: this.dateTimeInfo,
+                    }
+               },
           },
 
           data() {
@@ -351,6 +365,8 @@
                     subjectList: [],
 
                     listStudents: [],
+
+                    increment: '',
 
                     mode: '',
 
@@ -398,23 +414,27 @@
                },
 
                showModal() {
-                    if (!this.selectedSubject) {
-                         alert('Please Select a Subject')
-                         return
+                    if (Object.values(this.essentials).every((k) => k === '')) {
+                         alert(
+                              'Please Select a Subject, Term, Purpose and Date Time'
+                         )
+                    } else if (this.questions.some((k) => k.question === '')) {
+                         alert('Please Fill up all the Questions')
+                    } else {
+                         this.$store
+                              .dispatch('getStudents', this.selectedSubject)
+                              .then((result) => {
+                                   this.listStudents = result.filter(
+                                        (k) =>
+                                             k.EnrolledSubjects.isDropped === 0
+                                   )
+
+                                   this.$refs.importer.open()
+                              })
+                              .catch((err) => {
+                                   console.log(err)
+                              })
                     }
-
-                    this.$store
-                         .dispatch('getStudents', this.selectedSubject)
-                         .then((result) => {
-                              this.listStudents = result.filter(
-                                   (k) => k.EnrolledSubjects.isDropped === 0
-                              )
-
-                              this.$refs.importer.open()
-                         })
-                         .catch((err) => {
-                              console.log(err)
-                         })
                },
 
                add() {
@@ -452,9 +472,6 @@
 
                async createForm() {
                     const { state } = this.$store
-
-                    if (!this.selectedSubject)
-                         return alert('Please Select a Subject')
 
                     Object.keys(this.tobeDeleted).forEach(
                          (k) => delete this.questions[k]

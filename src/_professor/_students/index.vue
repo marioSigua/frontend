@@ -22,6 +22,10 @@
                     Add Student
                </button>
 
+               <button class="addBtn" @click="exportTable">
+                    Export Table
+               </button>
+
                <modal ref="importer">
                     <template v-slot:header>
                          <tabs class="tabs">
@@ -140,9 +144,10 @@
                          <th>Course</th>
                          <th>Prelim</th>
                          <th>Midterm</th>
-                         <th>Finals</th>
-                         <th>GWA</th>
+                         <th>Tentative Final Grade</th>
+                         <th>Final Grade</th>
                          <th>Remarks</th>
+                         <th>GPE</th>
                          <th>Drop</th>
                     </tr>
                     <tr v-for="(student, s) in studentList" :key="s">
@@ -155,6 +160,10 @@
                          <td>{{ student.finals_grade }}</td>
                          <td>{{ student.gwa }}</td>
                          <td>{{ student.remarks }}</td>
+                         <td>{{ student.gpe }}</td>
+                         <!-- Ganto sana katabi ng remarks yung lalabas na gpe -->
+                         <!-- gpe nasa watch at data -->
+                         <!-- <td>{{ student.remarks + " " + gpe }}</td> -->
                          <td>
                               <button @click="dropStudent(student)">
                                    Drop
@@ -170,6 +179,8 @@
      import tab from '../_tabs/tab'
      import tabs from '../_tabs/tabs'
      import modal from '@/modals/empty'
+     import jsPdf from 'jspdf'
+     import 'jspdf-autotable'
      export default {
           components: {
                tab,
@@ -215,15 +226,9 @@
                                                     : isGradeEmpty
                                                     ? null
                                                     : 'Failed',
+                                          gpe: this.getGwa(computeGwa),
                                      }
                                 })
-               },
-
-               openCollapse() {
-                    return (
-                         this.$store.state.openAccordion ===
-                         this.needs.subject_code
-                    )
                },
 
                searchListModal() {
@@ -255,6 +260,8 @@
                return {
                     hide: true,
 
+                    gpe: '',
+
                     engrCourse: [
                          'BSCpE',
                          'BSEE',
@@ -282,6 +289,8 @@
                          student_email: '',
                          student_course: '',
                     },
+
+                    subjectName: '',
 
                     modalStudents: [],
 
@@ -312,6 +321,76 @@
                               1
                          )
                     }
+               },
+
+               exportTable() {
+                    const doc = new jsPdf()
+
+                    const header = function() {
+                         doc.setFontSize(12)
+                         doc.setTextColor(40)
+                         doc.getFont('normal')
+                         //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+                         doc.text(
+                              ` Student List  \n Date Printed: ${new Date().toDateString()}`,
+                              doc.internal.pageSize.getWidth() / 2,
+                              7,
+                              { align: 'center' }
+                         )
+                    }
+                    doc.autoTable({
+                         columnStyles: { halign: 'center' }, // European countries centered
+                         body: this.studentList,
+                         columns: [
+                              { header: 'Student ID', dataKey: 'student_id' },
+                              {
+                                   header: 'Firstname',
+                                   dataKey: 'firstname',
+                              },
+                              {
+                                   header: 'Lastname',
+                                   dataKey: 'lastname',
+                              },
+
+                              {
+                                   header: 'Course',
+                                   dataKey: 'student_course',
+                              },
+
+                              {
+                                   header: 'Prelim Grade',
+                                   dataKey: 'prelim_grade',
+                              },
+
+                              {
+                                   header: 'Midterm Grade',
+                                   dataKey: 'midterm_grade',
+                              },
+
+                              {
+                                   header: 'Tentative Final Grade',
+                                   dataKey: 'finals_grade',
+                              },
+
+                              {
+                                   header: 'Final Grade',
+                                   dataKey: 'gwa',
+                              },
+
+                              {
+                                   header: 'Remarks',
+                                   dataKey: 'remarks',
+                              },
+
+                              {
+                                   header: 'GPE',
+                                   dataKey: 'gpe',
+                              },
+                         ],
+                         margin: { top: 20 },
+                         didDrawPage: header,
+                    })
+                    doc.save(`Student List of ${this.needs.subject_code}`)
                },
 
                getSubjectCode(code) {
@@ -449,6 +528,34 @@
                               console.log(err)
                          })
                },
+
+               getGwa(val) {
+                    if (val >= 97 && val <= 100) {
+                         this.gpe = 1.0
+                    } else if (val >= 94.25 && val <= 96.99) {
+                         this.gpe = 1.25
+                    } else if (val >= 91.5 && val <= 94.24) {
+                         this.gpe = 1.5
+                    } else if (val >= 88.75 && val <= 91.49) {
+                         this.gpe = 1.75
+                    } else if (val >= 86 && val <= 88.74) {
+                         this.gpe = 2.0
+                    } else if (val >= 83.25 && val <= 85.99) {
+                         this.gpe = 2.25
+                    } else if (val >= 80.5 && val <= 83.24) {
+                         this.gpe = 2.5
+                    } else if (val >= 77.75 && val <= 80.49) {
+                         this.gpe = 2.75
+                    } else if (val >= 75 && val <= 77.74) {
+                         this.gpe = 3.0
+                    } else if (val < 75) {
+                         this.gpe = 5.0
+                    } else {
+                         this.gpe = ''
+                    }
+
+                    return this.gpe
+               },
           },
 
           mounted() {
@@ -456,6 +563,8 @@
           },
 
           watch: {
+               // Lils paganahin mo nga to HAHAHA
+
                'student.student_id'(val) {
                     if (!val) {
                          this.error = 'student id is required'
