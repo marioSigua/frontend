@@ -1,511 +1,657 @@
 <template lang="html">
-  <div class="backdrop">
-    <div
-      class="subjects"
-      v-for="(subject, s) in subjectList"
-      :key="s"
-      @click="getSubjectCode(subject)"
-    >
-      {{
-        subject.subject_name + ` Section ${subject.subject_code.split("-")[1]}`
-      }}
-    </div>
+     <div class="backdrop">
+          <div
+               class="subjects"
+               v-for="(subject, s) in subjectList"
+               :key="s"
+               @click="getSubjectCode(subject)"
+          >
+               {{
+                    subject.subject_name +
+                         ` Section ${subject.subject_code.split('-')[1]}`
+               }}
+          </div>
 
-    <div :hide="hide" id="collapse">
-      <button class="addBtn" type="button" name="button" v-on:click="showModal">
-        Add Student
-      </button>
+          <div :hide="hide" id="collapse">
+               <button
+                    class="addBtn"
+                    type="button"
+                    name="button"
+                    v-on:click="showModal"
+               >
+                    Add Student
+               </button>
 
-      <button class="addBtn">
-        Export Table
-      </button>
+               <button class="addBtn" @click="exportTable">
+                    Export Table
+               </button>
 
-      <modal ref="importer">
-        <template v-slot:header>
-          <tabs class="tabs">
-            <tab class="tab" title="Add Existing Student">
-              Search:
-              <input type="text" v-model="searchQuery" />
+               <modal ref="importer">
+                    <template v-slot:header>
+                         <tabs class="tabs">
+                              <tab class="tab" title="Add Existing Student">
+                                   Search:
+                                   <input type="text" v-model="searchQuery" />
 
-              <div>
-                <ul>
-                  <li v-for="(student, s) in searchListModal" :key="s">
-                    <input
-                      type="checkbox"
-                      @change="getStudentInfo($event, student)"
-                      :value="student"
-                    />
-                    {{ student.firstname + " " + student.lastname }}
-                  </li>
-                </ul>
+                                   <div>
+                                        <ul>
+                                             <li
+                                                  v-for="(student,
+                                                  s) in searchListModal"
+                                                  :key="s"
+                                             >
+                                                  <input
+                                                       type="checkbox"
+                                                       @change="
+                                                            getStudentInfo(
+                                                                 $event,
+                                                                 student
+                                                            )
+                                                       "
+                                                       :value="student"
+                                                  />
+                                                  {{
+                                                       student.firstname +
+                                                            ' ' +
+                                                            student.lastname
+                                                  }}
+                                             </li>
+                                        </ul>
 
-                <button @click="addOldStudents">
-                  Submit
-                </button>
-              </div>
-            </tab>
-            <tab class="tab" title="Add New Student">
-              <ul>
-                <label for="SID">Student ID</label>
-                <li>
-                  <input v-model="student.student_id" type="text" />
-                </li>
-                <label for="fname">First Name</label>
-                <li>
-                  <input v-model="student.firstname" type="text" />
-                </li>
-                <label for="lname">Last Name</label>
-                <li>
-                  <input v-model="student.lastname" type="text" />
-                </li>
-                <label for="email">Student Email</label>
-                <li>
-                  <input v-model="student.student_email" type="text" />
-                </li>
-                <label for="course">Course</label>
-                <li>
-                  <select v-model="student.student_course">
-                    <option value="">-- Select Course --</option>
-                    <option
-                      v-for="(subj, index) in engrCourse"
-                      :key="index"
-                      :value="subj"
-                      >{{ subj }}</option
-                    >
-                  </select>
-                </li>
-                <li>{{ error }}</li>
+                                        <button @click="addOldStudents">
+                                             Submit
+                                        </button>
+                                   </div>
+                              </tab>
+                              <tab class="tab" title="Add New Student">
+                                   <ul>
+                                        <label for="SID">Student ID</label>
+                                        <li>
+                                             <input
+                                                  v-model="student.student_id"
+                                                  type="text"
+                                             />
+                                        </li>
+                                        <label for="fname">First Name</label>
+                                        <li>
+                                             <input
+                                                  v-model="student.firstname"
+                                                  type="text"
+                                             />
+                                        </li>
+                                        <label for="lname">Last Name</label>
+                                        <li>
+                                             <input
+                                                  v-model="student.lastname"
+                                                  type="text"
+                                             />
+                                        </li>
+                                        <label for="email">Student Email</label>
+                                        <li>
+                                             <input
+                                                  v-model="
+                                                       student.student_email
+                                                  "
+                                                  type="text"
+                                             />
+                                        </li>
+                                        <label for="course">Course</label>
+                                        <li>
+                                             <select
+                                                  v-model="
+                                                       student.student_course
+                                                  "
+                                             >
+                                                  <option value=""
+                                                       >-- Select Course
+                                                       --</option
+                                                  >
+                                                  <option
+                                                       v-for="(subj,
+                                                       index) in engrCourse"
+                                                       :key="index"
+                                                       :value="subj"
+                                                       >{{ subj }}</option
+                                                  >
+                                             </select>
+                                        </li>
+                                        <li>{{ error }}</li>
 
-                <li>
-                  <button @click="addStudents">
-                    Submit
-                  </button>
-                </li>
-              </ul>
-            </tab>
-          </tabs>
-        </template>
+                                        <li>
+                                             <button @click="addStudents">
+                                                  Submit
+                                             </button>
+                                        </li>
+                                   </ul>
+                              </tab>
+                         </tabs>
+                    </template>
 
-        <!-- di ko makita tinatago siya -->
-        <!-- <template v-slot:footer>
+                    <!-- di ko makita tinatago siya -->
+                    <!-- <template v-slot:footer>
                          <button @click="addStudents">
                               Submit
                          </button>
                     </template> -->
-      </modal>
-    </div>
-    <div :hide="hide" id="collapse">
-      <table>
-        <tr>
-          <th>Student ID</th>
-          <th>Last Name</th>
-          <th>First Name</th>
-          <th>Course</th>
-          <th>Prelim</th>
-          <th>Midterm</th>
-          <th>Tentative Final Grade</th>
-          <th>Final Grade</th>
-          <th>Remarks</th>
-          <th>Drop</th>
-        </tr>
-        <tr v-for="(student, s) in studentList" :key="s">
-          <td>{{ student.student_id }}</td>
-          <td>{{ student.lastname }}</td>
-          <td>{{ student.firstname }}</td>
-          <td>{{ student.student_course }}</td>
-          <td>{{ student.prelim_grade }}</td>
-          <td>{{ student.midterm_grade }}</td>
-          <td>{{ student.finals_grade }}</td>
-          <td>{{ student.gwa }}</td>
-          <td>{{ student.remarks }}</td>
-          <!-- Ganto sana katabi ng remarks yung lalabas na gpe -->
-          <!-- gpe nasa watch at data -->
-          <!-- <td>{{ student.remarks + " " + gpe }}</td> -->
-          <td>
-            <button @click="dropStudent(student)">
-              Drop
-            </button>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
+               </modal>
+          </div>
+          <div :hide="hide" id="collapse">
+               <table>
+                    <tr>
+                         <th>Student ID</th>
+                         <th>Last Name</th>
+                         <th>First Name</th>
+                         <th>Course</th>
+                         <th>Prelim</th>
+                         <th>Midterm</th>
+                         <th>Tentative Final Grade</th>
+                         <th>Final Grade</th>
+                         <th>Remarks</th>
+                         <th>Drop</th>
+                    </tr>
+                    <tr v-for="(student, s) in studentList" :key="s">
+                         <td>{{ student.student_id }}</td>
+                         <td>{{ student.lastname }}</td>
+                         <td>{{ student.firstname }}</td>
+                         <td>{{ student.student_course }}</td>
+                         <td>{{ student.prelim_grade }}</td>
+                         <td>{{ student.midterm_grade }}</td>
+                         <td>{{ student.finals_grade }}</td>
+                         <td>{{ student.gwa }}</td>
+                         <td>{{ student.remarks }}</td>
+                         <!-- Ganto sana katabi ng remarks yung lalabas na gpe -->
+                         <!-- gpe nasa watch at data -->
+                         <!-- <td>{{ student.remarks + " " + gpe }}</td> -->
+                         <td>
+                              <button @click="dropStudent(student)">
+                                   Drop
+                              </button>
+                         </td>
+                    </tr>
+               </table>
+          </div>
+     </div>
 </template>
 
 <script>
-import tab from "../_tabs/tab";
-import tabs from "../_tabs/tabs";
-import modal from "@/modals/empty";
-export default {
-  components: {
-    tab,
-    tabs,
-    modal,
-  },
+     import tab from '../_tabs/tab'
+     import tabs from '../_tabs/tabs'
+     import modal from '@/modals/empty'
+     import jsPdf from 'jspdf'
+     import 'jspdf-autotable'
+     export default {
+          components: {
+               tab,
+               tabs,
+               modal,
+          },
 
-  computed: {
-    studentList() {
-      let [list] = this.subjectList
-        .filter((k) => k.subject_code === this.needs.subject_code)
-        .map((v) => v.students);
+          computed: {
+               studentList() {
+                    let [list] = this.subjectList
+                         .filter(
+                              (k) => k.subject_code === this.needs.subject_code
+                         )
+                         .map((v) => v.students)
 
-      return !list
-        ? []
-        : list
-            .filter((k) => k.isDropped === 0)
-            .map((k) => {
-              let computeGwa =
-                k.prelim_grade * 0.3 +
-                k.midterm_grade * 0.3 +
-                k.finals_grade * 0.4;
+                    return !list
+                         ? []
+                         : list
+                                .filter((k) => k.isDropped === 0)
+                                .map((k) => {
+                                     let computeGwa =
+                                          k.prelim_grade * 0.3 +
+                                          k.midterm_grade * 0.3 +
+                                          k.finals_grade * 0.4
 
-              let isGradeEmpty =
-                !k.prelim_grade || !k.midterm_grade || !k.finals_grade;
+                                     let isGradeEmpty =
+                                          !k.prelim_grade ||
+                                          !k.midterm_grade ||
+                                          !k.finals_grade
 
-              return {
-                ...k,
-                gwa: computeGwa === 0 ? null : isGradeEmpty ? null : computeGwa,
+                                     return {
+                                          ...k,
+                                          gwa:
+                                               computeGwa === 0
+                                                    ? null
+                                                    : isGradeEmpty
+                                                    ? null
+                                                    : computeGwa,
 
-                remarks:
-                  computeGwa >= 75 ? "Passed" : isGradeEmpty ? null : "Failed",
-              };
-            });
-    },
+                                          remarks:
+                                               computeGwa >= 75
+                                                    ? 'Passed'
+                                                    : isGradeEmpty
+                                                    ? null
+                                                    : 'Failed',
+                                     }
+                                })
+               },
 
-    openCollapse() {
-      return this.$store.state.openAccordion === this.needs.subject_code;
-    },
+               searchListModal() {
+                    return !this.searchQuery
+                         ? this.modalStudents
+                         : this.modalStudents.filter((item) => {
+                                return this.searchQuery
+                                     .toLowerCase()
+                                     .split(' ')
+                                     .every(
+                                          (v) =>
+                                               item.firstname
+                                                    .toLowerCase()
+                                                    .includes(v) ||
+                                               item.lastname
+                                                    .toLowerCase()
+                                                    .includes(v)
+                                     )
+                           })
+               },
 
-    searchListModal() {
-      return !this.searchQuery
-        ? this.modalStudents
-        : this.modalStudents.filter((item) => {
-            return this.searchQuery
-              .toLowerCase()
-              .split(" ")
-              .every(
-                (v) =>
-                  item.firstname.toLowerCase().includes(v) ||
-                  item.lastname.toLowerCase().includes(v)
-              );
-          });
-    },
+               //check if data property of student is empty
+               isEmpty() {
+                    return Object.values(this.student).every((v) => v === '')
+               },
+          },
 
-    //check if data property of student is empty
-    isEmpty() {
-      return Object.values(this.student).every((v) => v === "");
-    },
-  },
+          data() {
+               return {
+                    hide: true,
 
-  data() {
-    return {
-      hide: true,
+                    gpe: '',
 
-      gpe: "",
+                    engrCourse: [
+                         'BSCpE',
+                         'BSEE',
+                         'BSECE',
+                         'BSIE',
+                         'BS Architecture',
+                    ],
+                    subjectList: [],
 
-      engrCourse: ["BSCpE", "BSEE", "BSECE", "BSIE", "BS Architecture"],
-      subjectList: [],
+                    students: [],
 
-      students: [],
+                    searchQuery: '',
 
-      searchQuery: "",
+                    needs: {
+                         student_id: '',
+                         created_at: '',
+                         subject_code: '',
+                         subject_sem: '',
+                    },
 
-      needs: {
-        student_id: "",
-        created_at: "",
-        subject_code: "",
-        subject_sem: "",
-      },
+                    student: {
+                         student_id: '',
+                         firstname: '',
+                         lastname: '',
+                         student_email: '',
+                         student_course: '',
+                    },
 
-      student: {
-        student_id: "",
-        firstname: "",
-        lastname: "",
-        student_email: "",
-        student_course: "",
-      },
+                    subjectName: '',
 
-      modalStudents: [],
+                    modalStudents: [],
 
-      payloadStudent: [],
+                    payloadStudent: [],
 
-      emailValidation: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    emailValidation: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 
-      error: "",
-    };
-  },
+                    error: '',
+               }
+          },
 
-  methods: {
-    showModal() {
-      this.$refs.importer.open();
-      this.$axios
-        .get(`${this.$store.state.BASE_URL}/list/all/students`)
-        .then(({ data }) => {
-          this.modalStudents = data;
-        });
-    },
+          methods: {
+               showModal() {
+                    this.$refs.importer.open()
+                    this.$axios
+                         .get(`${this.$store.state.BASE_URL}/list/all/students`)
+                         .then(({ data }) => {
+                              this.modalStudents = data
+                         })
+               },
 
-    getStudentInfo(e, std) {
-      if (e.target.checked) {
-        this.payloadStudent.push(std);
-      } else {
-        this.payloadStudent.splice(this.payloadStudent.indexOf(std), 1);
-      }
-    },
+               getStudentInfo(e, std) {
+                    if (e.target.checked) {
+                         this.payloadStudent.push(std)
+                    } else {
+                         this.payloadStudent.splice(
+                              this.payloadStudent.indexOf(std),
+                              1
+                         )
+                    }
+               },
 
-    getSubjectCode(code) {
-      this.hide = !this.hide;
+               exportTable() {
+                    const doc = new jsPdf()
 
-      this.needs.subject_code = code.subject_code;
-      this.needs.subject_sem = code.subject_sem;
-    },
+                    const header = function() {
+                         doc.setFontSize(12)
+                         doc.setTextColor(40)
+                         doc.getFont('normal')
+                         //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+                         doc.text(
+                              ` Student List  \n Date Printed: ${new Date().toDateString()}`,
+                              doc.internal.pageSize.getWidth() / 2,
+                              7,
+                              { align: 'center' }
+                         )
+                    }
+                    doc.autoTable({
+                         columnStyles: { halign: 'center' }, // European countries centered
+                         body: this.studentList,
+                         columns: [
+                              { header: 'Student ID', dataKey: 'student_id' },
+                              {
+                                   header: 'Firstname',
+                                   dataKey: 'firstname',
+                              },
+                              {
+                                   header: 'Lastname',
+                                   dataKey: 'lastname',
+                              },
 
-    async addOldStudents() {
-      try {
-        let dispatch = this.payloadStudent.map((k) => {
-          return k.student_id;
-        });
+                              {
+                                   header: 'Course',
+                                   dataKey: 'student_course',
+                              },
 
-        const { status } = await this.$axios.post(
-          `${this.$store.state.BASE_URL}/add/old/students`,
-          {
-            listStudents: dispatch,
-            subject_code: this.needs.subject_code,
-            subject_sem: this.needs.subject_sem,
-          }
-        );
+                              {
+                                   header: 'Prelim Grade',
+                                   dataKey: 'prelim_grade',
+                              },
 
-        if (status === 200) {
-          this.initEnrolledStudents();
-          this.$refs.importer.close();
-          this.payloadStudent = [];
-          dispatch = [];
-        }
-      } catch (error) {
-        if (error.response !== undefined) {
-          alert(
-            `Students ${error.response.data.message} are already included in the classroom`
-          );
-        }
-      }
-    },
+                              {
+                                   header: 'Midterm Grade',
+                                   dataKey: 'midterm_grade',
+                              },
 
-    async addStudents() {
-      try {
-        if (this.isEmpty) {
-          this.error = "Please Fill up all the Student Information";
-          return;
-        }
+                              {
+                                   header: 'Tentative Final Grade',
+                                   dataKey: 'finals_grade',
+                              },
 
-        if (!this.error) {
-          const { status } = await this.$axios.post(
-            `${this.$store.state.BASE_URL}/add/students`,
-            {
-              ...this.student,
-              subject_code: this.needs.subject_code,
-              subject_sem: this.needs.subject_sem,
-            }
-          );
+                              {
+                                   header: 'Final Grade',
+                                   dataKey: 'gwa',
+                              },
 
-          if (status === 200) {
-            Object.keys(this.student).forEach((k) => (this.student[k] = ""));
-            this.initEnrolledStudents();
-            this.$refs.importer.close();
-          }
-        }
-      } catch (error) {
-        if (error.response !== undefined) {
-          if (error.response.data.message.includes("Student Email")) {
-            this.error = error.response.data.message;
-          } else if (error.response.data.message.includes("Student ID")) {
-            this.error = error.response.data.message;
-          } else if (error.response.data.message.includes("class")) {
-            this.error = error.response.data.message;
-          } else {
-            console.log(error.response);
-          }
-        }
-      }
-    },
+                              {
+                                   header: 'Remarks',
+                                   dataKey: 'remarks',
+                              },
+                         ],
+                         margin: { top: 20 },
+                         didDrawPage: header,
+                    })
+                    doc.save(`Student List of ${this.needs.subject_code}`)
+               },
 
-    async dropStudent(student) {
-      const { state } = this.$store;
-      delete this.needs.subject_sem;
+               getSubjectCode(code) {
+                    this.hide = !this.hide
 
-      let prompt = this.askUser(student);
+                    this.needs.subject_code = code.subject_code
+                    this.needs.subject_sem = code.subject_sem
+               },
 
-      if (prompt) {
-        this.needs.student_id = student.student_id;
-        this.needs.created_at = student.created_at;
+               async addOldStudents() {
+                    try {
+                         let dispatch = this.payloadStudent.map((k) => {
+                              return k.student_id
+                         })
 
-        try {
-          const deactStudent = await this.$axios.patch(
-            `${state.BASE_URL}/drop/students`,
-            this.needs
-          );
-          if (deactStudent.status === 200) this.initEnrolledStudents();
-        } catch (error) {
-          console.log(error.response);
-        }
-      } else {
-        return;
-      }
-    },
+                         const { status } = await this.$axios.post(
+                              `${this.$store.state.BASE_URL}/add/old/students`,
+                              {
+                                   listStudents: dispatch,
+                                   subject_code: this.needs.subject_code,
+                                   subject_sem: this.needs.subject_sem,
+                              }
+                         )
 
-    askUser(name) {
-      let foundData = this.subjectList.find(
-        (el) => el.subject_code === this.needs.subject_code
-      );
+                         if (status === 200) {
+                              this.initEnrolledStudents()
+                              this.$refs.importer.close()
+                              this.payloadStudent = []
+                              dispatch = []
+                         }
+                    } catch (error) {
+                         if (error.response !== undefined) {
+                              alert(
+                                   `Students ${error.response.data.message} are already included in the classroom`
+                              )
+                         }
+                    }
+               },
 
-      const answer = window.confirm(
-        `Do you really want to Drop ${name.firstname} ${name.lastname} from ${foundData.subject_name} ?`
-      );
+               async addStudents() {
+                    try {
+                         if (this.isEmpty) {
+                              this.error =
+                                   'Please Fill up all the Student Information'
+                              return
+                         }
 
-      return answer ? true : false;
-    },
+                         if (!this.error) {
+                              const { status } = await this.$axios.post(
+                                   `${this.$store.state.BASE_URL}/add/students`,
+                                   {
+                                        ...this.student,
+                                        subject_code: this.needs.subject_code,
+                                        subject_sem: this.needs.subject_sem,
+                                   }
+                              )
 
-    initEnrolledStudents() {
-      this.$store
-        .dispatch("getEnrolledStudents")
-        .then((result) => {
-          this.subjectList = result;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
+                              if (status === 200) {
+                                   Object.keys(this.student).forEach(
+                                        (k) => (this.student[k] = '')
+                                   )
+                                   this.initEnrolledStudents()
+                                   this.$refs.importer.close()
+                              }
+                         }
+                    } catch (error) {
+                         if (error.response !== undefined) {
+                              if (
+                                   error.response.data.message.includes(
+                                        'Student Email'
+                                   )
+                              ) {
+                                   this.error = error.response.data.message
+                              } else if (
+                                   error.response.data.message.includes(
+                                        'Student ID'
+                                   )
+                              ) {
+                                   this.error = error.response.data.message
+                              } else if (
+                                   error.response.data.message.includes('class')
+                              ) {
+                                   this.error = error.response.data.message
+                              } else {
+                                   console.log(error.response)
+                              }
+                         }
+                    }
+               },
 
-  mounted() {
-    this.initEnrolledStudents();
-  },
+               async dropStudent(student) {
+                    const { state } = this.$store
+                    delete this.needs.subject_sem
 
-  watch: {
-    // Lils paganahin mo nga to HAHAHA
-    // computeGwa(val) {
-    //   if (val >= 97 && val <= 100) {
-    //     this.gpe = 1.0;
-    //   } else if (val >= 94.25 && val <= 96.99) {
-    //     this.gpe = 1.25;
-    //   } else if (val >= 91.5 && val <= 94.24) {
-    //     this.gpe = 1.5;
-    //   } else if (val >= 88.75 && val <= 91.49) {
-    //     this.gpe = 1.75;
-    //   } else if (val >= 86 && val <= 88.74) {
-    //     this.gpe = 2.0;
-    //   } else if (val >= 83.25 && val <= 85.99) {
-    //     this.gpe = 2.25;
-    //   } else if (val >= 80.5 && val <= 83.24) {
-    //     this.gpe = 2.5;
-    //   } else if (val >= 77.75 && val <= 80.49) {
-    //     this.gpe = 2.75;
-    //   } else if (val >= 75 && val <= 77.74) {
-    //     this.gpe = 3.0;
-    //   } else if (val < 75) {
-    //     this.gpe = 5.0;
-    //   } else {
-    //     this.gpe = "";
-    //   }
-    // },
+                    let prompt = this.askUser(student)
 
-    "student.student_id"(val) {
-      if (!val) {
-        this.error = "student id is required";
-        return;
-      }
+                    if (prompt) {
+                         this.needs.student_id = student.student_id
+                         this.needs.created_at = student.created_at
 
-      this.error = "";
-    },
+                         try {
+                              const deactStudent = await this.$axios.patch(
+                                   `${state.BASE_URL}/drop/students`,
+                                   this.needs
+                              )
+                              if (deactStudent.status === 200)
+                                   this.initEnrolledStudents()
+                         } catch (error) {
+                              console.log(error.response)
+                         }
+                    } else {
+                         return
+                    }
+               },
 
-    "student.student_email"(val) {
-      if (!val) {
-        this.error = "student email is required";
-        return;
-      } else if (!this.emailValidation.test(val)) {
-        this.error = "Please enter a valid email";
-        return;
-      }
+               askUser(name) {
+                    let foundData = this.subjectList.find(
+                         (el) => el.subject_code === this.needs.subject_code
+                    )
 
-      this.error = "";
-    },
+                    const answer = window.confirm(
+                         `Do you really want to Drop ${name.firstname} ${name.lastname} from ${foundData.subject_name} ?`
+                    )
 
-    "student.firstname"(val) {
-      if (!val) {
-        this.error = "student firstname is required";
-        return;
-      }
-    },
+                    return answer ? true : false
+               },
 
-    "student.lastname"(val) {
-      if (!val) {
-        this.error = "student lastname is required";
-        return;
-      }
+               initEnrolledStudents() {
+                    this.$store
+                         .dispatch('getEnrolledStudents')
+                         .then((result) => {
+                              this.subjectList = result
+                         })
+                         .catch((err) => {
+                              console.log(err)
+                         })
+               },
+          },
 
-      this.error = "";
-    },
+          mounted() {
+               this.initEnrolledStudents()
+          },
 
-    "student.student_course"(val) {
-      if (!val) {
-        this.error = "student course is required";
-        return;
-      }
+          watch: {
+               // Lils paganahin mo nga to HAHAHA
+               // computeGwa(val) {
+               //   if (val >= 97 && val <= 100) {
+               //     this.gpe = 1.0;
+               //   } else if (val >= 94.25 && val <= 96.99) {
+               //     this.gpe = 1.25;
+               //   } else if (val >= 91.5 && val <= 94.24) {
+               //     this.gpe = 1.5;
+               //   } else if (val >= 88.75 && val <= 91.49) {
+               //     this.gpe = 1.75;
+               //   } else if (val >= 86 && val <= 88.74) {
+               //     this.gpe = 2.0;
+               //   } else if (val >= 83.25 && val <= 85.99) {
+               //     this.gpe = 2.25;
+               //   } else if (val >= 80.5 && val <= 83.24) {
+               //     this.gpe = 2.5;
+               //   } else if (val >= 77.75 && val <= 80.49) {
+               //     this.gpe = 2.75;
+               //   } else if (val >= 75 && val <= 77.74) {
+               //     this.gpe = 3.0;
+               //   } else if (val < 75) {
+               //     this.gpe = 5.0;
+               //   } else {
+               //     this.gpe = "";
+               //   }
+               // },
 
-      this.error = "";
-    },
-  },
-};
+               'student.student_id'(val) {
+                    if (!val) {
+                         this.error = 'student id is required'
+                         return
+                    }
+
+                    this.error = ''
+               },
+
+               'student.student_email'(val) {
+                    if (!val) {
+                         this.error = 'student email is required'
+                         return
+                    } else if (!this.emailValidation.test(val)) {
+                         this.error = 'Please enter a valid email'
+                         return
+                    }
+
+                    this.error = ''
+               },
+
+               'student.firstname'(val) {
+                    if (!val) {
+                         this.error = 'student firstname is required'
+                         return
+                    }
+               },
+
+               'student.lastname'(val) {
+                    if (!val) {
+                         this.error = 'student lastname is required'
+                         return
+                    }
+
+                    this.error = ''
+               },
+
+               'student.student_course'(val) {
+                    if (!val) {
+                         this.error = 'student course is required'
+                         return
+                    }
+
+                    this.error = ''
+               },
+          },
+     }
 </script>
 
 <style lang="css" scoped>
-.addBtn {
-  margin-left: 10px;
-  margin-bottom: 5px;
-  padding: 15px;
-  font-size: 20px;
-}
+     .addBtn {
+          margin-left: 10px;
+          margin-bottom: 5px;
+          padding: 15px;
+          font-size: 20px;
+     }
 
-.tab {
-  border: 8px solid #555;
-  background-color: white;
-  font-size: 18px;
-}
+     .tab {
+          border: 8px solid #555;
+          background-color: white;
+          font-size: 18px;
+     }
 
-.tab li {
-  background-color: white;
-  font-size: 20px;
-}
+     .tab li {
+          background-color: white;
+          font-size: 20px;
+     }
 
-.subjects {
-  margin: 10px;
-  border-radius: 10px;
-  text-align: center;
-  font-size: 30px;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.7);
-}
-#collapse {
-  height: auto;
-  overflow: hidden;
-  transition: 0.3s height;
-}
+     .subjects {
+          margin: 10px;
+          border-radius: 10px;
+          text-align: center;
+          font-size: 30px;
+          padding: 10px;
+          background: rgba(0, 0, 0, 0.7);
+     }
+     #collapse {
+          height: auto;
+          overflow: hidden;
+          transition: 0.3s height;
+     }
 
-#collapse[hide] {
-  height: 0;
-}
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-td,
-th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-tr:nth-child(even) {
-  background-color: #dddddd;
-  color: black;
-}
+     #collapse[hide] {
+          height: 0;
+     }
+     table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+     }
+     td,
+     th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+     }
+     tr:nth-child(even) {
+          background-color: #dddddd;
+          color: black;
+     }
 </style>
