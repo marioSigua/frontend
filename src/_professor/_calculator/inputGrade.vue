@@ -165,7 +165,7 @@
 
           data() {
                return {
-                    terms: ['Prelims', 'Midterm', 'Pre-Finals', 'Finals'],
+                    terms: ['Prelims', 'Midterms', 'Pre-Finals', 'Finals'],
                     selectedTerm: '',
 
                     error: '',
@@ -318,13 +318,21 @@
                     this.$store
                          .dispatch('getStudentGrade', gradeList)
                          .then((result) => {
-                              this.existingGrade = result.prelim_grade
-                                   ? result.prelim_grade
-                                   : result.midterm_grade
-                                   ? result.midterm_grade
-                                   : result.finals_grade
-                                   ? result.finals_grade
+                              const { grade, exam, quiz } = result
+
+                              this.existingGrade = grade.prelim_grade
+                                   ? grade.prelim_grade
+                                   : grade.midterm_grade
+                                   ? grade.midterm_grade
+                                   : grade.finals_grade
+                                   ? grade.finals_grade
                                    : ''
+
+                              this.criterias.exam = exam.score ? exam.score : 0
+                              this.criterias.tExam = exam.total ? exam.total : 0
+
+                              this.criterias.quiz = quiz.score ? quiz.score : 0
+                              this.criterias.tQuiz = quiz.total ? quiz.total : 0
                          })
                          .catch((err) => {
                               console.log(err)
