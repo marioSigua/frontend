@@ -278,8 +278,8 @@
           padding: 10px;
           border-radius: 10px;
           width: 100%;
-          background-color: rgba(0, 0, 0, 0.7);
-          color: white;
+          background-color: rgb(204, 204, 204);
+          color: rgb(0, 0, 0);
      }
 
      .topic {
@@ -295,8 +295,8 @@
      .ptsInput {
           border-radius: 10px;
           text-align: center;
-          background-color: rgba(0, 0, 0, 0.7);
-          color: white;
+          background-color: rgb(204, 204, 204);
+          color: rgb(0, 0, 0);
           max-width: 50px;
           max-height: 50px;
           padding: 10px;
@@ -341,5 +341,13 @@
           font-size: inherit;
           width: 100%;
           margin-bottom: 5px;
+     }
+
+     .backdrop{
+          background-color: white;
+     }
+
+     input{
+          background-color: rgb(204, 204, 204);
      }
 </style>

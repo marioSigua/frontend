@@ -173,6 +173,10 @@
           background: rgba(0, 0, 0, 0.3);
      }
 
+     p{
+          color: red;
+     }
+
      label,
      button {
           margin-top: 20px;

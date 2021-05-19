@@ -254,6 +254,11 @@ button {
   margin-top: 20px;
   min-width: 70px;
 }
+
+p{
+          color: red;
+}
+
 @media only screen and (max-width: 540px) {
   #form {
     width: 90%;

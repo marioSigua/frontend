@@ -5,6 +5,8 @@
           <button type="button" @click="endSem" name="button">
                End Sem
           </button>
+          <h3>Semester: 2nd Sem</h3>
+          <h3>Academic Year: 2020-2021</h3>
           <div id="cards">
                <card
                     v-for="subj in subjects"

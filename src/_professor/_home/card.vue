@@ -3,7 +3,10 @@
     <h1>{{ title }}</h1>
     <hr />
     <p>{{ code }}</p>
+    <p>Semester</p>
+    <p>Academic year</p>
     <p>{{ time }}</p>
+    <p></p>
   </div>
 </template>
 

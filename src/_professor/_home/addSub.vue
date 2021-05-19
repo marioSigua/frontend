@@ -60,14 +60,6 @@
                     disabled
                />
 
-               <label for="name">Section</label>
-               <input type="text" />
-               <!-- <select class="" name="">
-                    <option v-for="(year, y) in years" :key="y">{{
-                         year
-                    }}</option>
-               </select> -->
-
                <button type="button" @click="addSubject" name="button">
                     Add
                </button>

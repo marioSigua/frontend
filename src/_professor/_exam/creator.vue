@@ -606,6 +606,9 @@
           width: 20px;
      }
 
+     .list{
+          color: black;
+     }
      .modalList {
           border-top: 1px solid #333;
           color: white;
