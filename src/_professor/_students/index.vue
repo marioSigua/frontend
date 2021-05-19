@@ -22,7 +22,11 @@
                     Add Student
                </button>
 
-               <button class="addBtn" @click="exportTable">
+               <button
+                    :disabled="studentList.length < 1"
+                    class="addBtn"
+                    @click="exportTable"
+               >
                     Export Table
                </button>
 
@@ -226,7 +230,9 @@
                                                     : isGradeEmpty
                                                     ? null
                                                     : 'Failed',
-                                          gpe: this.getGwa(computeGwa),
+                                          gpe: isGradeEmpty
+                                               ? ''
+                                               : this.getGwa(computeGwa),
                                      }
                                 })
                },
@@ -253,6 +259,20 @@
                //check if data property of student is empty
                isEmpty() {
                     return Object.values(this.student).every((v) => v === '')
+               },
+
+               profile() {
+                    return this.$store.state.userProfile
+               },
+
+               academicYear() {
+                    let past = new Date(
+                              new Date().setFullYear(
+                                   new Date().getFullYear() - 1
+                              )
+                         ).getFullYear(),
+                         current = new Date().getFullYear()
+                    return `${past} - ${current}`
                },
           },
 
@@ -325,19 +345,74 @@
 
                exportTable() {
                     const doc = new jsPdf()
+                    let code = this.needs.subject_code,
+                         fullName =
+                              this.profile.firstname +
+                              ' ' +
+                              this.profile.lastname,
+                         acadYear = this.academicYear,
+                         subjName = this.subjectName,
+                         sem = this.needs.subject_sem
+
+                    doc.page = 1
+
+                    function footer() {
+                         doc.setFont('Times', 'italic')
+                         doc.text(180, 290, 'page ' + doc.page) //print number bottom right
+                         doc.page++
+                         doc.text(90, 290, `LSB-Engineering ${acadYear}`)
+                    }
 
                     const header = function() {
-                         doc.setFontSize(12)
                          doc.setTextColor(40)
-                         doc.getFont('normal')
-                         //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+
+                         doc.setFont('Times', 'italic')
+                         doc.setFontSize(12)
+
                          doc.text(
-                              ` Student List  \n Date Printed: ${new Date().toDateString()}`,
+                              `${subjName} ${code.split('-')[0]} Section-${
+                                   code.split('-')[1]
+                              }`,
+
                               doc.internal.pageSize.getWidth() / 2,
-                              7,
+                              5,
                               { align: 'center' }
                          )
+
+                         doc.setFont('Times', 'bold')
+                         doc.setFontSize(9)
+
+                         doc.text(
+                              `${acadYear} / ${sem}`,
+                              doc.internal.pageSize.getWidth() / 2,
+                              10,
+                              { align: 'center' }
+                         )
+
+                         doc.setFont('Times', 'italic')
+                         doc.setFontSize(10)
+                         doc.text(
+                              `Printed By: ${fullName}`,
+                              doc.internal.pageSize.getWidth() / 4,
+                              17,
+                              { align: 'right' }
+                         )
+
+                         doc.setFontSize(10)
+                         doc.text(
+                              `Date Printed: ${
+                                   new Date().toISOString().split('T')[0]
+                              }`,
+                              175,
+                              17,
+                              {
+                                   align: 'center',
+                              }
+                         )
+
+                         footer()
                     }
+
                     doc.autoTable({
                          columnStyles: { halign: 'center' }, // European countries centered
                          body: this.studentList,
@@ -387,9 +462,11 @@
                                    dataKey: 'gpe',
                               },
                          ],
+
                          margin: { top: 20 },
                          didDrawPage: header,
                     })
+
                     doc.save(`Student List of ${this.needs.subject_code}`)
                },
 
@@ -398,6 +475,7 @@
 
                     this.needs.subject_code = code.subject_code
                     this.needs.subject_sem = code.subject_sem
+                    this.subjectName = code.subject_name
                },
 
                async addOldStudents() {
@@ -622,12 +700,12 @@
           font-size: 20px;
      }
 
-     #errors{
+     #errors {
           color: red;
      }
 
      .tab {
-          border: 8px solid rgb(195,36,76);
+          border: 8px solid rgb(195, 36, 76);
           background-color: white;
           font-size: 18px;
      }
@@ -647,8 +725,8 @@
           color: white;
      }
 
-     .subjects:hover{
-          background-color: rgb(143,32,29);
+     .subjects:hover {
+          background-color: rgb(143, 32, 29);
      }
 
      #collapse {
@@ -676,7 +754,7 @@
           color: black;
      }
 
-     input{
+     input {
           background-color: rgba(230, 230, 230, 0.7);
      }
 </style>

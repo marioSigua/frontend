@@ -163,7 +163,7 @@ const DATABASE = {
 export default new Vuex.Store({
      // object
      state: {
-          BASE_URL: 'http://192.168.100.4:5115/api/p1',
+          BASE_URL: 'http://192.168.1.19:5115/api/p1',
           // BASE_URL: "https://api.scanolongapo.com//api/p1",
 
           access_token: '',
@@ -279,6 +279,7 @@ export default new Vuex.Store({
                state.isAuth = true
                state.userProfile = { ...payload.profile }
 
+               console.log(state.userProfile)
                Cookies.set(state.token_name, state.access_token, {
                     expires: 1,
                })

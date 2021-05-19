@@ -6,7 +6,7 @@
                End Sem
           </button>
           <h3>Semester: 2nd Sem</h3>
-          <h3>Academic Year: 2020-2021</h3>
+          <h3>Academic Year: {{ academicYear }}</h3>
           <div id="cards">
                <card
                     v-for="subj in subjects"
@@ -14,6 +14,8 @@
                     :title="subj.subject_name"
                     :code="subj.subject_code"
                     :time="subj.subject_desc"
+                    :acadYear="academicYear"
+                    :sem="subj.subject_sem"
                     @click="$store.state.openAccordion = subj.subject_code"
                ></card>
           </div>
@@ -30,6 +32,16 @@
           computed: {
                subjects() {
                     return this.listSubjs
+               },
+
+               academicYear() {
+                    let past = new Date(
+                              new Date().setFullYear(
+                                   new Date().getFullYear() - 1
+                              )
+                         ).getFullYear(),
+                         current = new Date().getFullYear()
+                    return `${past} - ${current}`
                },
           },
 
