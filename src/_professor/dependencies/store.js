@@ -279,6 +279,7 @@ export default new Vuex.Store({
                state.isAuth = true
                state.userProfile = { ...payload.profile }
 
+               console.log(state.userProfile)
                Cookies.set(state.token_name, state.access_token, {
                     expires: 1,
                })
