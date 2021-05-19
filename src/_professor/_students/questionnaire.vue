@@ -24,13 +24,13 @@
 
           <tabs :mode="mode">
             <tab title="Text">
-              <input
+              <textarea
                 type="text"
                 name=""
                 value=""
                 placeholder="Your answer"
                 v-model="li.student_answer"
-              />
+              ></textarea>
             </tab>
 
             <tab title="Image">
@@ -38,7 +38,7 @@
                 class="is-rounded"
                 height="300"
                 width="300"
-                alt="Placeholder image"
+                alt="Add picture"
                 @click="$refs.file[e].click()"
               />
             </tab>
@@ -47,8 +47,6 @@
 
         <div v-else-if="li.type == 'identification'">
           <h3>Identification</h3>
-
-          Question
           <div class="wrapper">
             <p v-if="li.question_type === 'text'">{{ li.question }}</p>
 
@@ -74,8 +72,6 @@
 
         <div v-else>
           <h3>Multiple Choice</h3>
-
-          Question
           <div class="wrapper">
             <p v-if="li.question_type === 'text'">{{ li.question }}</p>
 
@@ -90,8 +86,6 @@
               alt="Placeholder image"
             />
           </div>
-
-          Choices:
           <div></div>
           <div
             class="thisChoices"
@@ -212,7 +206,7 @@ export default {
 }
 
 .backdrop {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(255, 255, 255);
   box-sizing: content-box;
 }
 
@@ -281,6 +275,10 @@ li {
   border-radius: 10px;
   margin: 10px auto;
 }
+#thisError{
+  background-color: rgb(195,36,76);
+  color: white;
+}
 
 .text,
 .input {
@@ -293,5 +291,16 @@ li {
   font-size: inherit;
   width: 100%;
   margin-bottom: 5px;
+}
+
+input{
+  background-color: rgb(226, 226, 226);
+}
+
+textarea{
+  background-color: rgb(226, 226, 226);
+  overflow: auto;
+  height: 75px;
+  border-radius: 10px;
 }
 </style>

@@ -663,7 +663,7 @@
           padding: 10px;
           border: 1px solid #aaa;
           border-radius: 10px;
-          background: rgba(250, 232, 232, 0.3);
+          background: rgba(158, 158, 158, 0.3);
           color: rgb(0, 0, 0);
           font-family: inherit;
           font-size: inherit;

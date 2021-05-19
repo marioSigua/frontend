@@ -28,19 +28,17 @@
             alt="Placeholder image"
           />
 
-          <input
+          <textarea
             type="text"
             name=""
             value=""
             placeholder="Your answer"
             v-model="li.student_answer"
-          />
+            disabled></textarea>
         </div>
 
         <div v-else-if="li.type == 'identification'">
           <h3>Identification</h3>
-
-          Question
           <div class="wrapper">
             <p v-if="li.question_type === 'text'">
               {{ li.question }}
@@ -63,13 +61,12 @@
             value=""
             placeholder="Your answer"
             v-model="li.student_answer"
+            disabled
           />
         </div>
 
         <div v-else>
           <h3>Multiple Choice</h3>
-
-          Question
           <div class="wrapper">
             <p v-if="li.question_type === 'text'">
               {{ li.question }}
@@ -87,7 +84,6 @@
             />
           </div>
 
-          Choices:
           <div></div>
           <div v-for="(choice, c) in li.choices" :key="li.form_number + '' + c">
             <input
@@ -97,6 +93,7 @@
               :key="c"
               :id="c"
               :value="choice.value"
+              disabled
             />
             <label>{{ choice.value }}</label>
             <br />
@@ -248,7 +245,7 @@ ul {
 
 li {
   padding: 10px;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(255, 255, 255);
   border-radius: 10px;
   margin: 10px auto;
 }
@@ -264,5 +261,22 @@ li {
   font-size: inherit;
   width: 100%;
   margin-bottom: 5px;
+
+}
+
+input{
+  background-color: rgb(226, 226, 226);
+}
+
+textarea{
+  background-color: rgb(226, 226, 226);
+  overflow: auto;
+  height: 75px;
+  border-radius: 10px;
+}
+
+.ptsInput{
+  background-color: rgb(226, 226, 226);
+  color: black;
 }
 </style>
